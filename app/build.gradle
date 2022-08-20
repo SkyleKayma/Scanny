@@ -177,7 +177,7 @@ dependencies {
     implementation "androidx.camera:camera-view:$camera2_version"
 
     // Coil
-    implementation "io.coil-kt:coil-base:2.2.0"
+    implementation "io.coil-kt:coil-compose-base:2.2.0"
 
     // Datastore
     implementation "androidx.datastore:datastore:1.0.0"
