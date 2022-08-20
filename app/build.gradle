@@ -97,9 +97,13 @@ easylauncher {
     }
 }
 
-task clonePrivateFiles(type: Copy) {
-    from('../private/firebase/google-services.json')
-    into './'
+task clonePrivateFiles {
+    doLast {
+        copy {
+            from '../private/firebase/google-services.json'
+            into './'
+        }
+    }
 }
 
 // This is needed to avoid duplicate in demo targets
