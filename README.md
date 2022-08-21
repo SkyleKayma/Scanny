@@ -4,22 +4,29 @@ App to scan and create QRCode, with scan history.
 
 # What does it uses ?
 
-- Compose
+- AndroidX
 - Google ML Kit
-- Custom QRCode generation
-- Material
+- Custom QRCode generation without Zxing (https://github.com/g0dkar/qrcode-kotlin)
+- Compose
+- Accompanist
+- Coroutines
+- Hilt
+- Camera 2
+- Coil
+- Datastore
 
 # Features
 
 App features:
 - [ ] Scan QRCode
-- [ ] Scan history
 - [ ] Create QRCode
-- [ ] Parameters
+- [ ] Scan history
+- [ ] Settings to tweak the features
 
 Dev features:
 - [ ] Use https://fastlane.tools/
-- [ ] Firebase App Distribution
+- [x] Firebase App Distribution
+- [x] Firebase Crashlytics
 
 Others: 
 - Google In-App rating
