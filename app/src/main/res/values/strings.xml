@@ -1,3 +1,11 @@
 <resources>
+    <!-- App generic -->
     <string name="app_name">Scanny</string>
+
+    <!-- Bottom bar -->
+    <string name="home_scan">Scan</string>
+    <string name="home_generate">Generate</string>
+    <string name="home_history">History</string>
+    <string name="home_settings">Settings</string>
+
 </resources>

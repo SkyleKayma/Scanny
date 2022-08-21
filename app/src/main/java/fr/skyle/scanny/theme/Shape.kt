@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.theme
+package fr.skyle.scanny.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

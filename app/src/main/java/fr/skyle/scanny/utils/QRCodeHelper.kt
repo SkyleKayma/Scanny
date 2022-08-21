@@ -38,7 +38,7 @@ object QRCodeHelper {
     }
 
     @Throws
-    fun saveQRCode(qrCode: QRCode, qrCodeData: QRCodeData, fileType: FileType, context: Context) {
+    private fun saveQRCode(qrCode: QRCode, qrCodeData: QRCodeData, fileType: FileType, context: Context) {
         // QRCode encoded
         val qrCodeEncoded = getQRCodeEncoded(qrCode, qrCodeData)
 
@@ -74,4 +74,13 @@ object QRCodeHelper {
             maskPattern = qrCodeData.maskPattern
         )
     }
+
+    fun saveAsPNG(qrCode: QRCode, qrCodeData: QRCodeData, context: Context): Boolean =
+        try {
+            saveQRCode(qrCode, qrCodeData, FileType.PNG, context)
+            true
+        } catch (e: Exception){
+            Timber.e(e)
+            false
+        }
 }

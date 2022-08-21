@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.theme
+package fr.skyle.scanny.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
