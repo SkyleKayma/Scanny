@@ -131,6 +131,6 @@ workflows:
   build-deploy:
     jobs:
       - build
-      - publish_to_firebase
-        requires:
-          - build
+      - publish_to_firebase:
+          requires:
+            - build
