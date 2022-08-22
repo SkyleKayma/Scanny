@@ -15,11 +15,12 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 // Version
-def versionPropertiesFile = rootProject.file("private/keys/keystore.properties")
+def versionPropertiesFile = rootProject.file("app/version.properties")
 def versionProperties = new Properties()
 versionProperties.load(new FileInputStream(versionPropertiesFile))
 
-def code = versionProperties["versionCode"]
+
+def code = versionProperties["versionCode"].toInteger()
 
 android {
     compileSdk 33
@@ -29,7 +30,7 @@ android {
         minSdk 23
         targetSdk 33
         versionCode code
-        versionName keystoreProperties["versionName"]
+        versionName versionProperties["versionName"]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk { abiFilters "arm64-v8a", "armeabi-v7a", "x86_64" }
@@ -116,15 +117,16 @@ task clonePrivateFiles {
 
 task incrementBuildNumberAfterPublish {
     doLast {
+        print("Incrementing build number by 1 (current $code)")
         code += 1
-        versionPropertiesFile.replaceFirst("\\d\$", code)
+        versionProperties["versionCode"] = code.toString()
+        versionProperties.store(versionPropertiesFile.newWriter(), null)
     }
 }
 
 // This is needed to avoid duplicate in demo targets
 project.afterEvaluate {
     getTasks().getByName("preBuild").finalizedBy(clonePrivateFiles)
-    getTasks().getByName("appDistributionUploadRelease").finalizedBy(incrementBuildNumberAfterPublish)
 }
 
 dependencies {
