@@ -1,0 +1,71 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      # See https://circleci.com/developer/images/image/cimg/android#variants for more variants
+      - image: cimg/android:2022.08.1
+
+    working_directory: ~/repo
+
+    environment:
+      JVM_OPTS: -Xmx3200m
+
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: Checkout submodules
+          command: git submodule sync --recursive && git submodule update --recursive --init
+
+      - run:
+          name: Store Google Services Account
+          command: echo $GOOGLE_SERVICES_ACCOUNT | base64 -d > app/google-services-account.json
+
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+
+      - run:
+          name: Run Tests
+          command: ./gradlew lintDebug testDebug
+
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+
+      - store_test_results:
+          path: app/build/test-results
+
+      - run:
+          name: Build release AAB
+          command: ./gradlew :app:bundleRelease
+
+      - store_artifacts:
+          path: app/build/outputs/bundle/
+          destination: aab
+
+      - run:
+          name: Build release APK
+          command: ./gradlew :app:assembleRelease
+
+      - store_artifacts:
+          path: app/build/outputs/apk/
+          destination: apk
+
+      - run:
+          name: Publish APK to Firebase Distribution
+          command: ./gradlew appDistributionUploadRelease

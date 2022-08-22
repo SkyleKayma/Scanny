@@ -18,17 +18,20 @@ App to scan and create QRCode, with scan history.
 # Features
 
 App features:
+
 - [ ] Scan QRCode
 - [ ] Create QRCode
 - [ ] Scan history
 - [ ] Settings to tweak the features
 
 Dev features:
-- [ ] Use https://circleci.com/
+
+- [x] Use https://circleci.com/
 - [x] Firebase App Distribution
 - [x] Firebase Crashlytics
 
-Others: 
+Others:
+
 - Google In-App rating
 - Google In-App update
 
@@ -36,7 +39,8 @@ Others:
 
 If you've found an error in this sample, please file an issue.
 
-Patches are encouraged and may be submitted by forking this project and submitting a pull request. Since this project is still in its very early stages, if your change is substantial, please raise an issue first to discuss it.
+Patches are encouraged and may be submitted by forking this project and submitting a pull request. Since this project is still in its very
+early stages, if your change is substantial, please raise an issue first to discuss it.
 
 # License
 

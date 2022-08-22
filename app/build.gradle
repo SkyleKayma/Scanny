@@ -48,9 +48,9 @@ android {
             signingConfig signingConfigs.debug
 
             firebaseAppDistribution {
-                artifactType = "AAB"
+                artifactType = "APK"
                 groups = "Developper"
-                serviceCredentialsFile = file("../private/serviceCredentials/firebase.json")
+                serviceCredentialsFile = file("./google-services-account.json")
             }
         }
         release {
@@ -59,9 +59,9 @@ android {
             signingConfig signingConfigs.release
 
             firebaseAppDistribution {
-                artifactType = "AAB"
+                artifactType = "APK"
                 groups = "Developper"
-                serviceCredentialsFile = file("../private/serviceCredentials/firebase.json")
+                serviceCredentialsFile = file("./google-services-account.json")
             }
         }
     }
@@ -162,6 +162,7 @@ dependencies {
     // Firebase
     implementation platform("com.google.firebase:firebase-bom:30.3.2")
     implementation "com.google.firebase:firebase-crashlytics-ktx"
+    implementation "com.google.firebase:firebase-analytics-ktx"
 
     // ML Kit
     implementation "com.google.mlkit:barcode-scanning:17.0.2"
