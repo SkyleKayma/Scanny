@@ -24,7 +24,7 @@ App features:
 - [ ] Settings to tweak the features
 
 Dev features:
-- [ ] Use https://fastlane.tools/
+- [ ] Use https://circleci.com/
 - [x] Firebase App Distribution
 - [x] Firebase Crashlytics
 
