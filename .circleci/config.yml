@@ -23,16 +23,16 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
 
+      - checkout
+
+      - run:
+          name: Checkout submodules
+          command: git submodule sync --recursive && git submodule update --recursive --init
+
       - unless:
           # Triggered by default. Not triggered if publish_to_firebase is true
           condition: << pipeline.parameters.publish_to_firebase >>
           steps:
-            - checkout
-
-            - run:
-                name: Checkout submodules
-                command: git submodule sync --recursive && git submodule update --recursive --init
-
             - restore_cache:
                 key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
@@ -82,12 +82,6 @@ jobs:
           # Triggered when you pass the parameter publish_to_firebase to true via API
           condition: << pipeline.parameters.publish_to_firebase >>
           steps:
-            - checkout
-
-            - run:
-                name: Checkout submodules
-                command: git submodule sync --recursive && git submodule update --recursive --init
-
             - run:
                 name: Store Google Services Account
                 command: echo $GOOGLE_SERVICES_ACCOUNT | base64 -d > app/google-services-account.json
@@ -138,3 +132,5 @@ workflows:
     jobs:
       - build
       - publish_to_firebase
+        requires:
+          - build
