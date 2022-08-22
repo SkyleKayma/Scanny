@@ -20,14 +20,14 @@ jobs:
       JVM_OPTS: -Xmx3200m
 
     steps:
-      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       - unless:
           # Triggered by default. Not triggered if publish_to_firebase is true
           condition: << pipeline.parameters.publish_to_firebase >>
           steps:
-            - setup_remote_docker:
-                docker_layer_caching: true
+            - checkout
 
             - run:
                 name: Checkout submodules
@@ -75,14 +75,14 @@ jobs:
       JVM_OPTS: -Xmx3200m
 
     steps:
-      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       - when:
           # Triggered when you pass the parameter publish_to_firebase to true via API
           condition: << pipeline.parameters.publish_to_firebase >>
           steps:
-            - setup_remote_docker:
-                docker_layer_caching: true
+            - checkout
 
             - run:
                 name: Checkout submodules
