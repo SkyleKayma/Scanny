@@ -2,6 +2,12 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+# Set parameter here
+parameters:
+  publish_to_firebase:
+    type: boolean
+    default: false
+
 jobs:
   build:
     docker:
@@ -14,47 +20,51 @@ jobs:
       JVM_OPTS: -Xmx3200m
 
     steps:
-      - checkout
+      - unless:
+          # Triggered by default. Not triggered if publish_to_firebase is true
+          condition: << pipeline.parameters.publish_to_firebase >>
+          steps:
+            - checkout
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+            - setup_remote_docker:
+                docker_layer_caching: true
 
-      - run:
-          name: Checkout submodules
-          command: git submodule sync --recursive && git submodule update --recursive --init
+            - run:
+                name: Checkout submodules
+                command: git submodule sync --recursive && git submodule update --recursive --init
 
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+            - restore_cache:
+                key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
+            - run:
+                name: Download Dependencies
+                command: ./gradlew androidDependencies
 
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+            - save_cache:
+                paths:
+                  - ~/.gradle
+                key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
-      - run:
-          name: Run Tests
-          command: ./gradlew lintDebug testDebug
+            - run:
+                name: Run Tests
+                command: ./gradlew lintDebug testDebug
 
-      - store_artifacts:
-          path: app/build/reports
-          destination: reports
+            - store_artifacts:
+                path: app/build/reports
+                destination: reports
 
-      - store_test_results:
-          path: app/build/test-results
+            - store_test_results:
+                path: app/build/test-results
 
-      - run:
-          name: Build release APK
-          command: ./gradlew :app:assembleRelease
+            - run:
+                name: Build release APK
+                command: ./gradlew :app:assembleRelease
 
-      - store_artifacts:
-          path: app/build/outputs/apk/
-          destination: apk
+            - store_artifacts:
+                path: app/build/outputs/apk/
+                destination: apk
 
-  pushToFAD:
+  publish_to_firebase:
     docker:
       # See https://circleci.com/developer/images/image/cimg/android#variants for more variants
       - image: cimg/android:2022.08.1
@@ -65,47 +75,58 @@ jobs:
       JVM_OPTS: -Xmx3200m
 
     steps:
-      - checkout
+      - when:
+          # Triggered when you pass the parameter publish_to_firebase to true via API
+          condition: << pipeline.parameters.publish_to_firebase >>
+          steps:
+            - checkout
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+            - setup_remote_docker:
+                docker_layer_caching: true
 
-      - run:
-          name: Checkout submodules
-          command: git submodule sync --recursive && git submodule update --recursive --init
+            - run:
+                name: Checkout submodules
+                command: git submodule sync --recursive && git submodule update --recursive --init
 
-      - run:
-          name: Store Google Services Account
-          command: echo $GOOGLE_SERVICES_ACCOUNT | base64 -d > app/google-services-account.json
+            - run:
+                name: Store Google Services Account
+                command: echo $GOOGLE_SERVICES_ACCOUNT | base64 -d > app/google-services-account.json
 
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+            - restore_cache:
+                key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
+            - run:
+                name: Download Dependencies
+                command: ./gradlew androidDependencies
 
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+            - save_cache:
+                paths:
+                  - ~/.gradle
+                key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
 
-      - run:
-          name: Build release AAB
-          command: ./gradlew :app:bundleRelease
+            - run:
+                name: Build release AAB
+                command: ./gradlew :app:bundleRelease
 
-      - store_artifacts:
-          path: app/build/outputs/bundle/
-          destination: aab
+            - store_artifacts:
+                path: app/build/outputs/bundle/
+                destination: aab
 
-      - run:
-          name: Build release APK
-          command: ./gradlew :app:assembleRelease
+            - run:
+                name: Build release APK
+                command: ./gradlew :app:assembleRelease
 
-      - store_artifacts:
-          path: app/build/outputs/apk/
-          destination: apk
+            - store_artifacts:
+                path: app/build/outputs/apk/
+                destination: apk
 
-      - run:
-          name: Publish APK to Firebase Distribution
-          command: ./gradlew appDistributionUploadRelease
+            - run:
+                name: Publish APK to Firebase Distribution
+                command: ./gradlew appDistributionUploadRelease
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - publish_to_firebase
