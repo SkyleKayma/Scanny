@@ -19,7 +19,6 @@ def versionPropertiesFile = rootProject.file("app/version.properties")
 def versionProperties = new Properties()
 versionProperties.load(new FileInputStream(versionPropertiesFile))
 
-
 def code = versionProperties["versionCode"].toInteger()
 
 android {
