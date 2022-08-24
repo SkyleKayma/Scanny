@@ -93,5 +93,9 @@ jobs:
                 command: ./gradlew incrementBuildNumberAfterPublish
 
             - run:
+                name: Git set upstream
+                command: git branch --set-upstream-to=origin/<< pipeline.git.branch >> << pipeline.git.branch >>
+
+            - run:
                 name: Commit and push version changes
-                command: git config user.email $CI_EMAIL && git config user.name $CI_NAME && git add app/version.properties && git commit -m "Auto-increment build number" && git pull << pipeline.git.branch >> && git push << pipeline.git.branch >>
+                command: git config user.email $CI_EMAIL && git config user.name $CI_NAME && git add app/version.properties && git commit -m "Auto-increment build number" && git pull && git push
