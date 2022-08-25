@@ -2,7 +2,9 @@ package fr.skyle.scanny.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,7 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.systemuicontroller.SystemUiController
 import fr.skyle.scanny.R
+import fr.skyle.scanny.ui.generateQRText.GenerateQRTextScreen
 import fr.skyle.scanny.ui.generator.GeneratorScreen
 import fr.skyle.scanny.ui.history.HistoryScreen
 import fr.skyle.scanny.ui.main.MainViewModel
@@ -28,11 +32,17 @@ const val generatorRoute = "generator"
 const val scanHistoryRoute = "history"
 const val settingsRoute = "settings"
 
-val screensWithBottomAppBar = mutableListOf(scanRoute, generatorRoute, scanHistoryRoute, settingsRoute)
+val screensWithBottomAppBar = mutableListOf(scanRoute, scanHistoryRoute, generatorRoute, settingsRoute)
+
+// Other routes
+const val generateQRTextRoute = "generateQRText"
+
+const val TIME_ANIMATION = 250
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ScannyNavHost(
+    systemUiController: SystemUiController,
     navHostController: NavHostController,
     innerPadding: PaddingValues,
     mainViewModel: MainViewModel
@@ -57,7 +67,9 @@ fun ScannyNavHost(
             ScanScreen()
         }
         composable(route = BottomBarScreens.QRGenerator.route) {
-            GeneratorScreen()
+            GeneratorScreen {
+                navHostController.navigate(route = generateQRTextRoute)
+            }
         }
         composable(route = BottomBarScreens.QRHistory.route) {
             HistoryScreen()
@@ -65,12 +77,40 @@ fun ScannyNavHost(
         composable(route = BottomBarScreens.Settings.route) {
             SettingsScreen()
         }
+        composable(route = generateQRTextRoute,
+            enterTransition = {
+                slideIntoContainer(AnimatedContentScope.SlideDirection.Up, animationSpec = tween(TIME_ANIMATION))
+            },
+            exitTransition = {
+                slideOutOfContainer(AnimatedContentScope.SlideDirection.Down, animationSpec = tween(TIME_ANIMATION))
+            }
+        ) {
+            GenerateQRTextScreen(goBackToMain = {
+                navHostController.popBackStack(route = BottomBarScreens.QRGenerator.route, inclusive = false)
+            })
+        }
     }
 }
 
-sealed class BottomBarScreens(val route: String, @StringRes val resourceId: Int, @DrawableRes val iconId: Int) {
-    object QRScan : BottomBarScreens(scanRoute, R.string.home_scan, R.drawable.ic_qrcode_scan)
-    object QRGenerator : BottomBarScreens(generatorRoute, R.string.home_generate, R.drawable.ic_qrcode_generator)
-    object QRHistory : BottomBarScreens(scanHistoryRoute, R.string.home_history, R.drawable.ic_qrcode_history)
-    object Settings : BottomBarScreens(settingsRoute, R.string.home_settings, R.drawable.ic_settings)
+sealed class BottomBarScreens(
+    val route: String,
+    @StringRes val resourceId: Int,
+    @DrawableRes val iconId: Int,
+    @DrawableRes val animatedIconId: Int
+) {
+    object QRScan : BottomBarScreens(
+        scanRoute, R.string.home_scan, R.drawable.ic_scan_qr, R.drawable.ic_scan_qr_animated
+    )
+
+    object QRHistory : BottomBarScreens(
+        scanHistoryRoute, R.string.home_history, R.drawable.ic_history_qr, R.drawable.ic_history_qr_animated
+    )
+
+    object QRGenerator : BottomBarScreens(
+        generatorRoute, R.string.home_generate, R.drawable.ic_gen_qr, R.drawable.ic_gen_qr_animated
+    )
+
+    object Settings : BottomBarScreens(
+        settingsRoute, R.string.home_settings, R.drawable.ic_settings, R.drawable.ic_settings_animated
+    )
 }

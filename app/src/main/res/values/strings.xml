@@ -15,5 +15,7 @@
     <string name="generate_qr_wifi">WiFi</string>
     <string name="generate_qr_email">Email</string>
     <string name="generate_qr_sms">SMS</string>
+    <string name="generate_what_type">What type of QRCode do you want to generate?</string>
+
 
 </resources>

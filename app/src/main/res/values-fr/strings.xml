@@ -1,0 +1,20 @@
+<resources>
+    <!-- App generic -->
+    <string name="app_name">Scanny</string>
+
+    <!-- Bottom bar -->
+    <string name="home_scan">Scanner</string>
+    <string name="home_generate">Générer</string>
+    <string name="home_history">Historique</string>
+    <string name="home_settings">Paramètres</string>
+
+    <!-- Generate -->
+    <string name="generate_qr_text">Texte</string>
+    <string name="generate_qr_contact">Contact</string>
+    <string name="generate_qr_web_url">Site web</string>
+    <string name="generate_qr_wifi">WiFi</string>
+    <string name="generate_qr_email">Email</string>
+    <string name="generate_qr_sms">SMS</string>
+    <string name="generate_what_type">Quel type de QRCode souhaitez vous générer ?</string>
+
+</resources>

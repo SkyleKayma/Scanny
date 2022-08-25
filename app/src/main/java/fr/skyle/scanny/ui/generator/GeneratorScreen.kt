@@ -24,40 +24,53 @@ import fr.skyle.scanny.ext.textId
 
 
 @Composable
-fun GeneratorScreen() {
-    Box {
-        Column(
-            modifier = Modifier.padding(top = 24.dp)
-        ) {
-            Text(
-                modifier = Modifier.padding(32.dp, 16.dp),
-                text = "What type of QRCode you want to generate ?",
-                color = MaterialTheme.colors.secondary
-            )
+fun GeneratorScreen(
+    goToGenerateQRTextScreen: () -> Unit
+) {
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(32.dp, 24.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                item {
-                    GeneratorType(QRType.TEXT)
+    Column(
+        modifier = Modifier.padding(top = 24.dp)
+    ) {
+        Text(
+            modifier = Modifier.padding(32.dp, 16.dp),
+            text = stringResource(id = R.string.generate_what_type),
+            color = MaterialTheme.colors.secondary
+        )
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(32.dp, 24.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            item {
+                GeneratorType(QRType.TEXT) {
+                    goToGenerateQRTextScreen()
                 }
-                item {
-                    GeneratorType(QRType.CONTACT)
+            }
+            item {
+                GeneratorType(QRType.CONTACT) {
+
                 }
-                item {
-                    GeneratorType(QRType.URL)
+            }
+            item {
+                GeneratorType(QRType.URL) {
+
                 }
-                item {
-                    GeneratorType(QRType.WIFI)
+            }
+            item {
+                GeneratorType(QRType.WIFI) {
+
                 }
-                item {
-                    GeneratorType(QRType.EMAIL)
+            }
+            item {
+                GeneratorType(QRType.EMAIL) {
+
                 }
-                item {
-                    GeneratorType(QRType.SMS)
+            }
+            item {
+                GeneratorType(QRType.SMS) {
+
                 }
             }
         }
@@ -66,30 +79,32 @@ fun GeneratorScreen() {
 
 @Composable
 fun GeneratorType(
-    qrType: QRType
+    qrType: QRType,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(1f),
-        elevation = 2.dp,
+        elevation = 0.dp,
         backgroundColor = colorResource(id = R.color.sc_background_popup),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
+        onClick = onClick
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                modifier = Modifier.size(32.dp),
+                modifier = Modifier.size(36.dp),
                 painter = painterResource(id = qrType.iconId),
                 contentDescription = "",
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
+                colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_primary))
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = stringResource(id = qrType.textId),
-                color = colorResource(id = R.color.sc_text_secondary),
+                color = colorResource(id = R.color.sc_secondary),
                 style = MaterialTheme.typography.body1
             )
         }
@@ -100,6 +115,8 @@ fun GeneratorType(
 @Composable
 fun PreviewGeneratorType() {
     Box(modifier = Modifier.size(512.dp)) {
-        GeneratorType(qrType = QRType.TEXT)
+        GeneratorType(qrType = QRType.TEXT) {
+
+        }
     }
 }

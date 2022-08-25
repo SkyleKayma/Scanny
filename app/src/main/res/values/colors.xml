@@ -8,7 +8,7 @@
     <color name="sc_transparent">#00000000</color>
 
     <!-- App specific -->
-    <color name="sc_primary">#FF9415</color>
+    <color name="sc_primary">#F79A3D</color>
     <color name="sc_primary_variant">#FFCFA1</color>
     <color name="sc_secondary">#15595E</color>
     <color name="sc_secondary_variant">#00363E</color>
@@ -17,7 +17,7 @@
     <color name="sc_text_secondary">#AAAAAA</color>
 
     <color name="sc_background">#FCFCFE</color>
-    <color name="sc_background_popup">#F9F9F9</color>
+    <color name="sc_background_popup">#F1F1F1</color>
     <color name="sc_separator">#FFFFFF</color>
     <color name="sc_separator_secondary">#F4ECEC</color>
 
