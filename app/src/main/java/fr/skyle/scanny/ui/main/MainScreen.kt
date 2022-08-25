@@ -1,15 +1,19 @@
 package fr.skyle.scanny.ui.main
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -17,6 +21,8 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import fr.skyle.scanny.R
 import fr.skyle.scanny.navigation.BottomBarScreens
 import fr.skyle.scanny.navigation.ScannyNavHost
 import fr.skyle.scanny.navigation.screensWithBottomAppBar
@@ -35,6 +41,21 @@ fun MainScreen(
     val items = listOf(BottomBarScreens.QRScan, BottomBarScreens.QRGenerator, BottomBarScreens.QRHistory, BottomBarScreens.Settings)
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+
+    // System UI Controller
+    val systemUiController = rememberSystemUiController()
+
+    // Colors of system bars
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = Color(appContext.getColor(R.color.sc_transparent)),
+            darkIcons = true
+        )
+        systemUiController.setNavigationBarColor(
+            color = Color(appContext.getColor(R.color.sc_background)),
+            darkIcons = true
+        )
+    }
 
     Scaffold(
         modifier = Modifier.systemBarsPadding(), // Needed for insets
@@ -93,12 +114,13 @@ private fun MainBottomBar(
     navController: NavController,
     currentDestination: NavDestination?
 ) {
-    BottomNavigation(backgroundColor = MaterialTheme.colors.secondary) {
+    BottomNavigation(backgroundColor = colorResource(id = R.color.sc_background_popup)) {
         items.forEach { screen ->
             BottomNavigationItem(
-                selectedContentColor = Color.White,
+                selectedContentColor = MaterialTheme.colors.secondary,
+                unselectedContentColor = colorResource(id = R.color.sc_text_secondary),
                 icon = {
-                    Icon(painter = painterResource(id = screen.iconId), contentDescription = null)
+                    Icon(modifier = Modifier.size(24.dp), painter = painterResource(id = screen.iconId), contentDescription = null)
                 },
                 label = {
                     Text(stringResource(screen.resourceId), style = MaterialTheme.typography.h5)

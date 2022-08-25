@@ -8,4 +8,12 @@
     <string name="home_history">History</string>
     <string name="home_settings">Settings</string>
 
+    <!-- Generate -->
+    <string name="generate_qr_text">Text</string>
+    <string name="generate_qr_contact">Contact</string>
+    <string name="generate_qr_web_url">Web URL</string>
+    <string name="generate_qr_wifi">WiFi</string>
+    <string name="generate_qr_email">Email</string>
+    <string name="generate_qr_sms">SMS</string>
+
 </resources>

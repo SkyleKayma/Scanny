@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Light colors specific -->
-    <color name="purple_40">#FF6650a4</color>
-    <color name="purple_grey_40">#FF625b71</color>
-    <color name="pink_40">#FF7D5260</color>
+    <!-- ==== Light colors specific ==== -->
 
-    <!-- Dark colors specific -->
-    <color name="purple_80">#FFD0BCFF</color>
-    <color name="purple_grey_80">#FFCCC2DC</color>
-    <color name="pink_80">#FFEFB8C8</color>
+    <!-- Generic -->
+    <color name="sc_black">#FF000000</color>
+    <color name="sc_white">#FFFFFFFF</color>
+    <color name="sc_transparent">#00000000</color>
 
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- App specific -->
+    <color name="sc_primary">#FF9415</color>
+    <color name="sc_primary_variant">#FFCFA1</color>
+    <color name="sc_secondary">#15595E</color>
+    <color name="sc_secondary_variant">#00363E</color>
+
+    <color name="sc_text_primary">#15595E</color>
+    <color name="sc_text_secondary">#AAAAAA</color>
+
+    <color name="sc_background">#FCFCFE</color>
+    <color name="sc_background_popup">#F9F9F9</color>
+    <color name="sc_separator">#FFFFFF</color>
+    <color name="sc_separator_secondary">#F4ECEC</color>
+
+    <color name="sc_icon_primary">#15595E</color>
+    <color name="sc_icon_secondary">#D1D8D8</color>
 </resources>
