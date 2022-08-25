@@ -50,60 +50,62 @@ fun GenerateQRTextScreen(
                 }
             )
         }
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 32.dp, vertical = 24.dp)
-                .fillMaxSize()
-                .scrollable(
-                    state = scrollState,
-                    orientation = Orientation.Vertical
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            QRTypeSquareCell(QRType.TEXT)
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            ScannyTextField(
+    ) { innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            Column(
                 modifier = Modifier
-                    .focusRequester(focusRequester)
-                    .height(200.dp),
-                initialValue = "",
-                onValueChange = {
-                    viewModel.setText(it)
-                },
-                label = "",
-                keyboardType = KeyboardType.Text
-            )
+                    .padding(horizontal = 32.dp, vertical = 24.dp)
+                    .fillMaxSize()
+                    .scrollable(
+                        state = scrollState,
+                        orientation = Orientation.Vertical
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                QRTypeSquareCell(QRType.TEXT)
 
-            Spacer(
-                modifier = Modifier
-                    .weight(1f)
-                    .heightIn(16.dp)
-            )
+                Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-                onClick = {
-                    scope.launch {
-                        if (viewModel.areDataValid()) {
+                ScannyTextField(
+                    modifier = Modifier
+                        .focusRequester(focusRequester)
+                        .height(200.dp),
+                    initialValue = "",
+                    onValueChange = {
+                        viewModel.setText(it)
+                    },
+                    label = "",
+                    keyboardType = KeyboardType.Text
+                )
+
+                Spacer(
+                    modifier = Modifier
+                        .weight(1f)
+                        .heightIn(16.dp)
+                )
+
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    onClick = {
+                        scope.launch {
+                            if (viewModel.areDataValid()) {
 //                    viewModel.createQRCode()
-                            val text = "Les champs sont bons"
-                            scaffoldState.snackbarHostState.showSnackbar(text)
+                                val text = "Les champs sont bons"
+                                scaffoldState.snackbarHostState.showSnackbar(text)
 
-                        } else {
-                            val text = "Les champs ne sont pas bons"
-                            scaffoldState.snackbarHostState.showSnackbar(text)
+                            } else {
+                                val text = "Les champs ne sont pas bons"
+                                scaffoldState.snackbarHostState.showSnackbar(text)
+                            }
                         }
                     }
+                ) {
+                    Text(
+                        modifier = Modifier.padding(12.dp, 6.dp),
+                        text = "Créer"
+                    )
                 }
-            ) {
-                Text(
-                    modifier = Modifier.padding(12.dp, 6.dp),
-                    text = "Créer"
-                )
             }
         }
     }

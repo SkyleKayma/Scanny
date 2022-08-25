@@ -76,7 +76,6 @@ fun MainScreen(
         }
     ) { innerPadding ->
         ScannyNavHost(
-            systemUiController = systemUiController,
             navHostController = navController,
             innerPadding = innerPadding,
             mainViewModel = viewModel

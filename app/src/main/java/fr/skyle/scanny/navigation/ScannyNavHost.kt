@@ -42,7 +42,6 @@ const val TIME_ANIMATION = 250
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ScannyNavHost(
-    systemUiController: SystemUiController,
     navHostController: NavHostController,
     innerPadding: PaddingValues,
     mainViewModel: MainViewModel
