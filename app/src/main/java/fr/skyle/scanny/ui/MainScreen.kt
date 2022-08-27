@@ -1,12 +1,11 @@
-package fr.skyle.scanny.ui.main
+package fr.skyle.scanny.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
 import androidx.compose.animation.graphics.res.animatedVectorResource
 import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
 import androidx.compose.animation.graphics.vector.AnimatedImageVector
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -18,36 +17,36 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavHostController
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
+import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.navigation.popBackStack
+import com.ramcosta.composedestinations.navigation.popUpTo
+import com.ramcosta.composedestinations.spec.Route
+import com.ramcosta.composedestinations.utils.isRouteOnBackStack
 import fr.skyle.scanny.R
 import fr.skyle.scanny.navigation.BottomBarScreens
-import fr.skyle.scanny.navigation.ScannyNavHost
-import fr.skyle.scanny.navigation.screensWithBottomAppBar
+import fr.skyle.scanny.ui.destinations.Destination
+import fr.skyle.scanny.ui.destinations.DirectionDestination
 import kotlinx.coroutines.*
 import timber.log.Timber
 
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
 @Composable
-fun MainScreen(
-    viewModel: MainViewModel = hiltViewModel()
-) {
+fun MainScreen() {
 
     // Context
     val context = LocalContext.current.applicationContext
 
     // Nav
-    val navController = rememberAnimatedNavController()
+    val engine = rememberAnimatedNavHostEngine()
+    val navController = engine.rememberNavController()
     val items = listOf(BottomBarScreens.QRScan, BottomBarScreens.QRHistory, BottomBarScreens.QRGenerator, BottomBarScreens.Settings)
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
 
     // System UI Controller
     val systemUiController = rememberSystemUiController()
@@ -64,47 +63,76 @@ fun MainScreen(
         )
     }
 
-    Scaffold(
+    MainScaffold(
         modifier = Modifier.systemBarsPadding(), // Needed for insets
-        bottomBar = {
-            if (screensWithBottomAppBar.any { currentDestination?.route == it }) {
+        startRoute = NavGraphs.root.startRoute,
+        navController = navController,
+        bottomBar = { dest ->
+            if (dest in BottomBarScreens.values().map { it.direction }) {
                 MainBottomBar(
-                    items = items,
-                    navController = navController,
-                    currentDestination = currentDestination
+                    items,
+                    navController
                 )
             }
-        }
+        },
+        topBar = null
     ) { innerPadding ->
-        ScannyNavHost(
-            navHostController = navController,
-            innerPadding = innerPadding,
-            mainViewModel = viewModel
+        DestinationsNavHost(
+            engine = engine,
+            navController = navController,
+            navGraph = NavGraphs.root,
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
         )
     }
 }
 
 var coroutine = mutableStateOf<Job?>(null)
 
+@Composable
+fun MainScaffold(
+    modifier: Modifier = Modifier,
+    startRoute: Route,
+    navController: NavHostController,
+    topBar: @Composable ((Destination, NavBackStackEntry?) -> Unit)?,
+    bottomBar: @Composable ((Destination) -> Unit)?,
+    content: @Composable (PaddingValues) -> Unit,
+) {
+    val destination = navController.appCurrentDestinationAsState().value
+        ?: startRoute.startAppDestination
+    val navBackStackEntry = navController.currentBackStackEntry
+
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            topBar?.let { topBar(destination, navBackStackEntry) }
+        },
+        bottomBar = {
+            bottomBar?.let { bottomBar(destination) }
+        },
+        content = content
+    )
+}
+
 @OptIn(ExperimentalAnimationGraphicsApi::class)
 @Composable
-private fun MainBottomBar(
+fun MainBottomBar(
     items: List<BottomBarScreens>,
-    navController: NavController,
-    currentDestination: NavDestination?
+    navController: NavHostController
 ) {
     BottomNavigation(backgroundColor = colorResource(id = R.color.sc_background_popup)) {
-        var previousRoute: String? by remember { mutableStateOf(null) }
+        var previousRoute: DirectionDestination? by remember { mutableStateOf(null) }
 
-        items.forEach { screen ->
+        items.forEach { destination ->
             var atEnd by remember { mutableStateOf(false) }
 
             val animatedVector =
-                AnimatedImageVector.animatedVectorResource(id = screen.animatedIconId)
+                AnimatedImageVector.animatedVectorResource(id = destination.animatedIconId)
             val painterAnimated =
                 rememberAnimatedVectorPainter(animatedVector, atEnd)
             val painter = rememberVectorPainter(
-                image = ImageVector.vectorResource(screen.iconId)
+                image = ImageVector.vectorResource(destination.iconId)
             )
 
             suspend fun runResetTimer() {
@@ -113,23 +141,22 @@ private fun MainBottomBar(
                 atEnd = !atEnd
             }
 
+            val isCurrentDestOnBackStack = navController.isRouteOnBackStack(destination.direction)
+
             BottomNavigationItem(
                 selectedContentColor = MaterialTheme.colors.secondary,
                 unselectedContentColor = colorResource(id = R.color.sc_text_secondary),
-                icon = {
-                    Icon(
-                        modifier = Modifier.size(24.dp),
-                        painter = if (atEnd) painterAnimated else painter,
-                        contentDescription = null
-                    )
-                },
-                label = {
-                    Text(stringResource(screen.resourceId), style = MaterialTheme.typography.h5)
-                },
-                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                selected = isCurrentDestOnBackStack,
                 onClick = {
-                    if (screen.route != previousRoute) {
-                        previousRoute = screen.route
+                    if (isCurrentDestOnBackStack) {
+                        // When we click again on a bottom bar item and it was already selected
+                        // we want to pop the back stack until the initial destination of this bottom bar item
+                        navController.popBackStack(destination.direction, false)
+                        return@BottomNavigationItem
+                    }
+
+                    if (destination.direction != previousRoute) {
+                        previousRoute = destination.direction
 
                         if (!atEnd) {
                             atEnd = !atEnd
@@ -152,11 +179,11 @@ private fun MainBottomBar(
                         }
                     }
 
-                    navController.navigate(screen.route) {
+                    navController.navigate(destination.direction) {
                         // Pop up to the start destination of the graph to
                         // avoid building up a large stack of destinations
                         // on the back stack as users select items
-                        popUpTo(navController.graph.findStartDestination().id) {
+                        popUpTo(NavGraphs.root) {
                             saveState = true
                         }
 
@@ -166,7 +193,17 @@ private fun MainBottomBar(
                         // Restore state when reselecting a previously selected item
                         restoreState = true
                     }
-                }
+                },
+                icon = {
+                    Icon(
+                        modifier = Modifier.size(24.dp),
+                        painter = if (atEnd) painterAnimated else painter,
+                        contentDescription = stringResource(destination.textId)
+                    )
+                },
+                label = {
+                    Text(stringResource(destination.textId), style = MaterialTheme.typography.h5)
+                },
             )
         }
     }

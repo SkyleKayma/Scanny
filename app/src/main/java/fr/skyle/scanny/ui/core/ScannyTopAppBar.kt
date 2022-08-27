@@ -24,7 +24,6 @@ fun ScannyTopAppBar(
     hasHomeButton: Boolean = true,
     modifier: Modifier = Modifier,
     onClickAction: (() -> Unit)? = null,
-    onClickHomeButton: () -> Unit,
     isComingFromDown: Boolean = true
 ) {
     TopAppBar(
@@ -36,7 +35,7 @@ fun ScannyTopAppBar(
             if (hasHomeButton) {
                 IconButton(
                     onClick = {
-                        onClickHomeButton()
+//                        navigator.navigate(NavGraphs.root)
                     }
                 ) {
                     Icon(
@@ -88,8 +87,7 @@ fun ScannyTopAppBarPreview() {
             actionIconId = null,
             hasHomeButton = false,
             modifier = Modifier,
-            onClickAction = {},
-            onClickHomeButton = {}
+            onClickAction = {}
         )
     }
 }
@@ -103,8 +101,7 @@ fun ScannyTopAppBarPreviewWithHomeButton() {
             actionIconId = null,
             hasHomeButton = true,
             modifier = Modifier,
-            onClickAction = {},
-            onClickHomeButton = {}
+            onClickAction = {}
         )
     }
 }
@@ -118,8 +115,7 @@ fun ScannyTopAppBarPreviewWithHomeAndAction() {
             actionIconId = R.drawable.ic_favorite,
             hasHomeButton = true,
             modifier = Modifier,
-            onClickAction = {},
-            onClickHomeButton = {}
+            onClickAction = {}
         )
     }
 }

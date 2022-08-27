@@ -22,21 +22,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enum.QRType
-import fr.skyle.scanny.ext.QRCodeContent
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.ui.core.QRTypeSquareCell
 import fr.skyle.scanny.ui.core.ScannyTextField
 import fr.skyle.scanny.ui.core.ScannyTopAppBar
+import fr.skyle.scanny.ui.destinations.GenerateQRScreenDestination
 import kotlinx.coroutines.launch
 
 
+@Destination
 @Composable
 fun CreateQRTextScreen(
-    goBackToMain: () -> Boolean,
     viewModel: CreateQRTextViewModel = hiltViewModel(),
-    goToCustomQRCode: (QRCodeContent) -> Unit
+    navigator: DestinationsNavigator
 ) {
     val context = LocalContext.current
 
@@ -53,10 +55,7 @@ fun CreateQRTextScreen(
         scaffoldState = scaffoldState,
         topBar = {
             ScannyTopAppBar(
-                title = stringResource(id = QRType.TEXT.textId),
-                onClickHomeButton = {
-                    goBackToMain()
-                }
+                title = stringResource(id = QRType.TEXT.textId)
             )
         }
     ) { innerPadding ->
@@ -99,7 +98,7 @@ fun CreateQRTextScreen(
                     onClick = {
                         scope.launch {
                             if (viewModel.isContentValid()) {
-                                goToCustomQRCode(viewModel.getQRCodeContent())
+                                navigator.navigate(GenerateQRScreenDestination(viewModel.getQRCodeContent()))
                             } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                         }
                     }

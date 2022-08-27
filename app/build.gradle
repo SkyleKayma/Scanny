@@ -4,6 +4,7 @@ plugins {
     id "kotlin-android"
     id "kotlin-kapt"
     id "kotlin-parcelize"
+    id 'com.google.devtools.ksp' version '1.7.10-1.0.6'
     id "com.google.firebase.crashlytics"
     id "com.google.firebase.appdistribution"
     id "com.starter.easylauncher"
@@ -96,6 +97,14 @@ android {
             ]
         }
     }
+
+    applicationVariants.all { variant ->
+        kotlin.sourceSets {
+            getByName(variant.name) {
+                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
+            }
+        }
+    }
 }
 
 easylauncher {
@@ -164,7 +173,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
     implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
     implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
-    implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
+//    implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 
     // Coroutines
@@ -202,6 +211,10 @@ dependencies {
     // Datastore
     implementation "androidx.datastore:datastore:1.0.0"
     implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    // Compose destination
+    implementation "io.github.raamcosta.compose-destinations:animations-core:1.7.16-beta"
+    ksp "io.github.raamcosta.compose-destinations:ksp:1.7.16-beta"
 
     // Tests
     testImplementation "junit:junit:4.13.2"

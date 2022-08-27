@@ -17,15 +17,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enum.QRType
 import fr.skyle.scanny.ext.iconId
 import fr.skyle.scanny.ext.textId
+import fr.skyle.scanny.ui.destinations.CreateQRTextScreenDestination
 
 
+@Destination
 @Composable
 fun GeneratorScreen(
-    goToGenerateQRTextScreen: () -> Unit
+    navigator: DestinationsNavigator
 ) {
 
     Column(
@@ -45,7 +49,7 @@ fun GeneratorScreen(
         ) {
             item {
                 GeneratorType(QRType.TEXT) {
-                    goToGenerateQRTextScreen()
+                    navigator.navigate(CreateQRTextScreenDestination())
                 }
             }
             item {
