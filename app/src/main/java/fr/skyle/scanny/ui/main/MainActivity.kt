@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import fr.skyle.scanny.theme.ScannyTheme
+import fr.skyle.scanny.ui.splash.SplashScreen
 
 
 @AndroidEntryPoint

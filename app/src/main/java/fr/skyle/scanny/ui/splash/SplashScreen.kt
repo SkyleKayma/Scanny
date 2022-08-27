@@ -5,7 +5,9 @@ import androidx.compose.runtime.Composable
 
 
 @Composable
-fun SplashScreen(goToMainScreen: () -> Unit) {
+fun SplashScreen(
+    goToMainScreen: () -> Unit
+) {
     Box {
         goToMainScreen()
     }

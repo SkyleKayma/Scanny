@@ -1,6 +1,10 @@
 <resources>
-    <!-- App generic -->
+    <!-- App -->
     <string name="app_name">Scanny</string>
+
+    <!-- Generic -->
+    <string name="generic_create">Create</string>
+    <string name="generic_please_fill_mandatory_fields">Please fill mandatory fields</string>
 
     <!-- Bottom bar -->
     <string name="home_scan">Scan</string>
@@ -17,5 +21,6 @@
     <string name="generate_qr_sms">SMS</string>
     <string name="generate_what_type">What type of QRCode do you want to generate?</string>
 
+    <!-- Generate QR Text -->
 
 </resources>

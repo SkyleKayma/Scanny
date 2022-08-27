@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.core.os.bundleOf
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.systemuicontroller.SystemUiController
 import fr.skyle.scanny.R
-import fr.skyle.scanny.ui.generateQRText.GenerateQRTextScreen
+import fr.skyle.scanny.SCREEN_TIME_TRANSITION
+import fr.skyle.scanny.ext.navigate
+import fr.skyle.scanny.ui.createQRText.CreateQRTextScreen
+import fr.skyle.scanny.ui.generateQR.GenerateQRScreen
 import fr.skyle.scanny.ui.generator.GeneratorScreen
 import fr.skyle.scanny.ui.history.HistoryScreen
 import fr.skyle.scanny.ui.main.MainViewModel
@@ -23,21 +26,35 @@ import fr.skyle.scanny.ui.scan.ScanScreen
 import fr.skyle.scanny.ui.settings.SettingsScreen
 import fr.skyle.scanny.ui.splash.SplashScreen
 
+// --- Main Routes
+// -------------------------------------------
+
 // Splash
 const val splashRoute = "splash"
 
-// Main routes
+// Scan route
 const val scanRoute = "scan"
+
+// Generator route
 const val generatorRoute = "generator"
+
+// History route
 const val scanHistoryRoute = "history"
+
+// Settings route
 const val settingsRoute = "settings"
 
 val screensWithBottomAppBar = mutableListOf(scanRoute, scanHistoryRoute, generatorRoute, settingsRoute)
 
-// Other routes
-const val generateQRTextRoute = "generateQRText"
+// --- Other routes
+// -------------------------------------------
 
-const val TIME_ANIMATION = 250
+// Create QR Text route
+const val createQRTextRoute = "createQRText"
+
+// Generate QR route
+const val generateQRRoute = "generateQR"
+const val ARG_QR_CODE_DATA = "ARG_QR_CODE_DATA"
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -67,7 +84,7 @@ fun ScannyNavHost(
         }
         composable(route = BottomBarScreens.QRGenerator.route) {
             GeneratorScreen {
-                navHostController.navigate(route = generateQRTextRoute)
+                navHostController.navigate(route = createQRTextRoute)
             }
         }
         composable(route = BottomBarScreens.QRHistory.route) {
@@ -76,17 +93,36 @@ fun ScannyNavHost(
         composable(route = BottomBarScreens.Settings.route) {
             SettingsScreen()
         }
-        composable(route = generateQRTextRoute,
+        composable(route = createQRTextRoute,
             enterTransition = {
-                slideIntoContainer(AnimatedContentScope.SlideDirection.Up, animationSpec = tween(TIME_ANIMATION))
+                slideIntoContainer(AnimatedContentScope.SlideDirection.Up, animationSpec = tween(SCREEN_TIME_TRANSITION))
             },
             exitTransition = {
-                slideOutOfContainer(AnimatedContentScope.SlideDirection.Down, animationSpec = tween(TIME_ANIMATION))
+                slideOutOfContainer(AnimatedContentScope.SlideDirection.Down, animationSpec = tween(SCREEN_TIME_TRANSITION))
             }
         ) {
-            GenerateQRTextScreen(goBackToMain = {
-                navHostController.popBackStack(route = BottomBarScreens.QRGenerator.route, inclusive = false)
-            })
+            CreateQRTextScreen(
+                goBackToMain = {
+                    navHostController.popBackStack(route = BottomBarScreens.QRGenerator.route, inclusive = false)
+                }, goToCustomQRCode = {
+                    navHostController.navigate(generateQRRoute, bundleOf(ARG_QR_CODE_DATA to it))
+                }
+            )
+        }
+        composable(route = generateQRRoute,
+            enterTransition = {
+                slideIntoContainer(AnimatedContentScope.SlideDirection.Up, animationSpec = tween(SCREEN_TIME_TRANSITION))
+            },
+            exitTransition = {
+                slideOutOfContainer(AnimatedContentScope.SlideDirection.Down, animationSpec = tween(SCREEN_TIME_TRANSITION))
+            }
+        ) {
+            GenerateQRScreen(
+                goBackToMain = {
+                    navHostController.popBackStack(route = BottomBarScreens.QRGenerator.route, inclusive = false)
+                },
+                it.arguments?.getParcelable(ARG_QR_CODE_DATA)
+            )
         }
     }
 }

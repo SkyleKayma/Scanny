@@ -2,6 +2,10 @@
     <!-- App generic -->
     <string name="app_name">Scanny</string>
 
+    <!-- Generic -->
+    <string name="generic_create">Créer</string>
+    <string name="generic_please_fill_mandatory_fields">Veuillez remplir les champs obligatoires</string>
+
     <!-- Bottom bar -->
     <string name="home_scan">Scanner</string>
     <string name="home_generate">Générer</string>

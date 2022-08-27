@@ -39,6 +39,7 @@ import timber.log.Timber
 fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
 ) {
+
     // Context
     val context = LocalContext.current.applicationContext
 
@@ -81,37 +82,6 @@ fun MainScreen(
             mainViewModel = viewModel
         )
     }
-
-//    val qrCodeData = QRCodeData(content = "Test QRCode generation")
-//    val qrCode = QRCodeHelper.generateQRCode(qrCodeData)
-//    val bitmap = QRCodeHelper.renderQRCodeAsBitmap(qrCode, qrCodeData)
-//
-//    // A surface container using the 'background' color from the theme
-//    Surface(
-//        modifier = Modifier.fillMaxSize(),
-//        color = MaterialTheme.colors.background
-//    ) {
-//        Box {
-//            Column(Modifier.fillMaxSize()) {
-//                Image(
-//                    contentScale = ContentScale.Inside,
-//                    bitmap = bitmap?.asImageBitmap()
-//                        ?: ColorDrawable(Colors.AZURE).toBitmap().asImageBitmap(),
-//                    contentDescription = ""
-//                )
-//
-//                Button(onClick = {
-//                    saveAsPNG(
-//                        qrCode,
-//                        qrCodeData,
-//                        appContext
-//                    )
-//                }) {
-//                    Text(text = "Save as PNG")
-//                }
-//            }
-//        }
-//    }
 }
 
 var coroutine = mutableStateOf<Job?>(null)
@@ -142,8 +112,6 @@ private fun MainBottomBar(
 
                 atEnd = !atEnd
             }
-
-            println("Anim for ${screen.route}")
 
             BottomNavigationItem(
                 selectedContentColor = MaterialTheme.colors.secondary,

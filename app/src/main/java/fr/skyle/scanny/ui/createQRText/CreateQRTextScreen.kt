@@ -1,11 +1,14 @@
-package fr.skyle.scanny.ui.generateQRText
+package fr.skyle.scanny.ui.createQRText
 
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -14,11 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import fr.skyle.scanny.R
 import fr.skyle.scanny.enum.QRType
+import fr.skyle.scanny.ext.QRCodeContent
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.ui.core.QRTypeSquareCell
 import fr.skyle.scanny.ui.core.ScannyTextField
@@ -27,14 +33,17 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun GenerateQRTextScreen(
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
+fun CreateQRTextScreen(
     goBackToMain: () -> Boolean,
-    viewModel: GenerateQRTextViewModel = hiltViewModel()
+    viewModel: CreateQRTextViewModel = hiltViewModel(),
+    goToCustomQRCode: (QRCodeContent) -> Unit
 ) {
+    val context = LocalContext.current
+
     val focusRequester = remember { FocusRequester() }
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
+    val scaffoldState = rememberScaffoldState()
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -89,21 +98,15 @@ fun GenerateQRTextScreen(
                     shape = RoundedCornerShape(12.dp),
                     onClick = {
                         scope.launch {
-                            if (viewModel.areDataValid()) {
-//                    viewModel.createQRCode()
-                                val text = "Les champs sont bons"
-                                scaffoldState.snackbarHostState.showSnackbar(text)
-
-                            } else {
-                                val text = "Les champs ne sont pas bons"
-                                scaffoldState.snackbarHostState.showSnackbar(text)
-                            }
+                            if (viewModel.isContentValid()) {
+                                goToCustomQRCode(viewModel.getQRCodeContent())
+                            } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                         }
                     }
                 ) {
                     Text(
                         modifier = Modifier.padding(12.dp, 6.dp),
-                        text = "Créer"
+                        text = stringResource(id = R.string.generic_create)
                     )
                 }
             }
