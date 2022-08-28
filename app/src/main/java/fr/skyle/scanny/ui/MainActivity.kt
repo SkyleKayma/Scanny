@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.main
+package fr.skyle.scanny.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import fr.skyle.scanny.theme.ScannyTheme
-import fr.skyle.scanny.ui.splash.SplashScreen
 
 
 @AndroidEntryPoint

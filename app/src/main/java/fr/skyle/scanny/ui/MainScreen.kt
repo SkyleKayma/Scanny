@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.main
+package fr.skyle.scanny.ui
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
@@ -18,7 +18,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -36,9 +35,7 @@ import timber.log.Timber
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MainScreen(
-    viewModel: MainViewModel = hiltViewModel()
-) {
+fun MainScreen() {
 
     // Context
     val context = LocalContext.current.applicationContext
@@ -78,8 +75,7 @@ fun MainScreen(
     ) { innerPadding ->
         ScannyNavHost(
             navHostController = navController,
-            innerPadding = innerPadding,
-            mainViewModel = viewModel
+            innerPadding = innerPadding
         )
     }
 }

@@ -12,16 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.os.bundleOf
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import fr.skyle.scanny.R
 import fr.skyle.scanny.SCREEN_TIME_TRANSITION
+import fr.skyle.scanny.ext.QRCodeContent
+import fr.skyle.scanny.ext.getParcelable
 import fr.skyle.scanny.ext.navigate
+import fr.skyle.scanny.ext.putParcelable
 import fr.skyle.scanny.ui.createQRText.CreateQRTextScreen
 import fr.skyle.scanny.ui.generateQR.GenerateQRScreen
 import fr.skyle.scanny.ui.generator.GeneratorScreen
 import fr.skyle.scanny.ui.history.HistoryScreen
-import fr.skyle.scanny.ui.main.MainViewModel
 import fr.skyle.scanny.ui.scan.ScanScreen
 import fr.skyle.scanny.ui.settings.SettingsScreen
 import fr.skyle.scanny.ui.splash.SplashScreen
@@ -54,14 +58,13 @@ const val createQRTextRoute = "createQRText"
 
 // Generate QR route
 const val generateQRRoute = "generateQR"
-const val ARG_QR_CODE_DATA = "ARG_QR_CODE_DATA"
+const val ARG_QR_CODE_CONTENT = "ARG_QR_CODE_CONTENT"
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ScannyNavHost(
     navHostController: NavHostController,
-    innerPadding: PaddingValues,
-    mainViewModel: MainViewModel
+    innerPadding: PaddingValues
 ) {
     AnimatedNavHost(
         navController = navHostController,
@@ -100,28 +103,37 @@ fun ScannyNavHost(
             exitTransition = {
                 slideOutOfContainer(AnimatedContentScope.SlideDirection.Down, animationSpec = tween(SCREEN_TIME_TRANSITION))
             }
-        ) {
+        ) { navBackStackEntry ->
             CreateQRTextScreen(
                 goBackToMain = {
                     navHostController.popBackStack(route = BottomBarScreens.QRGenerator.route, inclusive = false)
                 }, goToCustomQRCode = {
-                    navHostController.navigate(generateQRRoute, bundleOf(ARG_QR_CODE_DATA to it))
+                    // Add parcelable like this cause we can't by classic arguments usage
+                    navBackStackEntry.putParcelable(ARG_QR_CODE_CONTENT, it)
+
+                    navHostController.navigate("$generateQRRoute/test", bundleOf(ARG_QR_CODE_CONTENT to it))
                 }
             )
         }
-        composable(route = generateQRRoute,
+        composable(route = "${generateQRRoute}/{testArg}",
+            arguments = listOf(
+                navArgument("testArg") { type = NavType.StringType },
+            ),
             enterTransition = {
                 slideIntoContainer(AnimatedContentScope.SlideDirection.Up, animationSpec = tween(SCREEN_TIME_TRANSITION))
             },
             exitTransition = {
                 slideOutOfContainer(AnimatedContentScope.SlideDirection.Down, animationSpec = tween(SCREEN_TIME_TRANSITION))
             }
-        ) {
+        ) { navBackStackEntry ->
+            // Extract the parcelable argument
+            val qrCodeContent = navBackStackEntry.getParcelable(ARG_QR_CODE_CONTENT, QRCodeContent::class.java)
+
             GenerateQRScreen(
                 goBackToMain = {
                     navHostController.popBackStack(route = BottomBarScreens.QRGenerator.route, inclusive = false)
                 },
-                it.arguments?.getParcelable(ARG_QR_CODE_DATA)
+                qrCodeContent
             )
         }
     }
