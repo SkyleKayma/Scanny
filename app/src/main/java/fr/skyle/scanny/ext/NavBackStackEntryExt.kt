@@ -11,7 +11,3 @@ fun <T : Parcelable> NavBackStackEntry.getParcelable(key: String, clazz: Class<T
     if (BuildConfig.VERSION_CODE >= Build.VERSION_CODES.TIRAMISU) {
         arguments?.getParcelable(key, clazz)
     } else arguments?.getParcelable(key)
-
-fun NavBackStackEntry.putParcelable(key: String, parcelable: Parcelable) {
-    arguments?.putParcelable(key, parcelable)
-}

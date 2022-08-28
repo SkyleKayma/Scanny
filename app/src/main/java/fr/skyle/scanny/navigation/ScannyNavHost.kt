@@ -12,8 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.os.bundleOf
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import fr.skyle.scanny.R
@@ -21,7 +19,6 @@ import fr.skyle.scanny.SCREEN_TIME_TRANSITION
 import fr.skyle.scanny.ext.QRCodeContent
 import fr.skyle.scanny.ext.getParcelable
 import fr.skyle.scanny.ext.navigate
-import fr.skyle.scanny.ext.putParcelable
 import fr.skyle.scanny.ui.createQRText.CreateQRTextScreen
 import fr.skyle.scanny.ui.generateQR.GenerateQRScreen
 import fr.skyle.scanny.ui.generator.GeneratorScreen
@@ -103,22 +100,20 @@ fun ScannyNavHost(
             exitTransition = {
                 slideOutOfContainer(AnimatedContentScope.SlideDirection.Down, animationSpec = tween(SCREEN_TIME_TRANSITION))
             }
-        ) { navBackStackEntry ->
+        ) {
             CreateQRTextScreen(
                 goBackToMain = {
                     navHostController.popBackStack(route = BottomBarScreens.QRGenerator.route, inclusive = false)
                 }, goToCustomQRCode = {
-                    // Add parcelable like this cause we can't by classic arguments usage
-                    navBackStackEntry.putParcelable(ARG_QR_CODE_CONTENT, it)
-
-                    navHostController.navigate("$generateQRRoute/test", bundleOf(ARG_QR_CODE_CONTENT to it))
+                    navHostController.navigate(generateQRRoute, bundleOf(ARG_QR_CODE_CONTENT to it)) {
+                        popUpTo(BottomBarScreens.QRGenerator.route) {
+                            inclusive = false
+                        }
+                    }
                 }
             )
         }
-        composable(route = "${generateQRRoute}/{testArg}",
-            arguments = listOf(
-                navArgument("testArg") { type = NavType.StringType },
-            ),
+        composable(route = generateQRRoute,
             enterTransition = {
                 slideIntoContainer(AnimatedContentScope.SlideDirection.Up, animationSpec = tween(SCREEN_TIME_TRANSITION))
             },

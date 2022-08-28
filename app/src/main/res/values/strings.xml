@@ -21,6 +21,8 @@
     <string name="generate_qr_sms">SMS</string>
     <string name="generate_what_type">What type of QRCode do you want to generate?</string>
 
-    <!-- Generate QR Text -->
+    <!-- Generate QRCode -->
+    <string name="generate_save">Save</string>
+    <string name="generate_share">Share</string>
 
 </resources>

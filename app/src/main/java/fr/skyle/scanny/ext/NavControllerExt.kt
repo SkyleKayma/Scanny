@@ -36,3 +36,7 @@ fun NavController.navigate(
         navigate(id, newArgs, navOptions, navigatorExtras)
     } else navigate(route, navOptions, navigatorExtras)
 }
+
+fun NavController.navigate(route: String, args: Bundle, builder: NavOptionsBuilder.() -> Unit) {
+    navigate(route, args, navOptions(builder))
+}

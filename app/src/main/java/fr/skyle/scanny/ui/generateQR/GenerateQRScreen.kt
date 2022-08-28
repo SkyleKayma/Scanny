@@ -15,9 +15,13 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import fr.skyle.scanny.R
 import fr.skyle.scanny.ext.QRCodeContent
 import fr.skyle.scanny.ext.textId
+import fr.skyle.scanny.theme.ScannyTheme
 import fr.skyle.scanny.ui.core.ScannyTopAppBar
 
 
@@ -48,31 +52,58 @@ fun GenerateQRScreen(
             )
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+        ) {
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp)
             ) {
                 bitmapFlow?.asImageBitmap()?.let {
                     Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp, 0.dp),
                         contentScale = ContentScale.Inside,
                         bitmap = it,
                         contentDescription = ""
                     )
                 }
 
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    Button(onClick = {
-                        viewModel.saveQRCodeAsFile(context)
-                    }) {
-                        Text(text = "Save")
+                    Button(
+                        modifier = Modifier.weight(1f),
+                        onClick = {
+                            viewModel.saveQRCodeAsFile(context)
+                        }) {
+                        Text(text = stringResource(id = R.string.generate_save))
                     }
-                    Button(onClick = {
-                        Toast.makeText(context, "TODO", Toast.LENGTH_LONG).show()
-                    }) {
-                        Text(text = "Share")
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Button(
+                        modifier = Modifier.weight(1f),
+                        onClick = {
+                            Toast.makeText(context, "TODO", Toast.LENGTH_LONG).show()
+                        }) {
+                        Text(text = stringResource(id = R.string.generate_share))
                     }
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewGenerateQRScreen() {
+    ScannyTheme {
+        GenerateQRScreen(
+            goBackToMain = { true },
+            qrCodeContent = QRCodeContent.QRCodeTextContent("test")
+        )
     }
 }
