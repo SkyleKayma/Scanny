@@ -20,6 +20,7 @@ fun ScannyTextField(
     initialValue: String,
     label: String,
     keyboardType: KeyboardType,
+    maxLines: Int = Int.MAX_VALUE,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -55,6 +56,7 @@ fun ScannyTextField(
             value = it
             onValueChange(it)
         },
+        maxLines = maxLines,
         label = {
             Text(
                 text = label,

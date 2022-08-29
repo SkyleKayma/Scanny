@@ -1,4 +1,4 @@
-package fr.skyle.scanny.enum
+package fr.skyle.scanny.enums
 
 enum class QRType {
     TEXT,

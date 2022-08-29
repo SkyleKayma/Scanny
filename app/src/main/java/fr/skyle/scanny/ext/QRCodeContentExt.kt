@@ -1,18 +1,22 @@
 package fr.skyle.scanny.ext
 
 import android.os.Parcelable
+import fr.skyle.scanny.enums.QRType
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
-sealed class QRCodeContent : Parcelable {
-    data class QRCodeTextContent(var text: String = "") : QRCodeContent()
+interface StringConverter {
+    fun asString(): String
 }
 
-fun QRCodeContent.asString(): String =
-    when (this) {
-        is QRCodeContent.QRCodeTextContent ->
-            this.convertContentToString()
+@Parcelize
+sealed class QRCodeContent(val type: QRType) : Parcelable, StringConverter {
+    data class QRCodeTextContent(var text: String = "") : QRCodeContent(QRType.TEXT) {
+        override fun asString(): String =
+            text
     }
 
-private fun QRCodeContent.QRCodeTextContent.convertContentToString(): String =
-    text
+    data class QRCodeUrlContent(var url: String = "") : QRCodeContent(QRType.URL) {
+        override fun asString(): String =
+            url
+    }
+}

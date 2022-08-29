@@ -2,7 +2,7 @@ package fr.skyle.scanny.utils
 
 import android.content.Context
 import android.graphics.Bitmap
-import fr.skyle.scanny.enum.FileType
+import fr.skyle.scanny.enums.FileType
 import io.github.g0dkar.qrcode.QRCode
 import io.github.g0dkar.qrcode.internals.QRCodeSquare
 import timber.log.Timber

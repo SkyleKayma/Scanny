@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.createQRText
+package fr.skyle.scanny.ui.createQRUrlScreen
 
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -29,16 +28,15 @@ import fr.skyle.scanny.ext.QRCodeContent
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.ScannyTheme
 import fr.skyle.scanny.ui.core.CreateQRScaffold
-import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import fr.skyle.scanny.ui.core.ScannyTextField
-import fr.skyle.scanny.ui.core.ScannyTopAppBar
+import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun CreateQRTextScreen(
+fun CreateQRUrlScreen(
     goBackToQRGenerator: () -> Boolean,
-    viewModel: CreateQRTextViewModel = hiltViewModel(),
+    viewModel: CreateQRUrlViewModel = hiltViewModel(),
     goToCustomQRCode: (QRCodeContent) -> Unit
 ) {
     val context = LocalContext.current
@@ -54,7 +52,7 @@ fun CreateQRTextScreen(
 
     CreateQRScaffold(
         scaffoldState = scaffoldState,
-        title = stringResource(id = QRType.TEXT.textId),
+        title = stringResource(id = QRType.URL.textId),
         onClickHomeButton = goBackToQRGenerator
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
@@ -68,20 +66,20 @@ fun CreateQRTextScreen(
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                QRTypeSquareCell(QRType.TEXT)
+                QRTypeSquareCell(QRType.URL)
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 ScannyTextField(
                     modifier = Modifier
-                        .focusRequester(focusRequester)
-                        .height(200.dp),
+                        .focusRequester(focusRequester),
                     initialValue = "",
                     onValueChange = {
                         viewModel.setText(it)
                     },
                     label = "",
-                    keyboardType = KeyboardType.Text
+                    keyboardType = KeyboardType.Text,
+                    maxLines = 1
                 )
 
                 Spacer(
@@ -115,7 +113,7 @@ fun CreateQRTextScreen(
 @Composable
 fun PreviewCreateQRUrlScreen() {
     ScannyTheme {
-        CreateQRTextScreen(
+        CreateQRUrlScreen(
             goBackToQRGenerator = { true },
             goToCustomQRCode = { QRCodeContent.QRCodeTextContent("Text") }
         )

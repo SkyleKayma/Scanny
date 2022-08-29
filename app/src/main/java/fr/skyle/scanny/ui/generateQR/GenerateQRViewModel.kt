@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.skyle.scanny.ext.QRCodeContent
-import fr.skyle.scanny.ext.asString
 import fr.skyle.scanny.utils.QRCodeData
 import fr.skyle.scanny.utils.QRCodeHelper
 import io.github.g0dkar.qrcode.QRCode

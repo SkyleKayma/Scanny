@@ -1,7 +1,7 @@
 package fr.skyle.scanny.ext
 
 import fr.skyle.scanny.R
-import fr.skyle.scanny.enum.QRType
+import fr.skyle.scanny.enums.QRType
 
 val QRType.iconId: Int
     get() = when (this) {
@@ -40,7 +40,8 @@ fun QRType.getEmptyQRCodeData(): QRCodeContent =
         QRType.TEXT ->
             QRCodeContent.QRCodeTextContent()
         QRType.CONTACT -> TODO()
-        QRType.URL -> TODO()
+        QRType.URL ->
+            QRCodeContent.QRCodeUrlContent()
         QRType.WIFI -> TODO()
         QRType.EMAIL -> TODO()
         QRType.SMS -> TODO()

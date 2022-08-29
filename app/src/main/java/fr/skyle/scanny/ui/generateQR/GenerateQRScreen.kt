@@ -28,7 +28,7 @@ import fr.skyle.scanny.ui.core.ScannyTopAppBar
 @Composable
 fun GenerateQRScreen(
     goBackToMain: () -> Boolean,
-    qrCodeContent: QRCodeContent?,
+    qrCodeContent: QRCodeContent,
     viewModel: GenerateQRViewModel = hiltViewModel()
 ) {
     // Context
@@ -45,7 +45,7 @@ fun GenerateQRScreen(
         scaffoldState = scaffoldState,
         topBar = {
             ScannyTopAppBar(
-                title = stringResource(id = fr.skyle.scanny.enum.QRType.TEXT.textId),
+                title = stringResource(id = qrCodeContent.type.textId),
                 onClickHomeButton = {
                     goBackToMain()
                 }
@@ -103,7 +103,7 @@ fun PreviewGenerateQRScreen() {
     ScannyTheme {
         GenerateQRScreen(
             goBackToMain = { true },
-            qrCodeContent = QRCodeContent.QRCodeTextContent("test")
+            qrCodeContent = QRCodeContent.QRCodeTextContent("Text")
         )
     }
 }

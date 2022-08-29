@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import fr.skyle.scanny.theme.ScannyTheme
 
 
 @Composable
@@ -21,5 +23,13 @@ fun ScanScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(text = "Scan")
+    }
+}
+
+@Preview
+@Composable
+fun PreviewScanScreen() {
+    ScannyTheme {
+        ScanScreen()
     }
 }

@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.core
+package fr.skyle.scanny.ui.generateQR.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
-import fr.skyle.scanny.enum.QRType
+import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ext.iconId
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.ScannyTheme
