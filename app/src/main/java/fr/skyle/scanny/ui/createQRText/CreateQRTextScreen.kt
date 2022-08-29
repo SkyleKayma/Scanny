@@ -1,12 +1,12 @@
 package fr.skyle.scanny.ui.createQRText
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -29,9 +29,8 @@ import fr.skyle.scanny.ext.QRCodeContent
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.ScannyTheme
 import fr.skyle.scanny.ui.core.CreateQRScaffold
-import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import fr.skyle.scanny.ui.core.ScannyTextField
-import fr.skyle.scanny.ui.core.ScannyTopAppBar
+import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import kotlinx.coroutines.launch
 
 
@@ -47,6 +46,7 @@ fun CreateQRTextScreen(
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
     val scaffoldState = rememberScaffoldState()
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -55,17 +55,20 @@ fun CreateQRTextScreen(
     CreateQRScaffold(
         scaffoldState = scaffoldState,
         title = stringResource(id = QRType.TEXT.textId),
-        onClickHomeButton = goBackToQRGenerator
+        onClickHomeButton = goBackToQRGenerator,
+        modifier = Modifier
+            .imePadding()
+            .bringIntoViewRequester(bringIntoViewRequester)
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
+        Box(
+            modifier = Modifier.padding(innerPadding)
+        ) {
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 32.dp, vertical = 24.dp)
                     .fillMaxSize()
-                    .scrollable(
-                        state = scrollState,
-                        orientation = Orientation.Vertical
-                    ),
+                    .verticalScroll(scrollState)
+                    .padding(horizontal = 32.dp, vertical = 24.dp)
+                    .height(IntrinsicSize.Min),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 QRTypeSquareCell(QRType.TEXT)
@@ -81,13 +84,15 @@ fun CreateQRTextScreen(
                         viewModel.setText(it)
                     },
                     label = "",
-                    keyboardType = KeyboardType.Text
+                    keyboardType = KeyboardType.Text,
+                    bringIntoViewRequester = bringIntoViewRequester,
+                    scope = scope
                 )
 
                 Spacer(
                     modifier = Modifier
-                        .weight(1f)
                         .heightIn(16.dp)
+                        .weight(1f)
                 )
 
                 Button(

@@ -1,6 +1,7 @@
 package fr.skyle.scanny.ui.core
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -10,16 +11,21 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun ScannyTextField(
     initialValue: String,
     label: String,
     keyboardType: KeyboardType,
+    bringIntoViewRequester: BringIntoViewRequester,
+    scope: CoroutineScope,
     maxLines: Int = Int.MAX_VALUE,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -29,12 +35,20 @@ fun ScannyTextField(
     var valid by remember { mutableStateOf(false) }
     var value by remember { mutableStateOf(initialValue) }
 
+
     valid = value.isNotBlank()
 
     OutlinedTextField(
         textStyle = MaterialTheme.typography.body2,
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .onFocusEvent {
+                if (it.hasFocus) {
+                    scope.launch {
+                        bringIntoViewRequester.bringIntoView()
+                    }
+                }
+            },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = MaterialTheme.colors.primaryVariant,
             unfocusedBorderColor = if (valid) {

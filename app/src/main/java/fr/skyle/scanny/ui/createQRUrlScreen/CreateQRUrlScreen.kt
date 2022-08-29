@@ -1,10 +1,11 @@
 package fr.skyle.scanny.ui.createQRUrlScreen
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
@@ -45,6 +46,7 @@ fun CreateQRUrlScreen(
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
     val scaffoldState = rememberScaffoldState()
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -53,17 +55,18 @@ fun CreateQRUrlScreen(
     CreateQRScaffold(
         scaffoldState = scaffoldState,
         title = stringResource(id = QRType.URL.textId),
-        onClickHomeButton = goBackToQRGenerator
+        onClickHomeButton = goBackToQRGenerator,
+        modifier = Modifier
+            .imePadding()
+            .bringIntoViewRequester(bringIntoViewRequester)
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 32.dp, vertical = 24.dp)
                     .fillMaxSize()
-                    .scrollable(
-                        state = scrollState,
-                        orientation = Orientation.Vertical
-                    ),
+                    .verticalScroll(scrollState)
+                    .padding(horizontal = 32.dp, vertical = 24.dp)
+                    .height(IntrinsicSize.Min),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 QRTypeSquareCell(QRType.URL)
@@ -79,7 +82,9 @@ fun CreateQRUrlScreen(
                     },
                     label = "",
                     keyboardType = KeyboardType.Text,
-                    maxLines = 1
+                    maxLines = 1,
+                    scope = scope,
+                    bringIntoViewRequester = bringIntoViewRequester
                 )
 
                 Spacer(
