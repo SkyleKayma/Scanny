@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,7 +13,9 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
@@ -27,11 +26,13 @@ import fr.skyle.scanny.ext.QRCodeContent
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.ScannyTheme
 import fr.skyle.scanny.ui.core.CreateQRScaffold
+import fr.skyle.scanny.ui.core.ScannyButton
+import fr.skyle.scanny.ui.core.ScannyButtonSelector
 import fr.skyle.scanny.ui.core.ScannyTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import kotlinx.coroutines.launch
 
-val presets = listOf("http://", "https://", "www.", ".com")
+val presets = listOf("https://", "http://", "www.", ".com")
 
 @Composable
 fun CreateQRUrlScreen(
@@ -46,7 +47,7 @@ fun CreateQRUrlScreen(
     val scaffoldState = rememberScaffoldState()
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
 
-    var url by remember { mutableStateOf("") }
+    var url by remember { mutableStateOf(presets.first()) }
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -65,8 +66,8 @@ fun CreateQRUrlScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(scrollState)
-                    .padding(horizontal = 24.dp)
-                    .height(IntrinsicSize.Min),
+                    .height(IntrinsicSize.Max)
+                    .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 QRTypeSquareCell(QRType.URL)
@@ -76,13 +77,13 @@ fun CreateQRUrlScreen(
                 ScannyTextField(
                     label = "",
                     keyboardType = KeyboardType.Text,
-                    maxLines = 1,
+                    bringIntoViewRequester = bringIntoViewRequester,
                     scope = scope,
                     value = url,
                     onValueChange = {
                         url = it
                     },
-                    bringIntoViewRequester = bringIntoViewRequester,
+                    maxLines = 1,
                     trailingIconId = R.drawable.ic_close,
                     modifier = Modifier
                         .focusRequester(focusRequester),
@@ -91,19 +92,17 @@ fun CreateQRUrlScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 FlowRow(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
                     mainAxisSpacing = 8.dp,
                     mainAxisAlignment = FlowMainAxisAlignment.Start
                 ) {
                     presets.forEach {
-                        Button(
-                            shape = RoundedCornerShape(12.dp),
+                        ScannyButtonSelector(
+                            text = it,
                             onClick = {
                                 url += it
                             }
-                        ) {
-                            Text(text = it)
-                        }
+                        )
                     }
                 }
 
@@ -113,9 +112,9 @@ fun CreateQRUrlScreen(
                         .heightIn(16.dp)
                 )
 
-                Button(
+                ScannyButton(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
+                    text = stringResource(id = R.string.generic_create),
                     onClick = {
                         scope.launch {
                             if (isContentValid(url)) {
@@ -123,12 +122,7 @@ fun CreateQRUrlScreen(
                             } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                         }
                     }
-                ) {
-                    Text(
-                        modifier = Modifier.padding(12.dp, 6.dp),
-                        text = stringResource(id = R.string.generic_create)
-                    )
-                }
+                )
             }
         }
     }

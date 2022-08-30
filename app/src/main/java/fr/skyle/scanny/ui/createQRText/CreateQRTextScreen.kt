@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,13 +16,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ext.QRCodeContent
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.ScannyTheme
 import fr.skyle.scanny.ui.core.CreateQRScaffold
+import fr.skyle.scanny.ui.core.ScannyButton
 import fr.skyle.scanny.ui.core.ScannyTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import kotlinx.coroutines.launch
@@ -58,15 +55,13 @@ fun CreateQRTextScreen(
             .imePadding()
             .bringIntoViewRequester(bringIntoViewRequester)
     ) { innerPadding ->
-        Box(
-            modifier = Modifier.padding(innerPadding)
-        ) {
+        Box(modifier = Modifier.padding(innerPadding)) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(scrollState)
-                    .padding(horizontal = 24.dp)
-                    .height(IntrinsicSize.Min),
+                    .height(IntrinsicSize.Max)
+                    .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 QRTypeSquareCell(QRType.TEXT)
@@ -78,24 +73,24 @@ fun CreateQRTextScreen(
                     keyboardType = KeyboardType.Text,
                     bringIntoViewRequester = bringIntoViewRequester,
                     scope = scope,
+                    value = text,
                     onValueChange = {
                         text = it
                     },
                     modifier = Modifier
                         .focusRequester(focusRequester)
-                        .height(200.dp),
-                    value = text
+                        .height(200.dp)
                 )
 
                 Spacer(
                     modifier = Modifier
-                        .heightIn(16.dp)
                         .weight(1f)
+                        .heightIn(16.dp)
                 )
 
-                Button(
+                ScannyButton(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
+                    text = stringResource(id = R.string.generic_create),
                     onClick = {
                         scope.launch {
                             if (isContentValid(text)) {
@@ -103,12 +98,7 @@ fun CreateQRTextScreen(
                             } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                         }
                     }
-                ) {
-                    Text(
-                        modifier = Modifier.padding(12.dp, 6.dp),
-                        text = stringResource(id = R.string.generic_create)
-                    )
-                }
+                )
             }
         }
     }

@@ -12,8 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -24,20 +26,20 @@ fun ScannyTextField(
     keyboardType: KeyboardType,
     bringIntoViewRequester: BringIntoViewRequester,
     scope: CoroutineScope,
-    value: String,
+    value: TextFieldValue,
+    onValueChange: (String) -> Unit,
     maxLines: Int = Int.MAX_VALUE,
     trailingIconId: Int? = null,
-    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val hasFocus by remember { mutableStateOf(false) }
     var valid by remember { mutableStateOf(false) }
 
-    valid = value.isNotBlank()
+    valid = value.text.isNotBlank()
 
     OutlinedTextField(
-        textStyle = MaterialTheme.typography.body2,
+        textStyle = MaterialTheme.typography.body1,
         modifier = modifier
             .fillMaxWidth()
             .onFocusEvent {
@@ -63,21 +65,22 @@ fun ScannyTextField(
         shape = RoundedCornerShape(12.dp),
         value = value,
         onValueChange = {
-            onValueChange(it)
+            onValueChange(it.text)
         },
         maxLines = maxLines,
+        singleLine = maxLines == 1,
         label = {
             Text(
                 text = label,
-                style = if (hasFocus || value.isNotBlank()) {
+                style = if (hasFocus || value.text.isNotBlank()) {
                     MaterialTheme.typography.subtitle2
                 } else MaterialTheme.typography.body2
             )
         },
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = keyboardType),
+        keyboardOptions = KeyboardOptions(imeAction = if (maxLines == 1) ImeAction.Done else ImeAction.Default, keyboardType = keyboardType),
         keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
         trailingIcon = {
-            if (value.isNotEmpty() && trailingIconId != null) {
+            if (value.text.isNotEmpty() && trailingIconId != null) {
                 IconButton(onClick = {
                     onValueChange("")
                 }) {
@@ -89,5 +92,33 @@ fun ScannyTextField(
                 }
             }
         }
+    )
+}
+
+@Composable
+fun ScannyTextField(
+    label: String,
+    keyboardType: KeyboardType,
+    bringIntoViewRequester: BringIntoViewRequester,
+    scope: CoroutineScope,
+    value: String,
+    onValueChange: (String) -> Unit,
+    maxLines: Int = Int.MAX_VALUE,
+    trailingIconId: Int? = null,
+    modifier: Modifier = Modifier,
+) {
+    ScannyTextField(
+        label = label,
+        keyboardType = keyboardType,
+        bringIntoViewRequester = bringIntoViewRequester,
+        scope = scope,
+        value = TextFieldValue(
+            text = value,
+            selection = TextRange(value.length)
+        ),
+        onValueChange = onValueChange,
+        maxLines = maxLines,
+        trailingIconId = trailingIconId,
+        modifier = modifier
     )
 }
