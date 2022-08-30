@@ -1,18 +1,17 @@
 package fr.skyle.scanny.ui.core
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -21,20 +20,19 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ScannyTextField(
-    initialValue: String,
     label: String,
     keyboardType: KeyboardType,
     bringIntoViewRequester: BringIntoViewRequester,
     scope: CoroutineScope,
+    value: String,
     maxLines: Int = Int.MAX_VALUE,
+    trailingIconId: Int? = null,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val hasFocus by remember { mutableStateOf(false) }
     var valid by remember { mutableStateOf(false) }
-    var value by remember { mutableStateOf(initialValue) }
-
 
     valid = value.isNotBlank()
 
@@ -53,9 +51,7 @@ fun ScannyTextField(
             focusedBorderColor = MaterialTheme.colors.primaryVariant,
             unfocusedBorderColor = if (valid) {
                 MaterialTheme.colors.primaryVariant
-            } else {
-                MaterialTheme.colors.onSurface
-            },
+            } else MaterialTheme.colors.onSurface,
             textColor = MaterialTheme.colors.secondary,
             errorBorderColor = MaterialTheme.colors.error,
             unfocusedLabelColor = if (valid) {
@@ -67,7 +63,6 @@ fun ScannyTextField(
         shape = RoundedCornerShape(12.dp),
         value = value,
         onValueChange = {
-            value = it
             onValueChange(it)
         },
         maxLines = maxLines,
@@ -81,5 +76,18 @@ fun ScannyTextField(
         },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = keyboardType),
         keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+        trailingIcon = {
+            if (value.isNotEmpty() && trailingIconId != null) {
+                IconButton(onClick = {
+                    onValueChange("")
+                }) {
+                    Icon(
+                        modifier = Modifier.size(24.dp),
+                        painter = painterResource(id = trailingIconId),
+                        contentDescription = ""
+                    )
+                }
+            }
+        }
     )
 }

@@ -9,10 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -37,7 +34,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun CreateQRTextScreen(
     goBackToQRGenerator: () -> Boolean,
-    viewModel: CreateQRTextViewModel = hiltViewModel(),
     goToCustomQRCode: (QRCodeContent) -> Unit
 ) {
     val context = LocalContext.current
@@ -47,6 +43,8 @@ fun CreateQRTextScreen(
     val scrollState = rememberScrollState()
     val scaffoldState = rememberScaffoldState()
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
+
+    var text by remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -67,7 +65,7 @@ fun CreateQRTextScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(scrollState)
-                    .padding(horizontal = 32.dp, vertical = 24.dp)
+                    .padding(horizontal = 24.dp)
                     .height(IntrinsicSize.Min),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -76,17 +74,17 @@ fun CreateQRTextScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 ScannyTextField(
-                    modifier = Modifier
-                        .focusRequester(focusRequester)
-                        .height(200.dp),
-                    initialValue = "",
-                    onValueChange = {
-                        viewModel.setText(it)
-                    },
                     label = "",
                     keyboardType = KeyboardType.Text,
                     bringIntoViewRequester = bringIntoViewRequester,
-                    scope = scope
+                    scope = scope,
+                    onValueChange = {
+                        text = it
+                    },
+                    modifier = Modifier
+                        .focusRequester(focusRequester)
+                        .height(200.dp),
+                    value = text
                 )
 
                 Spacer(
@@ -100,8 +98,8 @@ fun CreateQRTextScreen(
                     shape = RoundedCornerShape(12.dp),
                     onClick = {
                         scope.launch {
-                            if (viewModel.isContentValid()) {
-                                goToCustomQRCode(viewModel.getQRCodeContent())
+                            if (isContentValid(text)) {
+                                goToCustomQRCode(QRCodeContent.QRCodeTextContent(text))
                             } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                         }
                     }
@@ -115,6 +113,9 @@ fun CreateQRTextScreen(
         }
     }
 }
+
+fun isContentValid(text: String): Boolean =
+    text.isNotBlank()
 
 @Preview
 @Composable

@@ -9,10 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -22,7 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.flowlayout.FlowMainAxisAlignment
+import com.google.accompanist.flowlayout.FlowRow
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ext.QRCodeContent
@@ -33,11 +31,11 @@ import fr.skyle.scanny.ui.core.ScannyTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import kotlinx.coroutines.launch
 
+val presets = listOf("http://", "https://", "www.", ".com")
 
 @Composable
 fun CreateQRUrlScreen(
     goBackToQRGenerator: () -> Boolean,
-    viewModel: CreateQRUrlViewModel = hiltViewModel(),
     goToCustomQRCode: (QRCodeContent) -> Unit
 ) {
     val context = LocalContext.current
@@ -47,6 +45,8 @@ fun CreateQRUrlScreen(
     val scrollState = rememberScrollState()
     val scaffoldState = rememberScaffoldState()
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
+
+    var url by remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -65,7 +65,7 @@ fun CreateQRUrlScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(scrollState)
-                    .padding(horizontal = 32.dp, vertical = 24.dp)
+                    .padding(horizontal = 24.dp)
                     .height(IntrinsicSize.Min),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -74,18 +74,38 @@ fun CreateQRUrlScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 ScannyTextField(
-                    modifier = Modifier
-                        .focusRequester(focusRequester),
-                    initialValue = "",
-                    onValueChange = {
-                        viewModel.setText(it)
-                    },
                     label = "",
                     keyboardType = KeyboardType.Text,
                     maxLines = 1,
                     scope = scope,
-                    bringIntoViewRequester = bringIntoViewRequester
+                    value = url,
+                    onValueChange = {
+                        url = it
+                    },
+                    bringIntoViewRequester = bringIntoViewRequester,
+                    trailingIconId = R.drawable.ic_close,
+                    modifier = Modifier
+                        .focusRequester(focusRequester),
                 )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    mainAxisSpacing = 8.dp,
+                    mainAxisAlignment = FlowMainAxisAlignment.Start
+                ) {
+                    presets.forEach {
+                        Button(
+                            shape = RoundedCornerShape(12.dp),
+                            onClick = {
+                                url += it
+                            }
+                        ) {
+                            Text(text = it)
+                        }
+                    }
+                }
 
                 Spacer(
                     modifier = Modifier
@@ -98,8 +118,8 @@ fun CreateQRUrlScreen(
                     shape = RoundedCornerShape(12.dp),
                     onClick = {
                         scope.launch {
-                            if (viewModel.isContentValid()) {
-                                goToCustomQRCode(viewModel.getQRCodeContent())
+                            if (isContentValid(url)) {
+                                goToCustomQRCode(QRCodeContent.QRCodeUrlContent(url))
                             } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                         }
                     }
@@ -113,6 +133,9 @@ fun CreateQRUrlScreen(
         }
     }
 }
+
+fun isContentValid(url: String): Boolean =
+    url.isNotBlank()
 
 @Preview
 @Composable
