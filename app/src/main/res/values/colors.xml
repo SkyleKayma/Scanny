@@ -8,19 +8,18 @@
     <color name="sc_transparent">#00000000</color>
 
     <!-- App specific -->
-    <color name="sc_primary">#F79A3D</color>
-    <color name="sc_primary_variant">#FFCFA1</color>
-    <color name="sc_secondary">#15595E</color>
-    <color name="sc_secondary_variant">#00363E</color>
+    <color name="sc_primary">#FF8E3C</color>
+    <color name="sc_primary_variant_1">#FAA95B</color>
+    <color name="sc_primary_variant_2">#FFBD7F</color>
+    <color name="sc_primary_variant_3">#FFCFA1</color>
 
-    <color name="sc_text_primary">#15595E</color>
-    <color name="sc_text_secondary">#AAAAAA</color>
+    <color name="sc_title">#0D0D0D</color>
+    <color name="sc_body">#2A2A2A</color>
+    <color name="sc_body_secondary">#AAAAAA</color>
 
     <color name="sc_background">#FCFCFE</color>
-    <color name="sc_background_popup">#F1F1F1</color>
-    <color name="sc_separator">#FFFFFF</color>
-    <color name="sc_separator_secondary">#F4ECEC</color>
+    <color name="sc_background_secondary">#EFF0F3</color>
 
-    <color name="sc_icon_primary">#15595E</color>
-    <color name="sc_icon_secondary">#D1D8D8</color>
+    <color name="sc_icon_primary">#F79A3D</color>
+    <color name="sc_icon_secondary">#000000</color>
 </resources>

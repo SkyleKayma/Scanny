@@ -56,7 +56,7 @@ fun MainScreen() {
             darkIcons = true
         )
         systemUiController.setNavigationBarColor(
-            color = Color(context.getColor(R.color.sc_background_popup)),
+            color = Color(context.getColor(R.color.sc_background_secondary)),
             darkIcons = true
         )
     }
@@ -89,7 +89,7 @@ private fun MainBottomBar(
     navController: NavController,
     currentDestination: NavDestination?
 ) {
-    BottomNavigation(backgroundColor = colorResource(id = R.color.sc_background_popup)) {
+    BottomNavigation(backgroundColor = colorResource(id = R.color.sc_background_secondary)) {
         var previousRoute: String? by remember { mutableStateOf(null) }
 
         items.forEach { screen ->
@@ -111,7 +111,7 @@ private fun MainBottomBar(
 
             BottomNavigationItem(
                 selectedContentColor = MaterialTheme.colors.secondary,
-                unselectedContentColor = colorResource(id = R.color.sc_text_secondary),
+                unselectedContentColor = colorResource(id = R.color.sc_icon_secondary),
                 icon = {
                     Icon(
                         modifier = Modifier.size(24.dp),

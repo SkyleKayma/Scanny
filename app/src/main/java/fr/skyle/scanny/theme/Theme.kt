@@ -17,9 +17,9 @@ fun ScannyTheme(
     val colors =
         lightColors(
             primary = colorResource(id = R.color.sc_primary),
-            primaryVariant = colorResource(id = R.color.sc_primary_variant),
-            secondary = colorResource(id = R.color.sc_secondary),
-            secondaryVariant = colorResource(id = R.color.sc_secondary_variant),
+            primaryVariant = colorResource(id = R.color.sc_primary_variant_1),
+            secondary = colorResource(id = R.color.sc_primary),
+            secondaryVariant = colorResource(id = R.color.sc_primary_variant_1),
             background = colorResource(id = R.color.sc_background),
             surface = colorResource(id = R.color.sc_white)
         )

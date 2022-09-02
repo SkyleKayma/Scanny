@@ -13,6 +13,7 @@
     <string name="home_settings">Paramètres</string>
 
     <!-- Generate -->
+    <string name="generate_qr">Générer</string>
     <string name="generate_qr_text">Texte</string>
     <string name="generate_qr_contact">Contact</string>
     <string name="generate_qr_web_url">Site web</string>
@@ -24,5 +25,16 @@
     <!-- Generate QRCode -->
     <string name="generate_save">Enregistrer</string>
     <string name="generate_share">Partager</string>
+
+    <!-- Settings -->
+    <string name="settings_title_general">Général</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_rate_app">Noter l\'application</string>
+    <string name="settings_title_legal">Légal</string>
+    <string name="settings_cgu">Conditions d\'Utilisation</string>
+    <string name="settings_data_privacy">Politique de confidentialité</string>
+    <string name="settings_about">À propos</string>
+    <string name="settings_version">Version %s (Build %s)</string>
 
 </resources>

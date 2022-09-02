@@ -2,18 +2,14 @@ package fr.skyle.scanny.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import fr.skyle.scanny.R
 
 // Set of Material typography styles to start with
 val Typography = Typography(
     h1 = TextStyle(
         fontWeight = FontWeight.SemiBold,
-        fontSize = 22.sp,
-        letterSpacing = 0.15.sp
+        fontSize = 22.sp
     ),
     h2 = TextStyle(
         fontWeight = FontWeight.SemiBold,
@@ -21,8 +17,7 @@ val Typography = Typography(
     ),
     h3 = TextStyle(
         fontWeight = FontWeight.SemiBold,
-        fontSize = 18.sp,
-        letterSpacing = 0.15.sp
+        fontSize = 18.sp
     ),
     // Menu
     h5 = TextStyle(
@@ -51,7 +46,10 @@ val Typography = Typography(
     // LABEL
     button = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 16.sp,
-        letterSpacing = 1.sp
+        fontSize = 16.sp
+    ),
+    caption = TextStyle(
+        fontWeight = FontWeight.Light,
+        fontSize = 12.sp
     )
 )

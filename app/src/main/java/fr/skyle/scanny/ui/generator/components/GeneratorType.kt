@@ -30,7 +30,7 @@ fun GeneratorType(
             .fillMaxWidth()
             .aspectRatio(1f),
         elevation = 0.dp,
-        backgroundColor = colorResource(id = R.color.sc_background_popup),
+        backgroundColor = colorResource(id = R.color.sc_background_secondary),
         shape = RoundedCornerShape(12.dp),
         onClick = onClick
     ) {
@@ -47,7 +47,7 @@ fun GeneratorType(
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = stringResource(id = qrType.textId),
-                color = colorResource(id = R.color.sc_secondary),
+                color = colorResource(id = R.color.sc_title),
                 style = MaterialTheme.typography.body1
             )
         }

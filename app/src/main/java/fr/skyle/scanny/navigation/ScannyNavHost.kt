@@ -2,8 +2,7 @@ package fr.skyle.scanny.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedContentScope
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -74,10 +73,80 @@ fun ScannyNavHost(
                 }
             })
         }
-        composable(route = BottomBarScreens.QRScan.route) {
+        composable(
+            route = BottomBarScreens.QRScan.route,
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Right, animationSpec = tween(SCREEN_TIME_TRANSITION)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Left, animationSpec = tween(SCREEN_TIME_TRANSITION)
+                )
+            }
+        ) {
             ScanScreen()
         }
-        composable(route = BottomBarScreens.QRGenerator.route) {
+        composable(
+            route = BottomBarScreens.QRHistory.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    BottomBarScreens.QRScan.route ->
+                        slideIntoContainer(
+                            AnimatedContentScope.SlideDirection.Left, animationSpec = tween(SCREEN_TIME_TRANSITION)
+                        )
+                    BottomBarScreens.Settings.route, BottomBarScreens.QRGenerator.route ->
+                        slideIntoContainer(
+                            AnimatedContentScope.SlideDirection.Right, animationSpec = tween(SCREEN_TIME_TRANSITION)
+                        )
+                    else -> fadeIn(animationSpec = tween(SCREEN_TIME_TRANSITION))
+                }
+            }, exitTransition = {
+                when (targetState.destination.route) {
+                    BottomBarScreens.QRScan.route ->
+                        slideOutOfContainer(
+                            AnimatedContentScope.SlideDirection.Right, animationSpec = tween(SCREEN_TIME_TRANSITION)
+                        )
+                    BottomBarScreens.Settings.route, BottomBarScreens.QRGenerator.route ->
+                        slideOutOfContainer(
+                            AnimatedContentScope.SlideDirection.Left, animationSpec = tween(SCREEN_TIME_TRANSITION)
+                        )
+                    else -> fadeOut(animationSpec = tween(SCREEN_TIME_TRANSITION))
+                }
+            }
+        ) {
+            HistoryScreen()
+        }
+        composable(
+            route = BottomBarScreens.QRGenerator.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    BottomBarScreens.QRScan.route, BottomBarScreens.QRHistory.route ->
+                        slideIntoContainer(
+                            AnimatedContentScope.SlideDirection.Left, animationSpec = tween(SCREEN_TIME_TRANSITION)
+                        )
+                    BottomBarScreens.Settings.route ->
+                        slideIntoContainer(
+                            AnimatedContentScope.SlideDirection.Right, animationSpec = tween(SCREEN_TIME_TRANSITION)
+                        )
+                    else -> fadeIn(animationSpec = tween(SCREEN_TIME_TRANSITION))
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    BottomBarScreens.QRScan.route, BottomBarScreens.QRHistory.route ->
+                        slideOutOfContainer(
+                            AnimatedContentScope.SlideDirection.Right, animationSpec = tween(SCREEN_TIME_TRANSITION)
+                        )
+                    BottomBarScreens.Settings.route ->
+                        slideOutOfContainer(
+                            AnimatedContentScope.SlideDirection.Left, animationSpec = tween(SCREEN_TIME_TRANSITION)
+                        )
+                    else -> fadeOut(animationSpec = tween(SCREEN_TIME_TRANSITION))
+                }
+            }
+        ) {
             GeneratorScreen {
                 when (it) {
                     QRType.TEXT ->
@@ -91,13 +160,23 @@ fun ScannyNavHost(
                 }
             }
         }
-        composable(route = BottomBarScreens.QRHistory.route) {
-            HistoryScreen()
-        }
-        composable(route = BottomBarScreens.Settings.route) {
+        composable(
+            route = BottomBarScreens.Settings.route,
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Left, animationSpec = tween(SCREEN_TIME_TRANSITION)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Right, animationSpec = tween(SCREEN_TIME_TRANSITION)
+                )
+            }
+        ) {
             SettingsScreen()
         }
-        composable(route = Destination.CREATE_QR_TEXT,
+        composable(
+            route = Destination.CREATE_QR_TEXT,
             enterTransition = {
                 slideIntoContainer(AnimatedContentScope.SlideDirection.Up, animationSpec = tween(SCREEN_TIME_TRANSITION))
             },
@@ -117,7 +196,8 @@ fun ScannyNavHost(
                 }
             )
         }
-        composable(route = Destination.CREATE_QR_URL,
+        composable(
+            route = Destination.CREATE_QR_URL,
             enterTransition = {
                 slideIntoContainer(AnimatedContentScope.SlideDirection.Up, animationSpec = tween(SCREEN_TIME_TRANSITION))
             },
@@ -137,7 +217,8 @@ fun ScannyNavHost(
                 }
             )
         }
-        composable(route = Destination.GENERATE_QR,
+        composable(
+            route = Destination.GENERATE_QR,
             enterTransition = {
                 slideIntoContainer(AnimatedContentScope.SlideDirection.Up, animationSpec = tween(SCREEN_TIME_TRANSITION))
             },
