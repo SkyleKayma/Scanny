@@ -19,10 +19,10 @@ import fr.skyle.scanny.theme.ScannyTheme
 
 @Composable
 fun ScannyTopAppBar(
+    modifier: Modifier = Modifier,
     title: String? = null,
     actionIconId: Int? = null,
     hasHomeButton: Boolean = true,
-    modifier: Modifier = Modifier,
     onClickAction: (() -> Unit)? = null,
     onClickHomeButton: () -> Unit,
     isComingFromDown: Boolean = true

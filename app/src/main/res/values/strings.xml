@@ -13,18 +13,18 @@
     <string name="home_settings">Settings</string>
 
     <!-- Generate -->
-    <string name="generate_qr">Generate</string>
-    <string name="generate_qr_text">Text</string>
-    <string name="generate_qr_contact">Contact</string>
-    <string name="generate_qr_web_url">Web URL</string>
-    <string name="generate_qr_wifi">WiFi</string>
-    <string name="generate_qr_email">Email</string>
-    <string name="generate_qr_sms">SMS</string>
+    <string name="generate_title">Generate</string>
+    <string name="generate_text">Text</string>
+    <string name="generate_contact">Contact</string>
+    <string name="generate_web_url">Web URL</string>
+    <string name="generate_wifi">WiFi</string>
+    <string name="generate_email">Email</string>
+    <string name="generate_sms">SMS</string>
     <string name="generate_what_type">What type of QRCode do you want to generate?</string>
 
     <!-- Generate QRCode -->
-    <string name="generate_save">Save</string>
-    <string name="generate_share">Share</string>
+    <string name="generate_qr_save">Save</string>
+    <string name="generate_qr_share">Share</string>
 
     <!-- Settings -->
     <string name="settings_title_general">General</string>

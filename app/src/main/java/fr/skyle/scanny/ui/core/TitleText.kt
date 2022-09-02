@@ -12,9 +12,9 @@ import fr.skyle.scanny.R
 @Composable
 fun TitleText(
     textId: Int,
+    modifier: Modifier = Modifier,
     colorId: Int = R.color.sc_title,
     style: TextStyle = MaterialTheme.typography.h2,
-    modifier: Modifier = Modifier
 ) {
     Text(
         modifier = modifier,

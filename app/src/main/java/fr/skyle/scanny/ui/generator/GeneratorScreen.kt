@@ -24,7 +24,7 @@ fun GeneratorScreen(
     Column(
         modifier = Modifier.padding(top = 24.dp, start = 24.dp, end = 24.dp)
     ) {
-        TitleText(textId = R.string.settings_title_general)
+        TitleText(textId = R.string.generate_title)
 
         Spacer(modifier = Modifier.height(16.dp))
 

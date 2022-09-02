@@ -28,9 +28,9 @@ fun ScannyTextField(
     scope: CoroutineScope,
     value: TextFieldValue,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
     maxLines: Int = Int.MAX_VALUE,
     trailingIconId: Int? = null,
-    modifier: Modifier = Modifier,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val hasFocus by remember { mutableStateOf(false) }
@@ -103,9 +103,9 @@ fun ScannyTextField(
     scope: CoroutineScope,
     value: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
     maxLines: Int = Int.MAX_VALUE,
     trailingIconId: Int? = null,
-    modifier: Modifier = Modifier,
 ) {
     ScannyTextField(
         label = label,

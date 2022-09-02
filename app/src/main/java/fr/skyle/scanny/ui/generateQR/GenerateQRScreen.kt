@@ -81,7 +81,7 @@ fun GenerateQRScreen(
                         onClick = {
                             viewModel.saveQRCodeAsFile(context)
                         }) {
-                        Text(text = stringResource(id = R.string.generate_save))
+                        Text(text = stringResource(id = R.string.generate_qr_save))
                     }
                     Spacer(modifier = Modifier.width(16.dp))
                     Button(
@@ -89,7 +89,7 @@ fun GenerateQRScreen(
                         onClick = {
                             Toast.makeText(context, "TODO", Toast.LENGTH_LONG).show()
                         }) {
-                        Text(text = stringResource(id = R.string.generate_share))
+                        Text(text = stringResource(id = R.string.generate_qr_share))
                     }
                 }
             }

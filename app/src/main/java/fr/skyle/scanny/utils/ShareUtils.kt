@@ -1,20 +1,19 @@
 package fr.skyle.scanny.utils
 
+import android.annotation.TargetApi
 import android.content.ContentValues
 import android.content.Context
-import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.core.net.toUri
 import fr.skyle.scanny.R
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.OutputStream
 
 object ShareUtils {
 
+    @TargetApi(Build.VERSION_CODES.BASE)
     fun getOutputStream(context: Context, fileName: String): OutputStream =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             getOutPutStreamForApiAboveQ(context, fileName) ?: getOutputStreamForApiUnderQ(fileName)
@@ -22,8 +21,8 @@ object ShareUtils {
 
     private fun getOutPutStreamForApiAboveQ(context: Context, fileName: String): OutputStream? {
         val relativePath =
-                Environment.DIRECTORY_PICTURES +
-                        File.separator + context.getString(R.string.app_name)
+            Environment.DIRECTORY_PICTURES +
+                File.separator + context.getString(R.string.app_name)
 
         val resolver = context.contentResolver
         val contentValues = ContentValues().apply {
