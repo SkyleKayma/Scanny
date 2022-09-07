@@ -1,14 +1,21 @@
 package fr.skyle.scanny.navigation
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.bundleOf
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -28,7 +35,7 @@ import fr.skyle.scanny.ui.scan.ScanScreen
 import fr.skyle.scanny.ui.settings.SettingsScreen
 import fr.skyle.scanny.ui.splash.SplashScreen
 
-// --- Main Routes
+// --- Routes
 // -------------------------------------------
 
 object Destination {
@@ -46,6 +53,29 @@ object Destination {
 val screensWithBottomAppBar: MutableList<String> =
     mutableListOf(Destination.SCAN, Destination.SCAN_HISTORY, Destination.GENERATOR, Destination.SETTINGS)
 
+sealed class BottomBarScreens(
+    val route: String,
+    @StringRes val resourceId: Int,
+    @DrawableRes val iconId: Int,
+    @DrawableRes val animatedIconId: Int
+) {
+    object QRScan : BottomBarScreens(
+        Destination.SCAN, R.string.home_scan, R.drawable.ic_scan_qr, R.drawable.ic_scan_qr_animated
+    )
+
+    object QRHistory : BottomBarScreens(
+        Destination.SCAN_HISTORY, R.string.home_history, R.drawable.ic_history_qr, R.drawable.ic_history_qr_animated
+    )
+
+    object QRGenerator : BottomBarScreens(
+        Destination.GENERATOR, R.string.home_generate, R.drawable.ic_gen_qr, R.drawable.ic_gen_qr_animated
+    )
+
+    object Settings : BottomBarScreens(
+        Destination.SETTINGS, R.string.home_settings, R.drawable.ic_settings, R.drawable.ic_settings_animated
+    )
+}
+
 // --- Arguments
 // -------------------------------------------
 
@@ -57,6 +87,8 @@ fun ScannyNavHost(
     navHostController: NavHostController,
     innerPadding: PaddingValues
 ) {
+    val context = LocalContext.current
+
     AnimatedNavHost(
         navController = navHostController,
         startDestination = Destination.SPLASH,
@@ -173,7 +205,19 @@ fun ScannyNavHost(
                 )
             }
         ) {
-            SettingsScreen()
+            SettingsScreen(
+                goToNotifications = {
+
+                }, goToFeedback = {
+
+                }, goToRateTheApp = {
+                    showRateTheAppScreen(context)
+                }, goToDataPrivacy = {
+                    showDataPrivacy(context)
+                }, goToAbout = {
+
+                }
+            )
         }
         composable(
             route = Destination.CREATE_QR_TEXT,
@@ -239,25 +283,20 @@ fun ScannyNavHost(
     }
 }
 
-sealed class BottomBarScreens(
-    val route: String,
-    @StringRes val resourceId: Int,
-    @DrawableRes val iconId: Int,
-    @DrawableRes val animatedIconId: Int
-) {
-    object QRScan : BottomBarScreens(
-        Destination.SCAN, R.string.home_scan, R.drawable.ic_scan_qr, R.drawable.ic_scan_qr_animated
-    )
+fun showDataPrivacy(context: Context) {
+    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.app_data_privacy_url))))
+}
 
-    object QRHistory : BottomBarScreens(
-        Destination.SCAN_HISTORY, R.string.home_history, R.drawable.ic_history_qr, R.drawable.ic_history_qr_animated
-    )
+fun showRateTheAppScreen(context: Context) {
+    val marketIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context.packageName}")).apply {
+        addFlags(
+            Intent.FLAG_ACTIVITY_NO_HISTORY or
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+        )
+    }
 
-    object QRGenerator : BottomBarScreens(
-        Destination.GENERATOR, R.string.home_generate, R.drawable.ic_gen_qr, R.drawable.ic_gen_qr_animated
-    )
-
-    object Settings : BottomBarScreens(
-        Destination.SETTINGS, R.string.home_settings, R.drawable.ic_settings, R.drawable.ic_settings_animated
-    )
+    if (marketIntent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(marketIntent)
+    } else context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=${context.packageName}")))
 }

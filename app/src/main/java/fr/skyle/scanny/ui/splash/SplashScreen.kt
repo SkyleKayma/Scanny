@@ -7,7 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.skyle.scanny.theme.ScannyTheme
-import fr.skyle.scanny.ui.settings.SettingsScreen
 
 
 @Composable
@@ -22,16 +21,12 @@ fun SplashScreen(
             goToMainScreen()
         }
     }
-
-//    Box {
-//
-//    }
 }
 
 @Preview
 @Composable
-fun PreviewSettingsScreen() {
+fun PreviewSplashScreen() {
     ScannyTheme {
-        SettingsScreen()
+        SplashScreen({})
     }
 }

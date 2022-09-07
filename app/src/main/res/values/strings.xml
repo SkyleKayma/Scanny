@@ -1,6 +1,7 @@
 <resources>
     <!-- App -->
-    <string name="app_name">Scanny</string>
+    <string name="app_name" translatable="false">Scanny</string>
+    <string name="app_data_privacy_url" translatable="false">https://skylekayma.github.io/scanny.github.io/privacy-policy.html</string>
 
     <!-- Generic -->
     <string name="generic_create">Create</string>
