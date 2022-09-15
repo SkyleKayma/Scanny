@@ -36,7 +36,9 @@ fun SettingsScreen(
     goToAbout: () -> Unit
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding(),
         contentPadding = PaddingValues(24.dp)
     ) {
         item {
@@ -99,23 +101,30 @@ fun SettingsCell(
     @StringRes textId: Int,
     @ColorRes textColorId: Int,
     onClick: () -> Unit,
-    @DrawableRes endIconId: Int? = R.drawable.ic_arrow_right,
+    @DrawableRes endIconId: Int? = null,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(10.dp))
             .clickable { onClick() }
-            .background(colorResource(id = R.color.sc_background_secondary))
-            .padding(horizontal = 20.dp, vertical = 24.dp),
+            .background(colorResource(id = R.color.sc_background_primary))
+            .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            modifier = Modifier.size(24.dp),
-            painter = painterResource(id = startIconId),
-            contentDescription = stringResource(id = textId),
-            colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_icon_secondary))
-        )
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(100))
+                .background(colorResource(id = R.color.sc_background_icon))
+                .padding(12.dp)
+        ) {
+            Image(
+                modifier = Modifier.size(24.dp),
+                painter = painterResource(id = startIconId),
+                contentDescription = stringResource(id = textId),
+                colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_icon_primary))
+            )
+        }
         Text(
             text = stringResource(id = textId),
             modifier = Modifier
@@ -126,6 +135,7 @@ fun SettingsCell(
             textAlign = TextAlign.Start
         )
         endIconId?.let {
+            Spacer(modifier = Modifier.width(8.dp))
             Image(
                 modifier = Modifier.size(24.dp),
                 painter = painterResource(id = it),

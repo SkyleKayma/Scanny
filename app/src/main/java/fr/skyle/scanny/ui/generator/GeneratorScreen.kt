@@ -22,7 +22,9 @@ fun GeneratorScreen(
 ) {
 
     Column(
-        modifier = Modifier.padding(top = 24.dp, start = 24.dp, end = 24.dp)
+        modifier = Modifier
+            .systemBarsPadding()
+            .padding(top = 24.dp, start = 24.dp, end = 24.dp)
     ) {
         TitleText(textId = R.string.generate_title)
 

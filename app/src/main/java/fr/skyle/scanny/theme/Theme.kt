@@ -19,7 +19,7 @@ fun ScannyTheme(
             primary = colorResource(id = R.color.sc_primary),
             primaryVariant = colorResource(id = R.color.sc_primary_variant_1),
             secondary = colorResource(id = R.color.sc_primary),
-            secondaryVariant = colorResource(id = R.color.sc_primary_variant_1),
+            secondaryVariant = colorResource(id = R.color.sc_primary_variant_2),
             background = colorResource(id = R.color.sc_background),
             surface = colorResource(id = R.color.sc_white)
         )

@@ -1,6 +1,7 @@
 package fr.skyle.scanny.ui.generator.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -9,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -30,7 +32,7 @@ fun GeneratorType(
             .fillMaxWidth()
             .aspectRatio(1f),
         elevation = 0.dp,
-        backgroundColor = colorResource(id = R.color.sc_background_secondary),
+        backgroundColor = colorResource(id = R.color.sc_background_primary),
         shape = RoundedCornerShape(12.dp),
         onClick = onClick
     ) {
@@ -38,12 +40,19 @@ fun GeneratorType(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                modifier = Modifier.size(36.dp),
-                painter = painterResource(id = qrType.iconId),
-                contentDescription = "",
-                colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_primary))
-            )
+            Box(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(100))
+                    .background(colorResource(id = R.color.sc_background_icon))
+                    .padding(16.dp)
+            ) {
+                Image(
+                    modifier = Modifier.size(28.dp),
+                    painter = painterResource(id = qrType.iconId),
+                    contentDescription = "",
+                    colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_icon_primary))
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = stringResource(id = qrType.textId),

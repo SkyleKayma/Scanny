@@ -16,8 +16,8 @@ class SplashViewModel @Inject constructor() : ViewModel() {
 
     val splashTimer: StateFlow<Boolean> by lazy {
         flow {
-            delay(0L)
+            delay(1L)
             emit(true)
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000L), false)
     }
 }

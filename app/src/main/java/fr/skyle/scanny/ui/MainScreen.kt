@@ -5,8 +5,8 @@ import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
 import androidx.compose.animation.graphics.res.animatedVectorResource
 import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
 import androidx.compose.animation.graphics.vector.AnimatedImageVector
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -29,7 +29,10 @@ import fr.skyle.scanny.R
 import fr.skyle.scanny.navigation.BottomBarScreens
 import fr.skyle.scanny.navigation.ScannyNavHost
 import fr.skyle.scanny.navigation.screensWithBottomAppBar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
@@ -56,13 +59,13 @@ fun MainScreen() {
             darkIcons = true
         )
         systemUiController.setNavigationBarColor(
-            color = Color(context.getColor(R.color.sc_background_secondary)),
+            color = Color(context.getColor(R.color.sc_background_primary)),
             darkIcons = true
         )
     }
 
     Scaffold(
-        modifier = Modifier.systemBarsPadding(), // Needed for insets
+        modifier = Modifier.navigationBarsPadding(), // Needed for insets
         bottomBar = {
             if (screensWithBottomAppBar.any { currentDestination?.route == it }) {
                 MainBottomBar(
@@ -80,8 +83,6 @@ fun MainScreen() {
     }
 }
 
-var coroutine = mutableStateOf<Job?>(null)
-
 @OptIn(ExperimentalAnimationGraphicsApi::class)
 @Composable
 private fun MainBottomBar(
@@ -89,8 +90,12 @@ private fun MainBottomBar(
     navController: NavController,
     currentDestination: NavDestination?
 ) {
-    BottomNavigation(backgroundColor = colorResource(id = R.color.sc_background_secondary)) {
+    BottomNavigation(backgroundColor = colorResource(id = R.color.sc_background_primary)) {
         var previousRoute: String? by remember { mutableStateOf(null) }
+        var coroutine by remember {
+            mutableStateOf<Job?>(null)
+        }
+        val coroutineScope = rememberCoroutineScope()
 
         items.forEach { screen ->
             var atEnd by remember { mutableStateOf(false) }
@@ -110,7 +115,7 @@ private fun MainBottomBar(
             }
 
             BottomNavigationItem(
-                selectedContentColor = MaterialTheme.colors.secondary,
+                selectedContentColor = colorResource(id = R.color.sc_primary),
                 unselectedContentColor = colorResource(id = R.color.sc_icon_secondary),
                 icon = {
                     Icon(
@@ -128,23 +133,21 @@ private fun MainBottomBar(
                         previousRoute = screen.route
 
                         if (!atEnd) {
-                            atEnd = !atEnd
+                            atEnd = true
 
                             // Start the timer to reset animation
-                            coroutine.value?.cancel()
-                            coroutine = mutableStateOf(
-                                GlobalScope.launch {
-                                    try {
-                                        runResetTimer()
-                                    } catch (e: CancellationException) {
-                                        atEnd = false
-                                        throw e
-                                    } catch (e: Exception) {
-                                        atEnd = false
-                                        Timber.e(e)
-                                    }
+                            coroutine?.cancel()
+                            coroutine = coroutineScope.launch {
+                                try {
+                                    runResetTimer()
+                                } catch (e: CancellationException) {
+                                    atEnd = false
+                                    throw e
+                                } catch (e: Exception) {
+                                    atEnd = false
+                                    Timber.e(e)
                                 }
-                            )
+                            }
                         }
                     }
 
@@ -156,10 +159,10 @@ private fun MainBottomBar(
                             saveState = true
                         }
 
-                        // Avoid multiple copies of the same destination when reselecting the same item
+                        // Avoid multiple copies of the same destination when re-selecting the same item
                         launchSingleTop = true
 
-                        // Restore state when reselecting a previously selected item
+                        // Restore state when re-selecting a previously selected item
                         restoreState = true
                     }
                 }

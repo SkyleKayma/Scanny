@@ -8,7 +8,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
-open class ScannyApplication : Application() {
+abstract class ScannyApplication : Application() {
 
     @Inject
     lateinit var crashlytics: FirebaseCrashlytics

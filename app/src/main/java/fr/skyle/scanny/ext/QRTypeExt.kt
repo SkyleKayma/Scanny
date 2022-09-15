@@ -34,15 +34,3 @@ val QRType.textId: Int
         QRType.SMS ->
             R.string.generate_sms
     }
-
-fun QRType.getEmptyQRCodeData(): QRCodeContent =
-    when (this) {
-        QRType.TEXT ->
-            QRCodeContent.QRCodeTextContent()
-        QRType.CONTACT -> TODO()
-        QRType.URL ->
-            QRCodeContent.QRCodeUrlContent()
-        QRType.WIFI -> TODO()
-        QRType.EMAIL -> TODO()
-        QRType.SMS -> TODO()
-    }

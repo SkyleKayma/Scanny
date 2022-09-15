@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -27,10 +26,11 @@ fun ScannyTextField(
     bringIntoViewRequester: BringIntoViewRequester,
     scope: CoroutineScope,
     value: TextFieldValue,
-    onValueChange: (String) -> Unit,
+    onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
     maxLines: Int = Int.MAX_VALUE,
     trailingIconId: Int? = null,
+    onDone: (() -> Unit)? = null
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val hasFocus by remember { mutableStateOf(false) }
@@ -50,22 +50,23 @@ fun ScannyTextField(
                 }
             },
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = MaterialTheme.colors.primaryVariant,
+            focusedBorderColor = MaterialTheme.colors.primary,
             unfocusedBorderColor = if (valid) {
                 MaterialTheme.colors.primaryVariant
             } else MaterialTheme.colors.onSurface,
-            textColor = MaterialTheme.colors.secondary,
+            textColor = MaterialTheme.colors.primary,
             errorBorderColor = MaterialTheme.colors.error,
             unfocusedLabelColor = if (valid) {
                 MaterialTheme.colors.primaryVariant
-            } else MaterialTheme.colors.secondaryVariant,
-            focusedLabelColor = MaterialTheme.colors.primaryVariant,
-            errorLabelColor = MaterialTheme.colors.error
+            } else MaterialTheme.colors.onSurface,
+            focusedLabelColor = MaterialTheme.colors.primary,
+            errorLabelColor = MaterialTheme.colors.error,
+            trailingIconColor = MaterialTheme.colors.primary
         ),
         shape = RoundedCornerShape(12.dp),
         value = value,
         onValueChange = {
-            onValueChange(it.text)
+            onValueChange(it)
         },
         maxLines = maxLines,
         singleLine = maxLines == 1,
@@ -78,11 +79,15 @@ fun ScannyTextField(
             )
         },
         keyboardOptions = KeyboardOptions(imeAction = if (maxLines == 1) ImeAction.Done else ImeAction.Default, keyboardType = keyboardType),
-        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() }),
+        keyboardActions = KeyboardActions(onDone = {
+            keyboardController?.hide()
+            onDone?.invoke()
+        }),
+
         trailingIcon = {
             if (value.text.isNotEmpty() && trailingIconId != null) {
                 IconButton(onClick = {
-                    onValueChange("")
+                    onValueChange(TextFieldValue(""))
                 }) {
                     Icon(
                         modifier = Modifier.size(24.dp),
@@ -92,33 +97,5 @@ fun ScannyTextField(
                 }
             }
         }
-    )
-}
-
-@Composable
-fun ScannyTextField(
-    label: String,
-    keyboardType: KeyboardType,
-    bringIntoViewRequester: BringIntoViewRequester,
-    scope: CoroutineScope,
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    maxLines: Int = Int.MAX_VALUE,
-    trailingIconId: Int? = null,
-) {
-    ScannyTextField(
-        label = label,
-        keyboardType = keyboardType,
-        bringIntoViewRequester = bringIntoViewRequester,
-        scope = scope,
-        value = TextFieldValue(
-            text = value,
-            selection = TextRange(value.length)
-        ),
-        onValueChange = onValueChange,
-        maxLines = maxLines,
-        trailingIconId = trailingIconId,
-        modifier = modifier
     )
 }

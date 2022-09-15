@@ -47,7 +47,7 @@ fun CreateQRUrlScreen(
     val scaffoldState = rememberScaffoldState()
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
 
-    var url by remember { mutableStateOf(presets.first()) }
+    var textState by remember { mutableStateOf(TextFieldValue(presets.first(), TextRange(presets.first().length))) }
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -58,6 +58,7 @@ fun CreateQRUrlScreen(
         title = stringResource(id = QRType.URL.textId),
         onClickHomeButton = goBackToQRGenerator,
         modifier = Modifier
+            .systemBarsPadding()
             .imePadding()
             .bringIntoViewRequester(bringIntoViewRequester)
     ) { innerPadding ->
@@ -79,9 +80,9 @@ fun CreateQRUrlScreen(
                     keyboardType = KeyboardType.Text,
                     bringIntoViewRequester = bringIntoViewRequester,
                     scope = scope,
-                    value = url,
+                    value = textState,
                     onValueChange = {
-                        url = it
+                        textState = it
                     },
                     maxLines = 1,
                     trailingIconId = R.drawable.ic_close,
@@ -92,15 +93,24 @@ fun CreateQRUrlScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 FlowRow(
-                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
                     mainAxisSpacing = 8.dp,
                     mainAxisAlignment = FlowMainAxisAlignment.Start
                 ) {
-                    presets.forEach {
+                    presets.forEach { preset ->
                         ScannyButtonSelector(
-                            text = it,
+                            text = preset,
                             onClick = {
-                                url += it
+                                val currentIndex = textState.selection.start
+                                textState = textState.copy(
+                                    text = textState.text.substring(0 until currentIndex) + preset + textState.text.substring(
+                                        currentIndex,
+                                        textState.text.length
+                                    ),
+                                    TextRange(currentIndex + preset.length)
+                                )
                             }
                         )
                     }
@@ -117,8 +127,8 @@ fun CreateQRUrlScreen(
                     text = stringResource(id = R.string.generic_create),
                     onClick = {
                         scope.launch {
-                            if (isContentValid(url)) {
-                                goToCustomQRCode(QRCodeContent.QRCodeUrlContent(url))
+                            if (isContentValid(textState.text)) {
+                                goToCustomQRCode(QRCodeContent.QRCodeUrlContent(textState.text))
                             } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                         }
                     }

@@ -45,7 +45,7 @@ fun ScannyTopAppBar(
                             painterResource(id = R.drawable.ic_arrow_left)
                         } else painterResource(id = R.drawable.ic_arrow_down),
                         contentDescription = null,
-                        tint = MaterialTheme.colors.secondary
+                        tint = colorResource(id = R.color.sc_title)
                     )
                 }
             }
@@ -56,7 +56,7 @@ fun ScannyTopAppBar(
                     .align(Alignment.Center)
                     .padding(40.dp, 0.dp),
                 text = title ?: "",
-                color = MaterialTheme.colors.secondary,
+                color = colorResource(id = R.color.sc_title),
                 style = MaterialTheme.typography.h1,
                 textAlign = TextAlign.Center
             )
@@ -71,7 +71,7 @@ fun ScannyTopAppBar(
                         modifier = Modifier.size(24.dp),
                         painter = painterResource(id = actionIconId),
                         contentDescription = null,
-                        tint = MaterialTheme.colors.secondary
+                        tint = colorResource(id = R.color.sc_title)
                     )
                 }
             }

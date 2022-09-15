@@ -42,6 +42,7 @@ fun GenerateQRScreen(
     viewModel.generateQRCode(qrCodeContent)
 
     Scaffold(
+        modifier = Modifier.systemBarsPadding(),
         scaffoldState = scaffoldState,
         topBar = {
             ScannyTopAppBar(

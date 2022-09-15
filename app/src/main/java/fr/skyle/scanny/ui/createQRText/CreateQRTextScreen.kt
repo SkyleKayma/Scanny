@@ -14,6 +14,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
@@ -41,7 +42,7 @@ fun CreateQRTextScreen(
     val scaffoldState = rememberScaffoldState()
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
 
-    var text by remember { mutableStateOf("") }
+    var textState by remember { mutableStateOf(TextFieldValue("")) }
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -52,6 +53,7 @@ fun CreateQRTextScreen(
         title = stringResource(id = QRType.TEXT.textId),
         onClickHomeButton = goBackToQRGenerator,
         modifier = Modifier
+            .systemBarsPadding()
             .imePadding()
             .bringIntoViewRequester(bringIntoViewRequester)
     ) { innerPadding ->
@@ -73,10 +75,11 @@ fun CreateQRTextScreen(
                     keyboardType = KeyboardType.Text,
                     bringIntoViewRequester = bringIntoViewRequester,
                     scope = scope,
-                    value = text,
+                    value = textState,
                     onValueChange = {
-                        text = it
+                        textState = it
                     },
+                    trailingIconId = R.drawable.ic_close,
                     modifier = Modifier
                         .focusRequester(focusRequester)
                         .height(200.dp)
@@ -93,8 +96,8 @@ fun CreateQRTextScreen(
                     text = stringResource(id = R.string.generic_create),
                     onClick = {
                         scope.launch {
-                            if (isContentValid(text)) {
-                                goToCustomQRCode(QRCodeContent.QRCodeTextContent(text))
+                            if (isContentValid(textState.text)) {
+                                goToCustomQRCode(QRCodeContent.QRCodeTextContent(textState.text))
                             } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                         }
                     }

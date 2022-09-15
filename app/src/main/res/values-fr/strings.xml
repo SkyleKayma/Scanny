@@ -3,6 +3,10 @@
     <string name="generic_create">Créer</string>
     <string name="generic_please_fill_mandatory_fields">Veuillez remplir les champs obligatoires</string>
 
+    <!-- Permissions -->
+    <string name="permission_camera_required_message_refused">La permission caméra est refusée, autorisez-la dans les paramètres du téléphone.</string>
+    <string name="permission_settings">Paramètres</string>
+
     <!-- Bottom bar -->
     <string name="home_scan">Scanner</string>
     <string name="home_generate">Générer</string>
@@ -29,7 +33,6 @@
     <string name="settings_feedback">Feedback</string>
     <string name="settings_rate_app">Noter l\'application</string>
     <string name="settings_title_legal">Légal</string>
-    <string name="settings_cgu">Conditions d\'Utilisation</string>
     <string name="settings_data_privacy">Politique de confidentialité</string>
     <string name="settings_about">À propos</string>
     <string name="settings_version">Version %s (Build %s)</string>

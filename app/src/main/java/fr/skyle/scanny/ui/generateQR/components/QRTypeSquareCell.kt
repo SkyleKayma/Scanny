@@ -1,12 +1,9 @@
 package fr.skyle.scanny.ui.generateQR.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -28,19 +25,16 @@ fun QRTypeSquareCell(
 ) {
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(12.dp),
-        elevation = 0.dp
+        shape = RoundedCornerShape(100),
+        elevation = 0.dp,
+        backgroundColor = colorResource(id = R.color.sc_background_icon)
     ) {
-        Box(
-            modifier = Modifier.background(MaterialTheme.colors.primary)
-        ) {
-            Image(
-                modifier = Modifier.padding(12.dp),
-                painter = painterResource(id = qrType.iconId),
-                contentDescription = stringResource(id = qrType.textId),
-                colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_white))
-            )
-        }
+        Image(
+            modifier = Modifier.padding(16.dp),
+            painter = painterResource(id = qrType.iconId),
+            contentDescription = stringResource(id = qrType.textId),
+            colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_icon_primary))
+        )
     }
 }
 
