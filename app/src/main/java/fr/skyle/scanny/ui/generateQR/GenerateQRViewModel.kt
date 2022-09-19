@@ -5,9 +5,9 @@ import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import fr.skyle.scanny.ext.QRCodeContent
-import fr.skyle.scanny.utils.QRCodeData
-import fr.skyle.scanny.utils.QRCodeHelper
+import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.utils.qrCode.QRCodeData
+import fr.skyle.scanny.utils.qrCode.QRCodeHelper
 import io.github.g0dkar.qrcode.QRCode
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +25,7 @@ class GenerateQRViewModel @Inject constructor() : ViewModel() {
     val bitmapSharedFlow = _bitmapStateFlow.asStateFlow()
 
     fun generateQRCode(qrCodeContent: QRCodeContent?) {
-        qrCodeData = QRCodeData(content = qrCodeContent?.asString() ?: "")
+        qrCodeData = QRCodeData(content = qrCodeContent?.asEncodedString() ?: "")
         qrCode = QRCodeHelper.generateQRCode(qrCodeData)
 
         render()

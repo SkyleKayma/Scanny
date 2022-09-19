@@ -23,6 +23,8 @@ versionProperties.load(new FileInputStream(versionPropertiesFile))
 def code = versionProperties["versionCode"].toInteger()
 
 android {
+    namespace "fr.skyle.scanny"
+
     compileSdk 33
 
     defaultConfig {
@@ -34,6 +36,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk { abiFilters "arm64-v8a", "armeabi-v7a", "x86_64" }
+        resConfigs "en", "fr"
     }
 
     signingConfigs {
@@ -63,7 +66,9 @@ android {
             }
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
 
             signingConfig signingConfigs.release
 
@@ -111,6 +116,7 @@ easylauncher {
 }
 
 task clonePrivateFiles {
+    notCompatibleWithConfigurationCache("custom")
     doLast {
         copy {
             from '../private/firebase/google-services.json'

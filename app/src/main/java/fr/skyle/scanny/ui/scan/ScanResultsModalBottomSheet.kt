@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -17,13 +20,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.mlkit.vision.barcode.common.Barcode
 import fr.skyle.scanny.R
 import kotlinx.coroutines.launch
 
 @Composable
 fun ScanResultsModalBottomSheet(
     sheetState: ModalBottomSheetState,
-    stringValue: String,
+    barcode: Barcode,
     viewModel: ScanViewModel
 ) {
     val scope = rememberCoroutineScope()
@@ -53,7 +57,7 @@ fun ScanResultsModalBottomSheet(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = stringValue,
+                        text = barcode.rawValue ?: "",
                         fontSize = 15.sp,
                         fontStyle = FontStyle.Italic,
                         color = Color.Black,

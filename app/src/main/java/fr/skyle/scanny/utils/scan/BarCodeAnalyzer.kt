@@ -1,4 +1,4 @@
-package fr.skyle.scanny.utils
+package fr.skyle.scanny.utils.scan
 
 import android.annotation.SuppressLint
 import androidx.camera.core.ImageAnalysis

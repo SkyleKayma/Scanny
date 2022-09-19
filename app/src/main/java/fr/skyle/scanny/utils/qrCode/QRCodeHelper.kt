@@ -1,8 +1,9 @@
-package fr.skyle.scanny.utils
+package fr.skyle.scanny.utils.qrCode
 
 import android.content.Context
 import android.graphics.Bitmap
 import fr.skyle.scanny.enums.FileType
+import fr.skyle.scanny.utils.ShareUtils
 import io.github.g0dkar.qrcode.QRCode
 import io.github.g0dkar.qrcode.internals.QRCodeSquare
 import timber.log.Timber

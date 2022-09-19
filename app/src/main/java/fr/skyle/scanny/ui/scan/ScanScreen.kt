@@ -119,7 +119,7 @@ fun ScanScreen(
     if (scanEvent is ScanViewModel.State.SUCCESS) {
         ScanResultsModalBottomSheet(
             sheetState = bottomSheetState,
-            (scanEvent as ScanViewModel.State.SUCCESS).stringValue,
+            (scanEvent as ScanViewModel.State.SUCCESS).barcode,
             viewModel = viewModel
         )
     }

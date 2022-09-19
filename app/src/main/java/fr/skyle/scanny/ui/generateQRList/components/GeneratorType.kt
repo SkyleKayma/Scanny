@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.generator.components
+package fr.skyle.scanny.ui.generateQRList.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

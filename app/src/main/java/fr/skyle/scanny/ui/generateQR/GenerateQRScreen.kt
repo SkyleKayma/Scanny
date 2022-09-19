@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.skyle.scanny.R
-import fr.skyle.scanny.ext.QRCodeContent
+import fr.skyle.scanny.utils.qrCode.QRCodeContent
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.ScannyTheme
 import fr.skyle.scanny.ui.core.ScannyTopAppBar
@@ -104,7 +104,7 @@ fun PreviewGenerateQRScreen() {
     ScannyTheme {
         GenerateQRScreen(
             goBackToMain = { true },
-            qrCodeContent = QRCodeContent.QRCodeTextContent("Text")
+            qrCodeContent = QRCodeContent.TextContent("Text")
         )
     }
 }

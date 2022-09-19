@@ -15,6 +15,8 @@ val QRType.iconId: Int
             R.drawable.ic_qr_wifi
         QRType.EMAIL ->
             R.drawable.ic_qr_mail
+        QRType.EMAIL_MSG ->
+            R.drawable.ic_qr_mail
         QRType.SMS ->
             R.drawable.ic_qr_sms
     }
@@ -30,6 +32,8 @@ val QRType.textId: Int
         QRType.WIFI ->
             R.string.generate_wifi
         QRType.EMAIL ->
+            R.string.generate_email
+        QRType.EMAIL_MSG ->
             R.string.generate_email
         QRType.SMS ->
             R.string.generate_sms

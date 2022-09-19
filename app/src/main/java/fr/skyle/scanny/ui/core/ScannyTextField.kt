@@ -13,6 +13,7 @@ import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -27,22 +28,22 @@ fun ScannyTextField(
     scope: CoroutineScope,
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
+    capitalization: KeyboardCapitalization = KeyboardCapitalization.None,
+    imeAction: ImeAction = ImeAction.Default,
     modifier: Modifier = Modifier,
     maxLines: Int = Int.MAX_VALUE,
     trailingIconId: Int? = null,
     onDone: (() -> Unit)? = null
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    val hasFocus by remember { mutableStateOf(false) }
-    var valid by remember { mutableStateOf(false) }
-
-    valid = value.text.isNotBlank()
+    var hasFocus by remember { mutableStateOf(false) }
 
     OutlinedTextField(
         textStyle = MaterialTheme.typography.body1,
         modifier = modifier
             .fillMaxWidth()
             .onFocusEvent {
+                hasFocus = it.hasFocus
                 if (it.hasFocus) {
                     scope.launch {
                         bringIntoViewRequester.bringIntoView()
@@ -51,14 +52,10 @@ fun ScannyTextField(
             },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = MaterialTheme.colors.primary,
-            unfocusedBorderColor = if (valid) {
-                MaterialTheme.colors.primaryVariant
-            } else MaterialTheme.colors.onSurface,
+            unfocusedBorderColor = MaterialTheme.colors.onSurface,
             textColor = MaterialTheme.colors.primary,
             errorBorderColor = MaterialTheme.colors.error,
-            unfocusedLabelColor = if (valid) {
-                MaterialTheme.colors.primaryVariant
-            } else MaterialTheme.colors.onSurface,
+            unfocusedLabelColor = MaterialTheme.colors.onSurface,
             focusedLabelColor = MaterialTheme.colors.primary,
             errorLabelColor = MaterialTheme.colors.error,
             trailingIconColor = MaterialTheme.colors.primary
@@ -78,12 +75,15 @@ fun ScannyTextField(
                 } else MaterialTheme.typography.body2
             )
         },
-        keyboardOptions = KeyboardOptions(imeAction = if (maxLines == 1) ImeAction.Done else ImeAction.Default, keyboardType = keyboardType),
+        keyboardOptions = KeyboardOptions(
+            imeAction = imeAction,
+            keyboardType = keyboardType,
+            capitalization = capitalization
+        ),
         keyboardActions = KeyboardActions(onDone = {
             keyboardController?.hide()
             onDone?.invoke()
         }),
-
         trailingIcon = {
             if (value.text.isNotEmpty() && trailingIconId != null) {
                 IconButton(onClick = {

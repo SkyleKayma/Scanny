@@ -45,7 +45,7 @@ fun MainScreen() {
 
     // Nav
     val navController = rememberAnimatedNavController()
-    val items = listOf(BottomBarScreens.QRScan, BottomBarScreens.QRHistory, BottomBarScreens.QRGenerator, BottomBarScreens.Settings)
+    val items = listOf(BottomBarScreens.Scan, BottomBarScreens.ScanHistory, BottomBarScreens.GenerateQRList, BottomBarScreens.Settings)
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 

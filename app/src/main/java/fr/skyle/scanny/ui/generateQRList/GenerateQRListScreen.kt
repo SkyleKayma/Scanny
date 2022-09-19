@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.generator
+package fr.skyle.scanny.ui.generateQRList
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -13,14 +13,13 @@ import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ui.core.TitleText
-import fr.skyle.scanny.ui.generator.components.GeneratorType
+import fr.skyle.scanny.ui.generateQRList.components.GeneratorType
 
 
 @Composable
-fun GeneratorScreen(
+fun GenerateQRListScreen(
     goToCreateQRScreen: (QRType) -> Unit
 ) {
-
     Column(
         modifier = Modifier
             .systemBarsPadding()
@@ -49,7 +48,7 @@ fun GeneratorScreen(
             }
             item {
                 GeneratorType(QRType.CONTACT) {
-
+                    goToCreateQRScreen(QRType.CONTACT)
                 }
             }
             item {
@@ -59,17 +58,17 @@ fun GeneratorScreen(
             }
             item {
                 GeneratorType(QRType.WIFI) {
-
+                    goToCreateQRScreen(QRType.WIFI)
                 }
             }
             item {
                 GeneratorType(QRType.EMAIL) {
-
+                    goToCreateQRScreen(QRType.EMAIL)
                 }
             }
             item {
                 GeneratorType(QRType.SMS) {
-
+                    goToCreateQRScreen(QRType.SMS)
                 }
             }
         }

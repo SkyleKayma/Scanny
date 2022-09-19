@@ -27,6 +27,13 @@
     <string name="generate_sms">SMS</string>
     <string name="generate_what_type">What type of QRCode do you want to generate?</string>
 
+    <!-- Create QRCode -->
+    <string name="create_qr_label_text">Text</string>
+    <string name="create_qr_label_link">Link</string>
+    <string name="create_qr_label_email">Email</string>
+    <string name="create_qr_label_email_subject">Subject</string>
+    <string name="create_qr_label_email_message">Message</string>
+
     <!-- Generate QRCode -->
     <string name="generate_qr_save">Save</string>
     <string name="generate_qr_share">Share</string>
@@ -39,6 +46,6 @@
     <string name="settings_title_legal">Legal</string>
     <string name="settings_data_privacy">Data Privacy</string>
     <string name="settings_about">About</string>
-    <string name="settings_version">Version %s (Build %s)</string>
+    <string name="settings_version">Version %1$s (Build %2$s)</string>
 
 </resources>

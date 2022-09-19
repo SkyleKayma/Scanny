@@ -55,11 +55,11 @@ subprojects {
             kotlinOptions {
                 jvmTarget = "1.8"
                 freeCompilerArgs = [
-                        "-Xopt-in=kotlin.RequiresOptIn",
-                        "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                        "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi",
-                        "-Xopt-in=androidx.compose.ui.ExperimentalComposeUiApi",
-                        "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi"
+                        "-opt-in=kotlin.RequiresOptIn",
+                        "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                        "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+                        "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
+                        "-opt-in=androidx.compose.material.ExperimentalMaterialApi"
                 ]
             }
         }

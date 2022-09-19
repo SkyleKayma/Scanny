@@ -1,4 +1,4 @@
-package fr.skyle.scanny.utils
+package fr.skyle.scanny.utils.qrCode
 
 import io.github.g0dkar.qrcode.ErrorCorrectionLevel
 import io.github.g0dkar.qrcode.MaskPattern
