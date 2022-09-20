@@ -18,9 +18,7 @@ import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.ScannyTheme
 import fr.skyle.scanny.ui.core.CreateQRScaffold
-import fr.skyle.scanny.ui.createQR.screens.CreateQREmailScreen
-import fr.skyle.scanny.ui.createQR.screens.CreateQRTextScreen
-import fr.skyle.scanny.ui.createQR.screens.CreateQRUrlScreen
+import fr.skyle.scanny.ui.createQR.screens.*
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 
 
@@ -70,7 +68,13 @@ fun CreateQRScreen(
                         bringIntoViewRequester = bringIntoViewRequester,
                         goToGenerateQRCode = goToGenerateQRCode
                     )
-                QRType.SMS -> TODO()
+                QRType.SMS ->
+                    CreateQRSMSScreen(
+                        scaffoldState = scaffoldState,
+                        focusRequester = focusRequester,
+                        bringIntoViewRequester = bringIntoViewRequester,
+                        goToGenerateQRCode = goToGenerateQRCode
+                    )
                 QRType.WIFI -> TODO()
                 QRType.CONTACT -> TODO()
             }

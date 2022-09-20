@@ -1,6 +1,7 @@
 package fr.skyle.scanny.theme
 
 import androidx.compose.material.Typography
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -41,7 +42,7 @@ val Typography = Typography(
     ),
     subtitle2 = TextStyle(
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
+        fontSize = 13.sp
     ),
     // LABEL
     button = TextStyle(
@@ -53,3 +54,10 @@ val Typography = Typography(
         fontSize = 12.sp
     )
 )
+
+val Typography.body3: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 13.sp
+    )

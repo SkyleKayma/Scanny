@@ -29,6 +29,14 @@
     <string name="create_qr_label_email">Email</string>
     <string name="create_qr_label_email_subject">Object</string>
     <string name="create_qr_label_email_message">Message</string>
+    <string name="create_qr_label_sms_phone_number">N° de téléphone</string>
+    <string name="create_qr_label_sms_message">Message</string>
+    <string name="create_qr_label_wifi_ssid">Nom du réseau (SSID)</string>
+    <string name="create_qr_label_wifi_encryption">Type de sécurité</string>
+    <string name="create_qr_label_wifi_encryption_wpa_wpa2">WPA / WPA2</string>
+    <string name="create_qr_label_wifi_encryption_wep">WEP</string>
+    <string name="create_qr_label_wifi_encryption_none">Aucune</string>
+    <string name="create_qr_label_wifi_password">Mot de passe</string>
 
     <!-- Generate QRCode -->
     <string name="generate_qr_save">Enregistrer</string>

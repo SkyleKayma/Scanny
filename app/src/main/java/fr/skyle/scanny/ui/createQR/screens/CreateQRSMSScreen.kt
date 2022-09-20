@@ -12,26 +12,22 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.flowlayout.FlowMainAxisAlignment
-import com.google.accompanist.flowlayout.FlowRow
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ui.core.ScannyButton
-import fr.skyle.scanny.ui.core.ScannyButtonSelector
 import fr.skyle.scanny.ui.core.ScannyTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 import kotlinx.coroutines.launch
 
-val presets = listOf("https://", "http://", "www.", ".com")
 
 @Composable
-fun CreateQRUrlScreen(
+fun CreateQRSMSScreen(
     scaffoldState: ScaffoldState,
     focusRequester: FocusRequester,
     bringIntoViewRequester: BringIntoViewRequester,
@@ -41,7 +37,8 @@ fun CreateQRUrlScreen(
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
 
-    var textState by remember { mutableStateOf(TextFieldValue(presets.first(), TextRange(presets.first().length))) }
+    var phoneNumberState by remember { mutableStateOf(TextFieldValue("")) }
+    var messageState by remember { mutableStateOf(TextFieldValue("")) }
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -52,55 +49,44 @@ fun CreateQRUrlScreen(
             .fillMaxSize()
             .verticalScroll(scrollState)
             .height(IntrinsicSize.Max)
-            .padding(24.dp),
+            .padding(24.dp, 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        QRTypeSquareCell(QRType.URL)
+        QRTypeSquareCell(QRType.SMS)
 
         Spacer(modifier = Modifier.height(16.dp))
 
         ScannyTextField(
-            label = stringResource(id = R.string.create_qr_label_link),
+            label = stringResource(id = R.string.create_qr_label_sms_phone_number),
+            keyboardType = KeyboardType.Phone,
+            bringIntoViewRequester = bringIntoViewRequester,
+            scope = scope,
+            value = phoneNumberState,
+            onValueChange = {
+                phoneNumberState = it
+            },
+            imeAction = ImeAction.Next,
+            trailingIconId = R.drawable.ic_close,
+            maxLines = 1,
+            modifier = Modifier
+                .focusRequester(focusRequester)
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        ScannyTextField(
+            label = stringResource(id = R.string.create_qr_label_sms_message),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
             scope = scope,
-            value = textState,
+            value = messageState,
             onValueChange = {
-                textState = it
+                messageState = it
             },
             maxLines = 1,
-            imeAction = ImeAction.Done,
-            autoCorrect = false,
-            trailingIconId = R.drawable.ic_close,
-            modifier = Modifier
-                .focusRequester(focusRequester),
+            capitalization = KeyboardCapitalization.Sentences,
+            trailingIconId = R.drawable.ic_close
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        FlowRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
-            mainAxisSpacing = 8.dp,
-            mainAxisAlignment = FlowMainAxisAlignment.Start
-        ) {
-            presets.forEach { preset ->
-                ScannyButtonSelector(
-                    text = preset,
-                    onClick = {
-                        val currentIndex = textState.selection.start
-                        textState = textState.copy(
-                            text = textState.text.substring(0 until currentIndex) + preset + textState.text.substring(
-                                currentIndex,
-                                textState.text.length
-                            ),
-                            TextRange(currentIndex + preset.length)
-                        )
-                    }
-                )
-            }
-        }
 
         Spacer(
             modifier = Modifier
@@ -113,8 +99,8 @@ fun CreateQRUrlScreen(
             text = stringResource(id = R.string.generic_create),
             onClick = {
                 scope.launch {
-                    if (isContentValid(textState.text)) {
-                        goToGenerateQRCode(QRCodeContent.UrlContent(textState.text))
+                    if (isContentValid(phoneNumberState.text, messageState.text)) {
+                        goToGenerateQRCode(QRCodeContent.SMSContent(phoneNumberState.text, messageState.text))
                     } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                 }
             }
@@ -122,5 +108,5 @@ fun CreateQRUrlScreen(
     }
 }
 
-private fun isContentValid(url: String): Boolean =
-    url.isNotBlank()
+private fun isContentValid(phoneNumber: String, message: String): Boolean =
+    phoneNumber.isNotBlank() && message.isNotBlank()

@@ -29,6 +29,7 @@ fun ScannyTextField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     capitalization: KeyboardCapitalization = KeyboardCapitalization.None,
+    autoCorrect: Boolean = true,
     imeAction: ImeAction = ImeAction.Default,
     modifier: Modifier = Modifier,
     maxLines: Int = Int.MAX_VALUE,
@@ -78,7 +79,8 @@ fun ScannyTextField(
         keyboardOptions = KeyboardOptions(
             imeAction = imeAction,
             keyboardType = keyboardType,
-            capitalization = capitalization
+            capitalization = capitalization,
+            autoCorrect = autoCorrect
         ),
         keyboardActions = KeyboardActions(onDone = {
             keyboardController?.hide()
