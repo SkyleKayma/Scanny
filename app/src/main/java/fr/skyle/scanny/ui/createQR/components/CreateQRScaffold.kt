@@ -1,10 +1,11 @@
-package fr.skyle.scanny.ui.core
+package fr.skyle.scanny.ui.createQR.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import fr.skyle.scanny.ui.core.ScannyTopAppBar
 
 @Composable
 fun CreateQRScaffold(

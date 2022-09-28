@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.createQR.screens
+package fr.skyle.scanny.ui.createQRSMS
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
@@ -19,25 +19,26 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
-import fr.skyle.scanny.ui.core.ScannyButton
-import fr.skyle.scanny.ui.core.ScannyTextField
+import fr.skyle.scanny.ui.core.buttons.ScannyButton
+import fr.skyle.scanny.ui.core.textFields.ScannyTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun CreateQRTextScreen(
+fun CreateQRSMSScreen(
     scaffoldState: ScaffoldState,
     focusRequester: FocusRequester,
     bringIntoViewRequester: BringIntoViewRequester,
-    goToGenerateQRCode: (QRCodeContent) -> Unit,
+    goToGenerateQRCode: (QRCodeContent) -> Unit
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
 
-    var textState by remember { mutableStateOf(TextFieldValue("")) }
+    var phoneNumberState by remember { mutableStateOf(TextFieldValue("")) }
+    var messageState by remember { mutableStateOf(TextFieldValue("")) }
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -48,28 +49,40 @@ fun CreateQRTextScreen(
             .fillMaxSize()
             .verticalScroll(scrollState)
             .height(IntrinsicSize.Max)
-            .padding(24.dp),
+            .padding(24.dp, 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        QRTypeSquareCell(QRType.TEXT)
+        QRTypeSquareCell(QRType.SMS)
 
         Spacer(modifier = Modifier.height(16.dp))
 
         ScannyTextField(
-            label = stringResource(id = R.string.create_qr_label_text),
+            label = stringResource(id = R.string.create_qr_label_sms_phone_number),
+            keyboardType = KeyboardType.Phone,
+            bringIntoViewRequester = bringIntoViewRequester,
+            scope = scope,
+            value = phoneNumberState,
+            onValueChange = {
+                phoneNumberState = it
+            },
+            imeAction = ImeAction.Next,
+            maxLines = 1,
+            modifier = Modifier.focusRequester(focusRequester)
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        ScannyTextField(
+            label = stringResource(id = R.string.create_qr_label_sms_message),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
             scope = scope,
-            value = textState,
+            value = messageState,
             onValueChange = {
-                textState = it
+                messageState = it
             },
-            capitalization = KeyboardCapitalization.Sentences,
-            imeAction = ImeAction.Default,
-            trailingIconId = R.drawable.ic_close,
-            modifier = Modifier
-                .focusRequester(focusRequester)
-                .height(200.dp)
+            maxLines = 1,
+            capitalization = KeyboardCapitalization.Sentences
         )
 
         Spacer(
@@ -83,8 +96,8 @@ fun CreateQRTextScreen(
             text = stringResource(id = R.string.generic_create),
             onClick = {
                 scope.launch {
-                    if (isContentValid(textState.text)) {
-                        goToGenerateQRCode(QRCodeContent.TextContent(textState.text))
+                    if (isContentValid(phoneNumberState.text, messageState.text)) {
+                        goToGenerateQRCode(QRCodeContent.SMSContent(phoneNumberState.text, messageState.text))
                     } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                 }
             }
@@ -92,5 +105,5 @@ fun CreateQRTextScreen(
     }
 }
 
-private fun isContentValid(text: String): Boolean =
-    text.isNotBlank()
+private fun isContentValid(phoneNumber: String, message: String): Boolean =
+    phoneNumber.isNotBlank() && message.isNotBlank()

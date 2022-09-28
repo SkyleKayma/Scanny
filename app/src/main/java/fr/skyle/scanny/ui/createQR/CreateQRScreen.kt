@@ -17,8 +17,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.ScannyTheme
-import fr.skyle.scanny.ui.core.CreateQRScaffold
-import fr.skyle.scanny.ui.createQR.screens.*
+import fr.skyle.scanny.ui.createQR.components.CreateQRScaffold
+import fr.skyle.scanny.ui.createQREmail.CreateQREmailScreen
+import fr.skyle.scanny.ui.createQRSMS.CreateQRSMSScreen
+import fr.skyle.scanny.ui.createQRText.CreateQRTextScreen
+import fr.skyle.scanny.ui.createQRUrl.CreateQRUrlScreen
+import fr.skyle.scanny.ui.createQRWiFi.CreateQRWiFiScreen
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 
 
@@ -75,7 +79,13 @@ fun CreateQRScreen(
                         bringIntoViewRequester = bringIntoViewRequester,
                         goToGenerateQRCode = goToGenerateQRCode
                     )
-                QRType.WIFI -> TODO()
+                QRType.WIFI ->
+                    CreateQRWiFiScreen(
+                        scaffoldState = scaffoldState,
+                        focusRequester = focusRequester,
+                        bringIntoViewRequester = bringIntoViewRequester,
+                        goToGenerateQRCode = goToGenerateQRCode
+                    )
                 QRType.CONTACT -> TODO()
             }
         }

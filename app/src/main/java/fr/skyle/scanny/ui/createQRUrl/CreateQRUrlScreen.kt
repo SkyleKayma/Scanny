@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.createQR.screens
+package fr.skyle.scanny.ui.createQRUrl
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
@@ -21,9 +21,9 @@ import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
-import fr.skyle.scanny.ui.core.ScannyButton
-import fr.skyle.scanny.ui.core.ScannyButtonSelector
-import fr.skyle.scanny.ui.core.ScannyTextField
+import fr.skyle.scanny.ui.core.buttons.ScannyButton
+import fr.skyle.scanny.ui.core.buttons.ScannyButtonSelector
+import fr.skyle.scanny.ui.core.textFields.ScannyTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 import kotlinx.coroutines.launch
@@ -71,9 +71,7 @@ fun CreateQRUrlScreen(
             maxLines = 1,
             imeAction = ImeAction.Done,
             autoCorrect = false,
-            trailingIconId = R.drawable.ic_close,
-            modifier = Modifier
-                .focusRequester(focusRequester),
+            modifier = Modifier.focusRequester(focusRequester),
         )
 
         Spacer(modifier = Modifier.height(16.dp))

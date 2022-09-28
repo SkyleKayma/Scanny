@@ -108,35 +108,47 @@ sealed class QRCodeContent(val type: QRType) : Parcelable, StringConverter {
     ) : QRCodeContent(QRType.WIFI) {
 
         companion object {
-            private const val SSID = "WIFI"
+            private const val WIFI = "WIFI"
+            private const val SSID = "S"
             private const val TYPE = "T"
             private const val PASSWORD = "P"
             private const val HIDDEN = "H"
+            private const val END = ";"
         }
 
+        // WIFI:S:NEUF_0809;T:WEP;P:Password;H:true
         override fun asEncodedString(): String =
-            mutableListOf<String>().apply {
-                add(SSID)
+            buildString {
+                append("$WIFI:")
 
                 // SSID
-                add(ssid ?: "")
+                ssid?.let {
+                    append("$SSID:")
+                    append("$it;")
+                }
 
-                // Encryption type
-                add(TYPE)
-                add(encryptionType?.name ?: "")
+                encryptionType?.let { type ->
+                    // Encryption type
+                    append("$TYPE:")
+                    append("${type.name};")
 
-                // Password
-                if (encryptionType != WifiEncryptionType.NONE) {
-                    add(PASSWORD)
-                    add(password ?: "")
+                    // Password
+                    password?.let {
+                        if (type != WifiEncryptionType.NONE) {
+                            append("$PASSWORD:")
+                            append("$it;")
+                        }
+                    }
                 }
 
                 // Hidden
                 if (isHidden == true) {
-                    add(HIDDEN)
-                    add(isHidden.toString())
+                    append("$HIDDEN:")
+                    append("${isHidden.toString()};")
                 }
-            }.joinToString(":")
+
+                append(END)
+            }
     }
 
     data class ContactContent(

@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.createQR.screens
+package fr.skyle.scanny.ui.createQRText
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
@@ -19,27 +19,25 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
-import fr.skyle.scanny.ui.core.ScannyButton
-import fr.skyle.scanny.ui.core.ScannyTextField
+import fr.skyle.scanny.ui.core.buttons.ScannyButton
+import fr.skyle.scanny.ui.core.textFields.ScannyTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun CreateQREmailScreen(
+fun CreateQRTextScreen(
     scaffoldState: ScaffoldState,
     focusRequester: FocusRequester,
     bringIntoViewRequester: BringIntoViewRequester,
-    goToGenerateQRCode: (QRCodeContent) -> Unit
+    goToGenerateQRCode: (QRCodeContent) -> Unit,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
 
-    var emailState by remember { mutableStateOf(TextFieldValue("")) }
-    var subjectState by remember { mutableStateOf(TextFieldValue("")) }
-    var messageState by remember { mutableStateOf(TextFieldValue("")) }
+    var textState by remember { mutableStateOf(TextFieldValue("")) }
 
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
@@ -50,61 +48,27 @@ fun CreateQREmailScreen(
             .fillMaxSize()
             .verticalScroll(scrollState)
             .height(IntrinsicSize.Max)
-            .padding(24.dp, 20.dp),
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        QRTypeSquareCell(QRType.EMAIL)
+        QRTypeSquareCell(QRType.TEXT)
 
         Spacer(modifier = Modifier.height(16.dp))
 
         ScannyTextField(
-            label = stringResource(id = R.string.create_qr_label_email),
+            label = stringResource(id = R.string.create_qr_label_text),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
             scope = scope,
-            value = emailState,
+            value = textState,
             onValueChange = {
-                emailState = it
+                textState = it
             },
-            imeAction = ImeAction.Next,
-            trailingIconId = R.drawable.ic_close,
-            maxLines = 1,
+            capitalization = KeyboardCapitalization.Sentences,
+            imeAction = ImeAction.Default,
             modifier = Modifier
                 .focusRequester(focusRequester)
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        ScannyTextField(
-            label = stringResource(id = R.string.create_qr_label_email_subject),
-            keyboardType = KeyboardType.Text,
-            bringIntoViewRequester = bringIntoViewRequester,
-            scope = scope,
-            value = subjectState,
-            onValueChange = {
-                subjectState = it
-            },
-            maxLines = 1,
-            capitalization = KeyboardCapitalization.Sentences,
-            imeAction = ImeAction.Next,
-            trailingIconId = R.drawable.ic_close
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        ScannyTextField(
-            label = stringResource(id = R.string.create_qr_label_email_message),
-            keyboardType = KeyboardType.Text,
-            bringIntoViewRequester = bringIntoViewRequester,
-            scope = scope,
-            value = messageState,
-            onValueChange = {
-                messageState = it
-            },
-            capitalization = KeyboardCapitalization.Sentences,
-            imeAction = ImeAction.Done,
-            trailingIconId = R.drawable.ic_close,
-            modifier = Modifier.height(200.dp)
+                .height(200.dp)
         )
 
         Spacer(
@@ -118,8 +82,8 @@ fun CreateQREmailScreen(
             text = stringResource(id = R.string.generic_create),
             onClick = {
                 scope.launch {
-                    if (isContentValid(emailState.text, subjectState.text, messageState.text)) {
-                        goToGenerateQRCode(QRCodeContent.EmailMessageContent(emailState.text, subjectState.text, messageState.text))
+                    if (isContentValid(textState.text)) {
+                        goToGenerateQRCode(QRCodeContent.TextContent(textState.text))
                     } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                 }
             }
@@ -127,5 +91,5 @@ fun CreateQREmailScreen(
     }
 }
 
-private fun isContentValid(email: String, subject: String, message: String): Boolean =
-    email.isNotBlank() && subject.isNotBlank() && message.isNotBlank()
+private fun isContentValid(text: String): Boolean =
+    text.isNotBlank()

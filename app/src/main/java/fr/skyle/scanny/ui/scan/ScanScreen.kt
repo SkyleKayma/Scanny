@@ -23,7 +23,7 @@ import fr.skyle.scanny.R
 import fr.skyle.scanny.ext.goToAppSettings
 import fr.skyle.scanny.ext.vibrateScan
 import fr.skyle.scanny.theme.ScannyTheme
-import fr.skyle.scanny.ui.core.ScannyButton
+import fr.skyle.scanny.ui.core.buttons.ScannyButton
 import fr.skyle.scanny.ui.scan.components.CameraFilter
 import fr.skyle.scanny.ui.scan.components.CameraView
 

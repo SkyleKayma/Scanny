@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.core
+package fr.skyle.scanny.ui.core.buttons
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape

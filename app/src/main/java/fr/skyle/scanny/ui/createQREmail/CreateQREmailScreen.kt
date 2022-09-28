@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.createQR.screens
+package fr.skyle.scanny.ui.createQREmail
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
@@ -19,15 +19,15 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
-import fr.skyle.scanny.ui.core.ScannyButton
-import fr.skyle.scanny.ui.core.ScannyTextField
+import fr.skyle.scanny.ui.core.buttons.ScannyButton
+import fr.skyle.scanny.ui.core.textFields.ScannyTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 import kotlinx.coroutines.launch
 
 
 @Composable
-fun CreateQRSMSScreen(
+fun CreateQREmailScreen(
     scaffoldState: ScaffoldState,
     focusRequester: FocusRequester,
     bringIntoViewRequester: BringIntoViewRequester,
@@ -37,7 +37,8 @@ fun CreateQRSMSScreen(
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
 
-    var phoneNumberState by remember { mutableStateOf(TextFieldValue("")) }
+    var emailState by remember { mutableStateOf(TextFieldValue("")) }
+    var subjectState by remember { mutableStateOf(TextFieldValue("")) }
     var messageState by remember { mutableStateOf(TextFieldValue("")) }
 
     LaunchedEffect(key1 = Unit) {
@@ -52,30 +53,44 @@ fun CreateQRSMSScreen(
             .padding(24.dp, 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        QRTypeSquareCell(QRType.SMS)
+        QRTypeSquareCell(QRType.EMAIL)
 
         Spacer(modifier = Modifier.height(16.dp))
 
         ScannyTextField(
-            label = stringResource(id = R.string.create_qr_label_sms_phone_number),
-            keyboardType = KeyboardType.Phone,
+            label = stringResource(id = R.string.create_qr_label_email),
+            keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
             scope = scope,
-            value = phoneNumberState,
+            value = emailState,
             onValueChange = {
-                phoneNumberState = it
+                emailState = it
             },
             imeAction = ImeAction.Next,
-            trailingIconId = R.drawable.ic_close,
             maxLines = 1,
-            modifier = Modifier
-                .focusRequester(focusRequester)
+            modifier = Modifier.focusRequester(focusRequester)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         ScannyTextField(
-            label = stringResource(id = R.string.create_qr_label_sms_message),
+            label = stringResource(id = R.string.create_qr_label_email_subject),
+            keyboardType = KeyboardType.Text,
+            bringIntoViewRequester = bringIntoViewRequester,
+            scope = scope,
+            value = subjectState,
+            onValueChange = {
+                subjectState = it
+            },
+            maxLines = 1,
+            capitalization = KeyboardCapitalization.Sentences,
+            imeAction = ImeAction.Next
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        ScannyTextField(
+            label = stringResource(id = R.string.create_qr_label_email_message),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
             scope = scope,
@@ -83,9 +98,9 @@ fun CreateQRSMSScreen(
             onValueChange = {
                 messageState = it
             },
-            maxLines = 1,
             capitalization = KeyboardCapitalization.Sentences,
-            trailingIconId = R.drawable.ic_close
+            imeAction = ImeAction.Done,
+            modifier = Modifier.height(200.dp)
         )
 
         Spacer(
@@ -99,8 +114,8 @@ fun CreateQRSMSScreen(
             text = stringResource(id = R.string.generic_create),
             onClick = {
                 scope.launch {
-                    if (isContentValid(phoneNumberState.text, messageState.text)) {
-                        goToGenerateQRCode(QRCodeContent.SMSContent(phoneNumberState.text, messageState.text))
+                    if (isContentValid(emailState.text, subjectState.text, messageState.text)) {
+                        goToGenerateQRCode(QRCodeContent.EmailMessageContent(emailState.text, subjectState.text, messageState.text))
                     } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                 }
             }
@@ -108,5 +123,5 @@ fun CreateQRSMSScreen(
     }
 }
 
-private fun isContentValid(phoneNumber: String, message: String): Boolean =
-    phoneNumber.isNotBlank() && message.isNotBlank()
+private fun isContentValid(email: String, subject: String, message: String): Boolean =
+    email.isNotBlank() && subject.isNotBlank() && message.isNotBlank()
