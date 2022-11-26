@@ -13,13 +13,13 @@ import fr.skyle.scanny.R
 fun TitleText(
     textId: Int,
     modifier: Modifier = Modifier,
-    colorId: Int = R.color.sc_title,
-    style: TextStyle = MaterialTheme.typography.h2,
+    colorId: Int? = null,
+    style: TextStyle? = null,
 ) {
     Text(
         modifier = modifier,
         text = stringResource(id = textId),
-        color = colorResource(id = colorId),
-        style = style
+        color = colorResource(id = colorId ?: R.color.sc_title),
+        style = style ?: MaterialTheme.typography.h2
     )
 }

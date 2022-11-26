@@ -37,12 +37,15 @@ fun CreateQRUrlScreen(
     bringIntoViewRequester: BringIntoViewRequester,
     goToGenerateQRCode: (QRCodeContent) -> Unit
 ) {
+    // Context
     val context = LocalContext.current
+
+    // Remember
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
-
     var textState by remember { mutableStateOf(TextFieldValue(presets.first(), TextRange(presets.first().length))) }
 
+    // Effect
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
     }
@@ -60,6 +63,7 @@ fun CreateQRUrlScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         ScannyTextField(
+            modifier = Modifier.focusRequester(focusRequester),
             label = stringResource(id = R.string.create_qr_label_link),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
@@ -70,8 +74,7 @@ fun CreateQRUrlScreen(
             },
             maxLines = 1,
             imeAction = ImeAction.Done,
-            autoCorrect = false,
-            modifier = Modifier.focusRequester(focusRequester),
+            autoCorrect = false
         )
 
         Spacer(modifier = Modifier.height(16.dp))

@@ -33,13 +33,16 @@ fun CreateQRSMSScreen(
     bringIntoViewRequester: BringIntoViewRequester,
     goToGenerateQRCode: (QRCodeContent) -> Unit
 ) {
+    // Context
     val context = LocalContext.current
+
+    // Remember
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
-
     var phoneNumberState by remember { mutableStateOf(TextFieldValue("")) }
     var messageState by remember { mutableStateOf(TextFieldValue("")) }
 
+    // Effect
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
     }
@@ -57,6 +60,7 @@ fun CreateQRSMSScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         ScannyTextField(
+            modifier = Modifier.focusRequester(focusRequester),
             label = stringResource(id = R.string.create_qr_label_sms_phone_number),
             keyboardType = KeyboardType.Phone,
             bringIntoViewRequester = bringIntoViewRequester,
@@ -66,8 +70,7 @@ fun CreateQRSMSScreen(
                 phoneNumberState = it
             },
             imeAction = ImeAction.Next,
-            maxLines = 1,
-            modifier = Modifier.focusRequester(focusRequester)
+            maxLines = 1
         )
 
         Spacer(modifier = Modifier.height(8.dp))

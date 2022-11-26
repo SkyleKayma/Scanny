@@ -30,14 +30,17 @@ fun ScanResultsModalBottomSheet(
     barcode: Barcode,
     viewModel: ScanViewModel
 ) {
+    // Remember
     val scope = rememberCoroutineScope()
 
+    // Back override
     BackHandler(enabled = sheetState.isVisible) {
         scope.launch {
             sheetState.hide()
         }
     }
 
+    // Effect
     LaunchedEffect(key1 = sheetState.currentValue, block = {
         if (!sheetState.isVisible) {
             viewModel.reactivateQRCodeScan()
@@ -57,11 +60,11 @@ fun ScanResultsModalBottomSheet(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
+                        modifier = Modifier.padding(10.dp),
                         text = barcode.rawValue ?: "",
                         fontSize = 15.sp,
                         fontStyle = FontStyle.Italic,
-                        color = Color.Black,
-                        modifier = Modifier.padding(10.dp)
+                        color = Color.Black
                     )
                 }
             }

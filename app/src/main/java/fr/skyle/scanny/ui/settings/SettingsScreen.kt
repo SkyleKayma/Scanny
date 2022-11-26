@@ -125,17 +125,20 @@ fun SettingsCell(
                 colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_icon_primary))
             )
         }
+
         Text(
-            text = stringResource(id = textId),
             modifier = Modifier
                 .weight(1f)
                 .padding(start = 12.dp),
+            text = stringResource(id = textId),
             style = MaterialTheme.typography.body1,
             color = colorResource(textColorId),
             textAlign = TextAlign.Start
         )
+
         endIconId?.let {
             Spacer(modifier = Modifier.width(8.dp))
+
             Image(
                 modifier = Modifier.size(24.dp),
                 painter = painterResource(id = it),

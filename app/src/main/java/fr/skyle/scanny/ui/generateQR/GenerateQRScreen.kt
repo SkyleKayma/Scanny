@@ -19,11 +19,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.skyle.scanny.R
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.ScannyTheme
 import fr.skyle.scanny.ui.core.ScannyTopAppBar
-
+import fr.skyle.scanny.utils.qrCode.QRCodeContent
 
 @Composable
 fun GenerateQRScreen(
@@ -37,8 +36,10 @@ fun GenerateQRScreen(
     // Remember
     val scaffoldState = rememberScaffoldState()
 
-    // Bitmap
+    // Flow
     val bitmapFlow by viewModel.bitmapSharedFlow.collectAsState()
+
+    // TODO Move that
     viewModel.generateQRCode(qrCodeContent)
 
     Scaffold(
@@ -81,15 +82,19 @@ fun GenerateQRScreen(
                         modifier = Modifier.weight(1f),
                         onClick = {
                             viewModel.saveQRCodeAsFile(context)
-                        }) {
+                        }
+                    ) {
                         Text(text = stringResource(id = R.string.generate_qr_save))
                     }
+
                     Spacer(modifier = Modifier.width(16.dp))
+
                     Button(
                         modifier = Modifier.weight(1f),
                         onClick = {
                             Toast.makeText(context, "TODO", Toast.LENGTH_LONG).show()
-                        }) {
+                        }
+                    ) {
                         Text(text = stringResource(id = R.string.generate_qr_share))
                     }
                 }

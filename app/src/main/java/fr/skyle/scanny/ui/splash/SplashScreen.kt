@@ -14,8 +14,10 @@ fun SplashScreen(
     goToMainScreen: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
+    // Flow
     val timerFlow by viewModel.splashTimer.collectAsState()
 
+    // Effect
     LaunchedEffect(timerFlow) {
         if (timerFlow) {
             goToMainScreen()

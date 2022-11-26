@@ -37,14 +37,14 @@ fun WifiEncryptionSelector(
     modifier: Modifier = Modifier,
     onEncryptionTypeChanged: (WifiEncryptionType) -> Unit
 ) {
+    // Context
     val context = LocalContext.current
 
+    // Remember
     var sizeState by remember { mutableStateOf(IntSize(0, 0)) }
-
     var cell1YOffset by remember { mutableStateOf(0.dp) }
     var cell2YOffset by remember { mutableStateOf(0.dp) }
     var cell3YOffset by remember { mutableStateOf(0.dp) }
-
     var currentOffsetSelected by remember {
         mutableStateOf(
             when (encryptionType) {

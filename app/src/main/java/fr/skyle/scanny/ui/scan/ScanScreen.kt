@@ -33,30 +33,24 @@ import fr.skyle.scanny.ui.scan.components.CameraView
 fun ScanScreen(
     viewModel: ScanViewModel = hiltViewModel()
 ) {
+    // Context
     val context = LocalContext.current
 
-    // Camera permission
-    val cameraPermissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
+    // Flow
+    val scanEvent by viewModel.scanEvent.collectAsState()
 
-    // Flash
+    // Remember
+    val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val cameraPermissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
     var hasFlash by remember { mutableStateOf(false) }
 
-    // Camera to use
-    var isRearCamera by remember { mutableStateOf(true) }
-
-    // Ask for permission
+    // Effect
     LaunchedEffect(key1 = Unit, block = {
         if (!cameraPermissionState.status.isGranted) {
             cameraPermissionState.launchPermissionRequest()
         }
     })
 
-    // BottomSheet
-    val bottomSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden
-    )
-
-    val scanEvent by viewModel.scanEvent.collectAsState()
     LaunchedEffect(scanEvent) {
         if (scanEvent is ScanViewModel.State.SUCCESS) {
             bottomSheetState.show()
@@ -64,62 +58,49 @@ fun ScanScreen(
         }
     }
 
-    Box {
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .background(colorResource(id = R.color.sc_background))
-        ) {
-            if (cameraPermissionState.status.isGranted) {
-                // If granted show camera view
-                CameraView(imageAnalysis = viewModel.getImageAnalysis(), hasFlash = hasFlash, isRearCamera = isRearCamera)
+    Box(
+        modifier = Modifier
+            .fillMaxHeight()
+            .background(colorResource(id = R.color.sc_background))
+    ) {
+        if (cameraPermissionState.status.isGranted) {
+            CameraView(imageAnalysis = viewModel.getImageAnalysis(), hasFlash = hasFlash)
 
-                CameraFilter()
+            CameraFilter()
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp)
-                        .align(Alignment.BottomCenter),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    IconButton(onClick = { hasFlash = !hasFlash }) {
-                        Icon(
-                            modifier = Modifier.size(24.dp),
-                            painter = if (hasFlash) painterResource(id = R.drawable.ic_flashlight_off) else painterResource(id = R.drawable.ic_flashlight_on),
-                            contentDescription = null,
-                            tint = MaterialTheme.colors.primary
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.width(20.dp))
-
-                    IconButton(onClick = { isRearCamera = !isRearCamera }) {
-                        Icon(
-                            modifier = Modifier.size(32.dp),
-                            painter = painterResource(id = R.drawable.ic_camera_switch),
-                            contentDescription = null,
-                            tint = MaterialTheme.colors.primary
-                        )
-                    }
-                }
-            } else if (cameraPermissionState.status.shouldShowRationale) {
-                // Else show permission status
-                SettingsPermission(
-                    modifier = Modifier.align(Alignment.Center),
-                    textId = R.string.permission_camera_required_message_refused,
-                    onClick = {
-                        context.goToAppSettings()
-                    }
+            IconButton(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .statusBarsPadding()
+                    .padding(12.dp),
+                onClick = { hasFlash = !hasFlash }
+            ) {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = if (hasFlash) painterResource(id = R.drawable.ic_flashlight_off) else painterResource(id = R.drawable.ic_flashlight_on),
+                    contentDescription = "",
+                    tint = MaterialTheme.colors.primary
                 )
             }
+        } else if (cameraPermissionState.status.shouldShowRationale) {
+            SettingsPermission(
+                modifier = Modifier.align(Alignment.Center),
+                textId = R.string.permission_camera_required_message_refused,
+                onClick = {
+                    context.goToAppSettings()
+                }
+            )
+        }
+
+        Row(modifier = Modifier.fillMaxWidth()) {
+
         }
     }
 
     if (scanEvent is ScanViewModel.State.SUCCESS) {
         ScanResultsModalBottomSheet(
             sheetState = bottomSheetState,
-            (scanEvent as ScanViewModel.State.SUCCESS).barcode,
+            barcode = (scanEvent as ScanViewModel.State.SUCCESS).barcode,
             viewModel = viewModel
         )
     }
@@ -133,15 +114,17 @@ fun SettingsPermission(
 ) {
     Column(modifier = modifier.wrapContentSize()) {
         Text(
-            text = stringResource(id = textId),
-            style = MaterialTheme.typography.body1,
-            color = colorResource(id = R.color.sc_body),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(horizontal = 24.dp),
+            text = stringResource(id = textId),
+            style = MaterialTheme.typography.body1,
+            color = colorResource(id = R.color.sc_body),
             textAlign = TextAlign.Center
         )
+
         Spacer(modifier = Modifier.height(24.dp))
+
         ScannyButton(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             text = stringResource(id = R.string.permission_settings),

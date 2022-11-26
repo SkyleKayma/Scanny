@@ -41,18 +41,18 @@ fun CreateQRWiFiScreen(
     bringIntoViewRequester: BringIntoViewRequester,
     goToGenerateQRCode: (QRCodeContent) -> Unit
 ) {
+    // Context
     val context = LocalContext.current
+
+    // Remember
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
-
     var ssidState by remember { mutableStateOf(TextFieldValue("")) }
     var encryptionType by remember { mutableStateOf(WifiEncryptionType.NONE) }
-
-    // Password
     var passwordState by remember { mutableStateOf(TextFieldValue("")) }
-    var passwordVisibility by remember { mutableStateOf(false) }
-    passwordVisibility = encryptionType != WifiEncryptionType.NONE
+    val passwordVisibility by remember(encryptionType) { mutableStateOf(encryptionType != WifiEncryptionType.NONE) }
 
+    // Effect
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
     }
@@ -70,6 +70,7 @@ fun CreateQRWiFiScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         ScannyTextField(
+            modifier = Modifier.focusRequester(focusRequester),
             label = stringResource(id = R.string.create_qr_label_wifi_ssid),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
@@ -80,8 +81,7 @@ fun CreateQRWiFiScreen(
             },
             imeAction = ImeAction.Next,
             maxLines = 1,
-            capitalization = KeyboardCapitalization.Sentences,
-            modifier = Modifier.focusRequester(focusRequester)
+            capitalization = KeyboardCapitalization.Sentences
         )
 
         Spacer(modifier = Modifier.height(16.dp))

@@ -28,8 +28,8 @@ fun ScannyTopAppBar(
     isComingFromDown: Boolean = true
 ) {
     TopAppBar(
-        backgroundColor = colorResource(id = R.color.sc_transparent),
         modifier = modifier.fillMaxWidth(),
+        backgroundColor = colorResource(id = R.color.sc_transparent),
         elevation = 0.dp
     ) {
         Box {
@@ -44,7 +44,7 @@ fun ScannyTopAppBar(
                         painter = if (!isComingFromDown) {
                             painterResource(id = R.drawable.ic_arrow_left)
                         } else painterResource(id = R.drawable.ic_arrow_down),
-                        contentDescription = null,
+                        contentDescription = "",
                         tint = colorResource(id = R.color.sc_title)
                     )
                 }
@@ -66,7 +66,8 @@ fun ScannyTopAppBar(
                     modifier = Modifier.align(Alignment.CenterEnd),
                     onClick = {
                         onClickAction?.invoke()
-                    }) {
+                    }
+                ) {
                     Icon(
                         modifier = Modifier.size(24.dp),
                         painter = painterResource(id = actionIconId),

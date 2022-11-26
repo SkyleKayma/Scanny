@@ -33,14 +33,17 @@ fun CreateQREmailScreen(
     bringIntoViewRequester: BringIntoViewRequester,
     goToGenerateQRCode: (QRCodeContent) -> Unit
 ) {
+    // Context
     val context = LocalContext.current
+
+    // Remember
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
-
     var emailState by remember { mutableStateOf(TextFieldValue("")) }
     var subjectState by remember { mutableStateOf(TextFieldValue("")) }
     var messageState by remember { mutableStateOf(TextFieldValue("")) }
 
+    // Effect
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
     }
@@ -58,6 +61,7 @@ fun CreateQREmailScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         ScannyTextField(
+            modifier = Modifier.focusRequester(focusRequester),
             label = stringResource(id = R.string.create_qr_label_email),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
@@ -67,8 +71,7 @@ fun CreateQREmailScreen(
                 emailState = it
             },
             imeAction = ImeAction.Next,
-            maxLines = 1,
-            modifier = Modifier.focusRequester(focusRequester)
+            maxLines = 1
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -90,6 +93,7 @@ fun CreateQREmailScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         ScannyTextField(
+            modifier = Modifier.height(200.dp),
             label = stringResource(id = R.string.create_qr_label_email_message),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
@@ -99,8 +103,7 @@ fun CreateQREmailScreen(
                 messageState = it
             },
             capitalization = KeyboardCapitalization.Sentences,
-            imeAction = ImeAction.Done,
-            modifier = Modifier.height(200.dp)
+            imeAction = ImeAction.Done
         )
 
         Spacer(

@@ -3,16 +3,10 @@ package fr.skyle.scanny.navigation
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -54,32 +48,6 @@ object Argument {
     const val QR_TYPE = "QrType"
 }
 
-val screensWithBottomAppBar: MutableList<String> =
-    mutableListOf(Destination.SCAN, Destination.SCAN_HISTORY, Destination.GENERATE_QR_LIST, Destination.SETTINGS)
-
-sealed class BottomBarScreens(
-    val route: String,
-    @StringRes val resourceId: Int,
-    @DrawableRes val iconId: Int,
-    @DrawableRes val animatedIconId: Int
-) {
-    object Scan : BottomBarScreens(
-        Destination.SCAN, R.string.home_scan, R.drawable.ic_scan_qr, R.drawable.ic_scan_qr_animated
-    )
-
-    object ScanHistory : BottomBarScreens(
-        Destination.SCAN_HISTORY, R.string.home_history, R.drawable.ic_history_qr, R.drawable.ic_history_qr_animated
-    )
-
-    object GenerateQRList : BottomBarScreens(
-        Destination.GENERATE_QR_LIST, R.string.home_generate, R.drawable.ic_gen_qr, R.drawable.ic_gen_qr_animated
-    )
-
-    object Settings : BottomBarScreens(
-        Destination.SETTINGS, R.string.home_settings, R.drawable.ic_settings, R.drawable.ic_settings_animated
-    )
-}
-
 // --- Arguments
 // -------------------------------------------
 
@@ -88,120 +56,40 @@ const val ARG_QR_CODE_CONTENT = "ARG_QR_CODE_CONTENT"
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ScannyNavHost(
-    navHostController: NavHostController,
-    innerPadding: PaddingValues
+    navHostController: NavHostController
 ) {
     val context = LocalContext.current
 
     AnimatedNavHost(
         navController = navHostController,
         startDestination = Destination.SPLASH,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(innerPadding)
+        modifier = Modifier.fillMaxSize()
     ) {
         composable(route = Destination.SPLASH) {
-            SplashScreen(goToMainScreen = {
-                navHostController.navigate(route = BottomBarScreens.Scan.route) {
-                    popUpTo(Destination.SPLASH) {
-                        inclusive = true
+            SplashScreen(
+                goToMainScreen = {
+                    navHostController.navigate(route = Destination.SCAN) {
+                        popUpTo(Destination.SPLASH) {
+                            inclusive = true
+                        }
                     }
                 }
-            })
+            )
         }
-        composable(
-            route = BottomBarScreens.Scan.route,
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Right, animationSpec = tween(SCREEN_TIME_TRANSITION)
-                )
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Left, animationSpec = tween(SCREEN_TIME_TRANSITION)
-                )
-            }
-        ) {
+        composable(route = Destination.SCAN) {
             ScanScreen()
         }
-        composable(
-            route = BottomBarScreens.ScanHistory.route,
-            enterTransition = {
-                when (initialState.destination.route) {
-                    BottomBarScreens.Scan.route ->
-                        slideIntoContainer(
-                            AnimatedContentScope.SlideDirection.Left, animationSpec = tween(SCREEN_TIME_TRANSITION)
-                        )
-                    BottomBarScreens.Settings.route, BottomBarScreens.GenerateQRList.route ->
-                        slideIntoContainer(
-                            AnimatedContentScope.SlideDirection.Right, animationSpec = tween(SCREEN_TIME_TRANSITION)
-                        )
-                    else -> fadeIn(animationSpec = tween(SCREEN_TIME_TRANSITION))
-                }
-            }, exitTransition = {
-                when (targetState.destination.route) {
-                    BottomBarScreens.Scan.route ->
-                        slideOutOfContainer(
-                            AnimatedContentScope.SlideDirection.Right, animationSpec = tween(SCREEN_TIME_TRANSITION)
-                        )
-                    BottomBarScreens.Settings.route, BottomBarScreens.GenerateQRList.route ->
-                        slideOutOfContainer(
-                            AnimatedContentScope.SlideDirection.Left, animationSpec = tween(SCREEN_TIME_TRANSITION)
-                        )
-                    else -> fadeOut(animationSpec = tween(SCREEN_TIME_TRANSITION))
-                }
-            }
-        ) {
+        composable(route = Destination.SCAN_HISTORY) {
             HistoryScreen()
         }
-        composable(
-            route = BottomBarScreens.GenerateQRList.route,
-            enterTransition = {
-                when (initialState.destination.route) {
-                    BottomBarScreens.Scan.route, BottomBarScreens.ScanHistory.route ->
-                        slideIntoContainer(
-                            AnimatedContentScope.SlideDirection.Left, animationSpec = tween(SCREEN_TIME_TRANSITION)
-                        )
-                    BottomBarScreens.Settings.route ->
-                        slideIntoContainer(
-                            AnimatedContentScope.SlideDirection.Right, animationSpec = tween(SCREEN_TIME_TRANSITION)
-                        )
-                    else -> fadeIn(animationSpec = tween(SCREEN_TIME_TRANSITION))
-                }
-            },
-            exitTransition = {
-                when (targetState.destination.route) {
-                    BottomBarScreens.Scan.route, BottomBarScreens.ScanHistory.route ->
-                        slideOutOfContainer(
-                            AnimatedContentScope.SlideDirection.Right, animationSpec = tween(SCREEN_TIME_TRANSITION)
-                        )
-                    BottomBarScreens.Settings.route ->
-                        slideOutOfContainer(
-                            AnimatedContentScope.SlideDirection.Left, animationSpec = tween(SCREEN_TIME_TRANSITION)
-                        )
-                    else -> fadeOut(animationSpec = tween(SCREEN_TIME_TRANSITION))
-                }
-            }
-        ) {
+        composable(route = Destination.GENERATE_QR_LIST) {
             GenerateQRListScreen(
                 goToCreateQRScreen = {
                     navHostController.navigate(route = "${Destination.CREATE_QR}/${it.name}")
                 }
             )
         }
-        composable(
-            route = BottomBarScreens.Settings.route,
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left, animationSpec = tween(SCREEN_TIME_TRANSITION)
-                )
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right, animationSpec = tween(SCREEN_TIME_TRANSITION)
-                )
-            }
-        ) {
+        composable(route = Destination.SETTINGS) {
             SettingsScreen(
                 goToNotifications = {
 
@@ -234,10 +122,10 @@ fun ScannyNavHost(
             CreateQRScreen(
                 qrType = qrType,
                 goBackToGenerateQRList = {
-                    navHostController.popBackStack(route = BottomBarScreens.GenerateQRList.route, inclusive = false)
+                    navHostController.popBackStack(route = Destination.GENERATE_QR_LIST, inclusive = false)
                 }, goToGenerateQRCode = {
                     navHostController.navigate(Destination.GENERATE_QR, bundleOf(ARG_QR_CODE_CONTENT to it)) {
-                        popUpTo(BottomBarScreens.GenerateQRList.route) {
+                        popUpTo(Destination.GENERATE_QR_LIST) {
                             inclusive = false
                         }
                     }
@@ -257,7 +145,7 @@ fun ScannyNavHost(
             navBackStackEntry.getParcelable(ARG_QR_CODE_CONTENT, QRCodeContent::class.java)?.let { qrCodeContent ->
                 GenerateQRScreen(
                     goBackToMain = {
-                        navHostController.popBackStack(route = BottomBarScreens.GenerateQRList.route, inclusive = false)
+                        navHostController.popBackStack(route = Destination.GENERATE_QR_LIST, inclusive = false)
                     },
                     qrCodeContent
                 )

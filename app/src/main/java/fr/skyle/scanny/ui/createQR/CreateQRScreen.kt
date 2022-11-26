@@ -32,22 +32,24 @@ fun CreateQRScreen(
     goBackToGenerateQRList: () -> Boolean,
     goToGenerateQRCode: (QRCodeContent) -> Unit
 ) {
+    // Remember
     val focusRequester = remember { FocusRequester() }
     val scaffoldState = rememberScaffoldState()
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
 
+    // Effect
     LaunchedEffect(key1 = Unit) {
         focusRequester.requestFocus()
     }
 
     CreateQRScaffold(
-        scaffoldState = scaffoldState,
-        title = stringResource(id = qrType.textId),
-        onClickHomeButton = goBackToGenerateQRList,
         modifier = Modifier
             .systemBarsPadding()
             .imePadding()
-            .bringIntoViewRequester(bringIntoViewRequester)
+            .bringIntoViewRequester(bringIntoViewRequester),
+        scaffoldState = scaffoldState,
+        title = stringResource(id = qrType.textId),
+        onClickHomeButton = goBackToGenerateQRList
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             when (qrType) {

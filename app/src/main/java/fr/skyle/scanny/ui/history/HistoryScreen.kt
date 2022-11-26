@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import fr.skyle.scanny.theme.ScannyTheme
 
-
 @Composable
 fun HistoryScreen() {
     Column(

@@ -53,7 +53,9 @@ fun GeneratorType(
                     colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_icon_primary))
                 )
             }
+
             Spacer(modifier = Modifier.height(8.dp))
+
             Text(
                 text = stringResource(id = qrType.textId),
                 color = colorResource(id = R.color.sc_title),
@@ -67,8 +69,9 @@ fun GeneratorType(
 @Composable
 fun PreviewGeneratorType() {
     Box(modifier = Modifier.size(512.dp)) {
-        GeneratorType(qrType = QRType.TEXT) {
-
-        }
+        GeneratorType(
+            qrType = QRType.TEXT,
+            onClick = {}
+        )
     }
 }

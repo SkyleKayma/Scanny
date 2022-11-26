@@ -15,7 +15,6 @@ import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ui.core.TitleText
 import fr.skyle.scanny.ui.generateQRList.components.GeneratorType
 
-
 @Composable
 fun GenerateQRListScreen(
     goToCreateQRScreen: (QRType) -> Unit

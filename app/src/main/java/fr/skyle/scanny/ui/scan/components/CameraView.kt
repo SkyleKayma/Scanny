@@ -28,16 +28,21 @@ import androidx.core.content.ContextCompat
 import fr.skyle.scanny.R
 
 @Composable
-fun CameraView(imageAnalysis: ImageAnalysis, hasFlash: Boolean, isRearCamera: Boolean) {
-    val context = LocalContext.current
+fun CameraView(
+    imageAnalysis: ImageAnalysis,
+    hasFlash: Boolean
+) {
+    // Lifecycle
     val lifecycleOwner = LocalLifecycleOwner.current
-    val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
 
-    // Enable or disable flash
+    // Remember
     var camera by remember { mutableStateOf<Camera?>(null) }
-    if (camera?.cameraInfo?.hasFlashUnit() == true) {
-        camera?.cameraControl?.enableTorch(hasFlash)
-    }
+
+    LaunchedEffect(key1 = camera, block = {
+        if (camera?.cameraInfo?.hasFlashUnit() == true) {
+            camera?.cameraControl?.enableTorch(hasFlash)
+        }
+    })
 
     Box(modifier = Modifier.fillMaxSize()) {
         AndroidView(
@@ -45,30 +50,30 @@ fun CameraView(imageAnalysis: ImageAnalysis, hasFlash: Boolean, isRearCamera: Bo
             factory = { context ->
                 val previewView = PreviewView(context)
                 val executor = ContextCompat.getMainExecutor(context)
+                val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
 
-                cameraProviderFuture.addListener({
-                    val cameraProvider = cameraProviderFuture.get()
-                    val preview = Preview.Builder().build().also {
-                        it.setSurfaceProvider(previewView.surfaceProvider)
-                    }
+                cameraProviderFuture.addListener(
+                    {
+                        val cameraProvider = cameraProviderFuture.get()
+                        val preview = Preview.Builder().build().also {
+                            it.setSurfaceProvider(previewView.surfaceProvider)
+                        }
 
-                    // Select rear or front camera
-                    val cameraSelector = CameraSelector.Builder()
-                        .requireLensFacing(
-                            if (isRearCamera) {
-                                CameraSelector.LENS_FACING_BACK
-                            } else CameraSelector.LENS_FACING_FRONT
+                        // Select rear or front camera
+                        val cameraSelector = CameraSelector.Builder()
+                            .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                            .build()
+
+                        cameraProvider.unbindAll()
+                        camera = cameraProvider.bindToLifecycle(
+                            lifecycleOwner,
+                            cameraSelector,
+                            imageAnalysis,
+                            preview
                         )
-                        .build()
-
-                    cameraProvider.unbindAll()
-                    camera = cameraProvider.bindToLifecycle(
-                        lifecycleOwner,
-                        cameraSelector,
-                        imageAnalysis,
-                        preview
-                    )
-                }, executor)
+                    },
+                    executor
+                )
                 previewView
             }
         )
@@ -86,110 +91,120 @@ fun CameraFilter() {
             topRow, bottomRow, leftColumn, rightColumn, centerSquare) = createRefs()
 
         // Center square
-        Spacer(modifier = Modifier
-            .size(250.dp)
-            .constrainAs(centerSquare) {
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-            })
+        Spacer(
+            modifier = Modifier
+                .size(250.dp)
+                .constrainAs(centerSquare) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                }
+        )
 
         // Borders
-        Spacer(modifier = Modifier
-            .background(backgroundColor)
-            .constrainAs(topRow) {
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                top.linkTo(parent.top)
-                bottom.linkTo(centerSquare.top)
-                width = Dimension.fillToConstraints
-                height = Dimension.fillToConstraints
-            })
+        Spacer(
+            modifier = Modifier
+                .background(backgroundColor)
+                .constrainAs(topRow) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(centerSquare.top)
+                    width = Dimension.fillToConstraints
+                    height = Dimension.fillToConstraints
+                }
+        )
 
-        Spacer(modifier = Modifier
-            .background(backgroundColor)
-            .constrainAs(bottomRow) {
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                top.linkTo(centerSquare.bottom)
-                bottom.linkTo(parent.bottom)
-                width = Dimension.fillToConstraints
-                height = Dimension.fillToConstraints
-            })
+        Spacer(
+            modifier = Modifier
+                .background(backgroundColor)
+                .constrainAs(bottomRow) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(centerSquare.bottom)
+                    bottom.linkTo(parent.bottom)
+                    width = Dimension.fillToConstraints
+                    height = Dimension.fillToConstraints
+                }
+        )
 
-        Spacer(modifier = Modifier
-            .background(backgroundColor)
-            .constrainAs(leftColumn) {
-                start.linkTo(parent.start)
-                end.linkTo(centerSquare.start)
-                top.linkTo(topRow.bottom)
-                bottom.linkTo(bottomRow.top)
-                width = Dimension.fillToConstraints
-                height = Dimension.fillToConstraints
-            })
+        Spacer(
+            modifier = Modifier
+                .background(backgroundColor)
+                .constrainAs(leftColumn) {
+                    start.linkTo(parent.start)
+                    end.linkTo(centerSquare.start)
+                    top.linkTo(topRow.bottom)
+                    bottom.linkTo(bottomRow.top)
+                    width = Dimension.fillToConstraints
+                    height = Dimension.fillToConstraints
+                }
+        )
 
-        Spacer(modifier = Modifier
-            .background(backgroundColor)
-            .constrainAs(rightColumn) {
-                start.linkTo(centerSquare.end)
-                end.linkTo(parent.end)
-                top.linkTo(topRow.bottom)
-                bottom.linkTo(bottomRow.top)
-                width = Dimension.fillToConstraints
-                height = Dimension.fillToConstraints
-            })
+        Spacer(
+            modifier = Modifier
+                .background(backgroundColor)
+                .constrainAs(rightColumn) {
+                    start.linkTo(centerSquare.end)
+                    end.linkTo(parent.end)
+                    top.linkTo(topRow.bottom)
+                    bottom.linkTo(bottomRow.top)
+                    width = Dimension.fillToConstraints
+                    height = Dimension.fillToConstraints
+                }
+        )
 
         Image(
-            painter = painterResource(id = R.drawable.camera_filter_top_left),
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds,
-            colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_background_icon)),
             modifier = Modifier
                 .size(25.dp)
                 .constrainAs(topLeftCorner) {
                     top.linkTo(topRow.bottom, (-4).dp)
                     start.linkTo(leftColumn.end, (-4).dp)
-                }
+                },
+            painter = painterResource(id = R.drawable.camera_filter_top_left),
+            contentDescription = "",
+            contentScale = ContentScale.FillBounds,
+            colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_background_icon))
         )
 
         Image(
-            painter = painterResource(id = R.drawable.camera_filter_top_right),
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds,
-            colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_background_icon)),
             modifier = Modifier
                 .size(25.dp)
                 .constrainAs(topRightCorner) {
                     top.linkTo(topRow.bottom, (-4).dp)
                     end.linkTo(rightColumn.start, (-4).dp)
-                }
+                },
+            painter = painterResource(id = R.drawable.camera_filter_top_right),
+            contentDescription = "",
+            contentScale = ContentScale.FillBounds,
+            colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_background_icon))
         )
 
         Image(
-            painter = painterResource(id = R.drawable.camera_filter_bottom_left),
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds,
-            colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_background_icon)),
             modifier = Modifier
                 .size(25.dp)
                 .constrainAs(bottomLeftCorner) {
                     bottom.linkTo(bottomRow.top, (-4).dp)
                     start.linkTo(leftColumn.end, (-4).dp)
-                }
+                },
+            painter = painterResource(id = R.drawable.camera_filter_bottom_left),
+            contentDescription = "",
+            contentScale = ContentScale.FillBounds,
+            colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_background_icon))
         )
 
         Image(
-            painter = painterResource(id = R.drawable.camera_filter_bottom_right),
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds,
-            colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_background_icon)),
             modifier = Modifier
                 .size(25.dp)
                 .constrainAs(bottomRightCorner) {
                     bottom.linkTo(bottomRow.top, (-4).dp)
                     end.linkTo(rightColumn.start, (-4).dp)
-                }
+                },
+            painter = painterResource(id = R.drawable.camera_filter_bottom_right),
+            contentDescription = "",
+            contentScale = ContentScale.FillBounds,
+            colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_background_icon))
         )
     }
 }
