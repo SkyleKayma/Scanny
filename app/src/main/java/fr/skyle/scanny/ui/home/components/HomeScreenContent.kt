@@ -1,6 +1,5 @@
 package fr.skyle.scanny.ui.home.components
 
-import androidx.camera.core.ImageAnalysis
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,11 +11,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
+import fr.skyle.scanny.ui.home.components.camera.CameraView
 
 @Composable
 fun HomeScreenContent(
     isCameraPermissionGranted: Boolean,
-    imageAnalysis: ImageAnalysis?,
     isFlashEnabled: Boolean,
     onFlashClicked: () -> Unit,
     onGalleryClicked: () -> Unit,
@@ -30,7 +29,6 @@ fun HomeScreenContent(
         if (isCameraPermissionGranted) {
             CameraView(
                 modifier = Modifier.fillMaxSize(),
-                imageAnalysis = imageAnalysis,
                 isFlashEnabled = isFlashEnabled
             )
 
@@ -57,7 +55,6 @@ fun PreviewHomeScreenContent() {
     SCTheme {
         HomeScreenContent(
             isCameraPermissionGranted = true,
-            imageAnalysis = null,
             isFlashEnabled = true,
             onFlashClicked = {},
             onGalleryClicked = {},

@@ -1,11 +1,9 @@
-package fr.skyle.scanny.ui.home.components
+package fr.skyle.scanny.ui.home.components.camera
 
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageAnalysis
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -13,12 +11,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import fr.skyle.scanny.theme.SCTheme
+import fr.skyle.scanny.utils.scan.BarCodeHelper
 
 @Composable
 fun CameraView(
     isFlashEnabled: Boolean,
-    modifier: Modifier = Modifier,
-    imageAnalysis: ImageAnalysis? = null
+    modifier: Modifier = Modifier
 ) {
     // Lifecycle
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -58,7 +56,7 @@ fun CameraView(
                             camera = cameraProvider.bindToLifecycle(
                                 lifecycleOwner,
                                 cameraSelector,
-                                imageAnalysis,
+                                BarCodeHelper.getImageAnalysis(),
                                 preview
                             )
                         },
@@ -75,7 +73,6 @@ fun CameraView(
 fun PreviewCameraView() {
     SCTheme {
         CameraView(
-            imageAnalysis = null,
             isFlashEnabled = false
         )
     }

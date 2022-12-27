@@ -12,13 +12,17 @@ interface StringConverter {
 @Parcelize
 sealed class QRCodeContent(val type: QRType) : Parcelable, StringConverter {
 
-    data class TextContent(var text: String) : QRCodeContent(QRType.TEXT) {
+    data class TextContent(
+        var text: String
+    ) : QRCodeContent(QRType.TEXT) {
 
         override fun asEncodedString(): String =
             text
     }
 
-    data class UrlContent(var url: String) : QRCodeContent(QRType.URL) {
+    data class UrlContent(
+        var url: String
+    ) : QRCodeContent(QRType.URL) {
 
         // Format
         // http://test.com
@@ -26,7 +30,10 @@ sealed class QRCodeContent(val type: QRType) : Parcelable, StringConverter {
             url
     }
 
-    data class SMSContent(var phoneNumber: String? = null, var message: String? = null) : QRCodeContent(QRType.SMS) {
+    data class SMSContent(
+        var phoneNumber: String? = null,
+        var message: String? = null
+    ) : QRCodeContent(QRType.SMS) {
 
         companion object {
             private const val SMS_TO = "SMSTO"
@@ -47,7 +54,9 @@ sealed class QRCodeContent(val type: QRType) : Parcelable, StringConverter {
             }.joinToString(":")
     }
 
-    data class EmailContent(var email: String) : QRCodeContent(QRType.EMAIL) {
+    data class EmailContent(
+        var email: String
+    ) : QRCodeContent(QRType.EMAIL) {
 
         companion object {
             private const val MAILTO = "MAILTO"
@@ -60,7 +69,11 @@ sealed class QRCodeContent(val type: QRType) : Parcelable, StringConverter {
             }.joinToString(":")
     }
 
-    data class EmailMessageContent(var email: String? = null, var subject: String? = null, var body: String? = null) : QRCodeContent(QRType.EMAIL_MSG) {
+    data class EmailMessageContent(
+        var email: String? = null,
+        var subject: String? = null,
+        var body: String? = null
+    ) : QRCodeContent(QRType.EMAIL_MSG) {
 
         companion object {
             private const val BEGIN = "MATMSG"
