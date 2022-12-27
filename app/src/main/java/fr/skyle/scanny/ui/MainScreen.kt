@@ -4,19 +4,18 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import fr.skyle.scanny.R
 import fr.skyle.scanny.navigation.ScannyNavHost
 
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MainScreen() {
-    // Context
-    val context = LocalContext.current.applicationContext
-
+fun MainScreen(
+    onShowDataPrivacy: () -> Unit,
+    onShowRateTheAppScreen: () -> Unit,
+    onGoToAppSettings: () -> Unit
+) {
     // Nav
     val navController = rememberAnimatedNavController()
 
@@ -24,12 +23,17 @@ fun MainScreen() {
     val systemUiController = rememberSystemUiController()
 
     // Colors of system bars
-    SideEffect {
+    LaunchedEffect(key1 = Unit, block = {
         systemUiController.setSystemBarsColor(
-            color = Color(context.getColor(R.color.sc_transparent)),
+            color = Color.Transparent,
             darkIcons = true
         )
-    }
+    })
 
-    ScannyNavHost(navHostController = navController)
+    ScannyNavHost(
+        navHostController = navController,
+        onShowDataPrivacy = onShowDataPrivacy,
+        onShowRateTheAppScreen = onShowRateTheAppScreen,
+        onGoToAppSettings = onGoToAppSettings
+    )
 }

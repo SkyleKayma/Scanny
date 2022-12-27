@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.scan
+package fr.skyle.scanny.ui.home
 
 import androidx.camera.core.ImageAnalysis
 import androidx.lifecycle.ViewModel
@@ -14,7 +14,7 @@ import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @HiltViewModel
-class ScanViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val cameraExecutor = Executors.newSingleThreadExecutor()
     private var barCodeAnalyzer: BarCodeAnalyzer? = null

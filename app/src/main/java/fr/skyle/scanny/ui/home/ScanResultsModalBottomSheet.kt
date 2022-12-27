@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.scan
+package fr.skyle.scanny.ui.home
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 fun ScanResultsModalBottomSheet(
     sheetState: ModalBottomSheetState,
     barcode: Barcode,
-    viewModel: ScanViewModel
+    viewModel: HomeViewModel
 ) {
     // Remember
     val scope = rememberCoroutineScope()

@@ -7,11 +7,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
+import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.ui.core.TitleText
 import fr.skyle.scanny.ui.generateQRList.components.GeneratorType
 
@@ -30,7 +30,7 @@ fun GenerateQRListScreen(
 
         Text(
             text = stringResource(id = R.string.generate_what_type),
-            color = colorResource(id = R.color.sc_body),
+            color = SCAppTheme.colors.textPrimary,
             style = MaterialTheme.typography.body2
         )
 

@@ -4,22 +4,22 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import fr.skyle.scanny.R
+import fr.skyle.scanny.theme.SCAppTheme
 
 @Composable
 fun TitleText(
     textId: Int,
     modifier: Modifier = Modifier,
-    colorId: Int? = null,
+    color: Color? = null,
     style: TextStyle? = null,
 ) {
     Text(
         modifier = modifier,
         text = stringResource(id = textId),
-        color = colorResource(id = colorId ?: R.color.sc_title),
+        color = color ?: SCAppTheme.colors.textPrimary,
         style = style ?: MaterialTheme.typography.h2
     )
 }

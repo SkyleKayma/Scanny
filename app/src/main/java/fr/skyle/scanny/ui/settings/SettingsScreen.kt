@@ -1,21 +1,20 @@
 package fr.skyle.scanny.ui.settings
 
-import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,15 +23,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.BuildConfig
 import fr.skyle.scanny.R
-import fr.skyle.scanny.theme.ScannyTheme
+import fr.skyle.scanny.theme.SCAppTheme
+import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.core.TitleText
 
 @Composable
 fun SettingsScreen(
     goToNotifications: () -> Unit,
     goToFeedback: () -> Unit,
-    goToRateTheApp: () -> Unit,
     goToDataPrivacy: () -> Unit,
+    goToRateTheApp: () -> Unit,
     goToAbout: () -> Unit
 ) {
     LazyColumn(
@@ -42,43 +42,84 @@ fun SettingsScreen(
         contentPadding = PaddingValues(24.dp)
     ) {
         item {
-            TitleText(textId = R.string.settings_title_general)
+            TitleText(
+                textId = R.string.settings_title_general
+            )
         }
         item {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(
+                modifier = Modifier.height(16.dp)
+            )
         }
         item {
-            SettingsCell(R.drawable.ic_notifications, R.string.settings_notifications, R.color.sc_title, goToNotifications)
+            SettingsCell(
+                startIconId = R.drawable.ic_notifications,
+                textId = R.string.settings_notifications,
+                textColor = SCAppTheme.colors.textPrimary,
+                onClick = goToNotifications
+            )
         }
         item {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(
+                modifier = Modifier.height(16.dp)
+            )
         }
         item {
-            SettingsCell(R.drawable.ic_feedback, R.string.settings_feedback, R.color.sc_title, goToFeedback)
+            SettingsCell(
+                startIconId = R.drawable.ic_feedback,
+                textId = R.string.settings_feedback,
+                textColor = SCAppTheme.colors.textPrimary,
+                onClick = goToFeedback
+            )
         }
         item {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(
+                modifier = Modifier.height(16.dp)
+            )
         }
         item {
-            SettingsCell(R.drawable.ic_rate_app, R.string.settings_rate_app, R.color.sc_title, goToRateTheApp)
+            SettingsCell(
+                startIconId = R.drawable.ic_rate_app,
+                textId = R.string.settings_rate_app,
+                textColor = SCAppTheme.colors.textPrimary,
+                onClick = goToRateTheApp
+            )
         }
         item {
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(
+                modifier = Modifier.height(24.dp)
+            )
         }
         item {
-            TitleText(textId = R.string.settings_title_legal)
+            TitleText(
+                textId = R.string.settings_title_legal
+            )
         }
         item {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(
+                modifier = Modifier.height(16.dp)
+            )
         }
         item {
-            SettingsCell(R.drawable.ic_data_privacy, R.string.settings_data_privacy, R.color.sc_title, goToDataPrivacy)
+            SettingsCell(
+                startIconId = R.drawable.ic_data_privacy,
+                textId = R.string.settings_data_privacy,
+                textColor = SCAppTheme.colors.textPrimary,
+                onClick = goToDataPrivacy
+            )
         }
         item {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(
+                modifier = Modifier.height(16.dp)
+            )
         }
         item {
-            SettingsCell(R.drawable.ic_about, R.string.settings_about, R.color.sc_title, goToAbout)
+            SettingsCell(
+                startIconId = R.drawable.ic_about,
+                textId = R.string.settings_about,
+                textColor = SCAppTheme.colors.textPrimary,
+                onClick = goToAbout
+            )
         }
         item {
             Spacer(modifier = Modifier.height(8.dp))
@@ -88,7 +129,7 @@ fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.End,
                 text = stringResource(id = R.string.settings_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString()),
-                color = colorResource(id = R.color.sc_title),
+                color = SCAppTheme.colors.textPrimary,
                 style = MaterialTheme.typography.caption
             )
         }
@@ -99,7 +140,7 @@ fun SettingsScreen(
 fun SettingsCell(
     @DrawableRes startIconId: Int,
     @StringRes textId: Int,
-    @ColorRes textColorId: Int,
+    textColor: Color,
     onClick: () -> Unit,
     @DrawableRes endIconId: Int? = null,
 ) {
@@ -115,14 +156,14 @@ fun SettingsCell(
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(100))
-                .background(colorResource(id = R.color.sc_background_icon))
+                .background(SCAppTheme.colors.backgroundLight)
                 .padding(12.dp)
         ) {
-            Image(
+            Icon(
                 modifier = Modifier.size(24.dp),
                 painter = painterResource(id = startIconId),
                 contentDescription = stringResource(id = textId),
-                colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_icon_primary))
+                tint = SCAppTheme.colors.primary
             )
         }
 
@@ -132,18 +173,18 @@ fun SettingsCell(
                 .padding(start = 12.dp),
             text = stringResource(id = textId),
             style = MaterialTheme.typography.body1,
-            color = colorResource(textColorId),
+            color = textColor,
             textAlign = TextAlign.Start
         )
 
         endIconId?.let {
             Spacer(modifier = Modifier.width(8.dp))
 
-            Image(
+            Icon(
                 modifier = Modifier.size(24.dp),
                 painter = painterResource(id = it),
                 contentDescription = "",
-                colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_icon_primary))
+                tint = SCAppTheme.colors.primary
             )
         }
     }
@@ -152,15 +193,26 @@ fun SettingsCell(
 @Preview
 @Composable
 fun PreviewSettingsScreen() {
-    ScannyTheme {
-        SettingsScreen({}, {}, {}, {}, {})
+    SCTheme {
+        SettingsScreen(
+            goToNotifications = {},
+            goToFeedback = {},
+            goToRateTheApp = {},
+            goToDataPrivacy = {},
+            goToAbout = {}
+        )
     }
 }
 
 @Preview
 @Composable
 fun PreviewSettingsCell() {
-    ScannyTheme {
-        SettingsCell(R.drawable.ic_notifications, R.string.settings_notifications, R.color.sc_title, {})
+    SCTheme {
+        SettingsCell(
+            startIconId = R.drawable.ic_notifications,
+            textId = R.string.settings_notifications,
+            textColor = SCAppTheme.colors.textPrimary,
+            onClick = {}
+        )
     }
 }

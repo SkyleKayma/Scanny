@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import fr.skyle.scanny.theme.ScannyTheme
+import fr.skyle.scanny.theme.SCTheme
 
 @Composable
 fun HistoryScreen() {
@@ -27,7 +27,7 @@ fun HistoryScreen() {
 @Preview
 @Composable
 fun PreviewHistoryScreen() {
-    ScannyTheme {
+    SCTheme {
         HistoryScreen()
     }
 }

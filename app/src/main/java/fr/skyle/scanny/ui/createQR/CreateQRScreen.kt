@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ext.textId
-import fr.skyle.scanny.theme.ScannyTheme
+import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.createQR.components.CreateQRScaffold
 import fr.skyle.scanny.ui.createQREmail.CreateQREmailScreen
 import fr.skyle.scanny.ui.createQRSMS.CreateQRSMSScreen
@@ -97,7 +97,7 @@ fun CreateQRScreen(
 @Preview
 @Composable
 fun PreviewCreateQRTextScreen() {
-    ScannyTheme {
+    SCTheme {
         CreateQRScreen(
             qrType = QRType.TEXT,
             goBackToGenerateQRList = { true },
@@ -109,7 +109,7 @@ fun PreviewCreateQRTextScreen() {
 @Preview
 @Composable
 fun PreviewCreateQRUrlScreen() {
-    ScannyTheme {
+    SCTheme {
         CreateQRScreen(
             qrType = QRType.URL,
             goBackToGenerateQRList = { true },
@@ -121,7 +121,7 @@ fun PreviewCreateQRUrlScreen() {
 @Preview
 @Composable
 fun PreviewCreateQREmailScreen() {
-    ScannyTheme {
+    SCTheme {
         CreateQRScreen(
             qrType = QRType.EMAIL,
             goBackToGenerateQRList = { true },

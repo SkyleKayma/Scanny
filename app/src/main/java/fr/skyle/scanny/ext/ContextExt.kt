@@ -2,19 +2,10 @@ package fr.skyle.scanny.ext
 
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
-import android.provider.Settings
-
-fun Context.goToAppSettings() {
-    startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-        data = Uri.fromParts("package", packageName, null)
-    })
-}
 
 fun Context.vibrateScan() {
     val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

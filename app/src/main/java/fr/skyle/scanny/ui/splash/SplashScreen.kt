@@ -6,12 +6,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.skyle.scanny.theme.ScannyTheme
+import fr.skyle.scanny.theme.SCTheme
 
 
 @Composable
 fun SplashScreen(
-    goToMainScreen: () -> Unit,
+    goToHome: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
     // Flow
@@ -20,7 +20,7 @@ fun SplashScreen(
     // Effect
     LaunchedEffect(timerFlow) {
         if (timerFlow) {
-            goToMainScreen()
+            goToHome()
         }
     }
 }
@@ -28,7 +28,7 @@ fun SplashScreen(
 @Preview
 @Composable
 fun PreviewSplashScreen() {
-    ScannyTheme {
+    SCTheme {
         SplashScreen({})
     }
 }

@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.skyle.scanny.R
 import fr.skyle.scanny.ext.textId
-import fr.skyle.scanny.theme.ScannyTheme
-import fr.skyle.scanny.ui.core.ScannyTopAppBar
+import fr.skyle.scanny.theme.SCTheme
+import fr.skyle.scanny.ui.core.SCTopAppBar
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 
 @Composable
@@ -46,7 +46,7 @@ fun GenerateQRScreen(
         modifier = Modifier.systemBarsPadding(),
         scaffoldState = scaffoldState,
         topBar = {
-            ScannyTopAppBar(
+            SCTopAppBar(
                 title = stringResource(id = qrCodeContent.type.textId),
                 onClickHomeButton = {
                     goBackToMain()
@@ -106,7 +106,7 @@ fun GenerateQRScreen(
 @Preview
 @Composable
 fun PreviewGenerateQRScreen() {
-    ScannyTheme {
+    SCTheme {
         GenerateQRScreen(
             goBackToMain = { true },
             qrCodeContent = QRCodeContent.TextContent("Text")

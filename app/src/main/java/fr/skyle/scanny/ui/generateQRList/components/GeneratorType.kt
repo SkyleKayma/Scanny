@@ -1,26 +1,25 @@
 package fr.skyle.scanny.ui.generateQRList.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ext.iconId
 import fr.skyle.scanny.ext.textId
+import fr.skyle.scanny.theme.SCAppTheme
+import fr.skyle.scanny.theme.SCTheme
 
 @Composable
 fun GeneratorType(
@@ -32,7 +31,7 @@ fun GeneratorType(
             .fillMaxWidth()
             .aspectRatio(1f),
         elevation = 0.dp,
-        backgroundColor = colorResource(id = R.color.sc_background_primary),
+        backgroundColor = SCAppTheme.colors.backgroundPrimary,
         shape = RoundedCornerShape(12.dp),
         onClick = onClick
     ) {
@@ -43,14 +42,14 @@ fun GeneratorType(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(100))
-                    .background(colorResource(id = R.color.sc_background_icon))
+                    .background(SCAppTheme.colors.backgroundLight)
                     .padding(16.dp)
             ) {
-                Image(
+                Icon(
                     modifier = Modifier.size(28.dp),
                     painter = painterResource(id = qrType.iconId),
                     contentDescription = "",
-                    colorFilter = ColorFilter.tint(colorResource(id = R.color.sc_icon_primary))
+                    tint = SCAppTheme.colors.primary
                 )
             }
 
@@ -58,7 +57,7 @@ fun GeneratorType(
 
             Text(
                 text = stringResource(id = qrType.textId),
-                color = colorResource(id = R.color.sc_title),
+                color = SCAppTheme.colors.textPrimary,
                 style = MaterialTheme.typography.body1
             )
         }
@@ -68,7 +67,7 @@ fun GeneratorType(
 @Preview
 @Composable
 fun PreviewGeneratorType() {
-    Box(modifier = Modifier.size(512.dp)) {
+    SCTheme {
         GeneratorType(
             qrType = QRType.TEXT,
             onClick = {}

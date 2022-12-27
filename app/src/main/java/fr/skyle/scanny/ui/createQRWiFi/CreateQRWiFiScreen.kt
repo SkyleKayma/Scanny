@@ -25,7 +25,7 @@ import fr.skyle.scanny.ANIMATION_TIME_TRANSITION
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.enums.WifiEncryptionType
-import fr.skyle.scanny.ui.core.buttons.ScannyButton
+import fr.skyle.scanny.ui.core.buttons.SCButton
 import fr.skyle.scanny.ui.core.textFields.ScannyPasswordTextField
 import fr.skyle.scanny.ui.core.textFields.ScannyTextField
 import fr.skyle.scanny.ui.createQRWiFi.components.WifiEncryptionSelector
@@ -121,7 +121,7 @@ fun CreateQRWiFiScreen(
                 .heightIn(16.dp)
         )
 
-        ScannyButton(
+        SCButton(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.generic_create),
             onClick = {

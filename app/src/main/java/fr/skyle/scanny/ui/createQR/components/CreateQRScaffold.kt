@@ -5,7 +5,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import fr.skyle.scanny.ui.core.ScannyTopAppBar
+import fr.skyle.scanny.ui.core.SCTopAppBar
 
 @Composable
 fun CreateQRScaffold(
@@ -19,7 +19,7 @@ fun CreateQRScaffold(
         modifier = modifier,
         scaffoldState = scaffoldState,
         topBar = {
-            ScannyTopAppBar(
+            SCTopAppBar(
                 title = title,
                 onClickHomeButton = {
                     onClickHomeButton()

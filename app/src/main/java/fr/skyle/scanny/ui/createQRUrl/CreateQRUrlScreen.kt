@@ -21,8 +21,8 @@ import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
-import fr.skyle.scanny.ui.core.buttons.ScannyButton
-import fr.skyle.scanny.ui.core.buttons.ScannyButtonSelector
+import fr.skyle.scanny.ui.core.buttons.SCButton
+import fr.skyle.scanny.ui.core.buttons.SCButtonSelector
 import fr.skyle.scanny.ui.core.textFields.ScannyTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
@@ -87,7 +87,7 @@ fun CreateQRUrlScreen(
             mainAxisAlignment = FlowMainAxisAlignment.Start
         ) {
             presets.forEach { preset ->
-                ScannyButtonSelector(
+                SCButtonSelector(
                     text = preset,
                     onClick = {
                         val currentIndex = textState.selection.start
@@ -109,7 +109,7 @@ fun CreateQRUrlScreen(
                 .heightIn(16.dp)
         )
 
-        ScannyButton(
+        SCButton(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.generic_create),
             onClick = {

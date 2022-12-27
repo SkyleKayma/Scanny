@@ -9,7 +9,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,7 +28,7 @@ import fr.skyle.scanny.ANIMATION_TIME_TRANSITION
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.WifiEncryptionType
 import fr.skyle.scanny.ext.toDp
-import fr.skyle.scanny.theme.body3
+import fr.skyle.scanny.theme.SCAppTheme
 
 @Composable
 fun WifiEncryptionSelector(
@@ -61,7 +60,7 @@ fun WifiEncryptionSelector(
             modifier = Modifier
                 .offset(x = animatedOffsetDpState)
                 .clip(RoundedCornerShape(12.dp))
-                .background(colorResource(id = R.color.sc_background_secondary))
+                .background(SCAppTheme.colors.backgroundLight)
                 .size(LocalDensity.current.run { sizeState.width.toDp() }, LocalDensity.current.run { sizeState.height.toDp() })
                 .align(Alignment.CenterStart)
         ) {}
@@ -87,7 +86,7 @@ fun WifiEncryptionSelector(
                     .padding(12.dp, 16.dp),
                 textAlign = TextAlign.Center,
                 maxLines = 1,
-                style = MaterialTheme.typography.body3,
+                style = SCAppTheme.typography.body3,
                 text = stringResource(id = R.string.create_qr_label_wifi_encryption_none),
                 color = animateColorAsState(
                     if (currentOffsetSelected == cell1YOffset) {
@@ -109,7 +108,7 @@ fun WifiEncryptionSelector(
                     .padding(12.dp, 16.dp),
                 textAlign = TextAlign.Center,
                 maxLines = 1,
-                style = MaterialTheme.typography.body3,
+                style = SCAppTheme.typography.body3,
                 text = stringResource(id = R.string.create_qr_label_wifi_encryption_wep),
                 color = animateColorAsState(
                     if (currentOffsetSelected == cell2YOffset) {
@@ -131,7 +130,7 @@ fun WifiEncryptionSelector(
                     .padding(12.dp, 16.dp),
                 textAlign = TextAlign.Center,
                 maxLines = 1,
-                style = MaterialTheme.typography.body3,
+                style = SCAppTheme.typography.body3,
                 text = stringResource(id = R.string.create_qr_label_wifi_encryption_wpa_wpa2),
                 color = animateColorAsState(
                     if (currentOffsetSelected == cell3YOffset) {
