@@ -3,12 +3,10 @@ package fr.skyle.scanny.ui.home
 import androidx.camera.core.ImageAnalysis
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.mlkit.vision.barcode.common.Barcode
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.skyle.scanny.enums.ModalType
+import fr.skyle.scanny.events.modalTypeEvent
 import fr.skyle.scanny.utils.scan.BarCodeAnalyzer
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 import javax.inject.Inject
@@ -16,52 +14,33 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor() : ViewModel() {
 
-    private val cameraExecutor = Executors.newSingleThreadExecutor()
     private var barCodeAnalyzer: BarCodeAnalyzer? = null
     private var imageAnalysis: ImageAnalysis? = null
-
-    val scanEvent: StateFlow<State>
-        get() = _scanEvent.asStateFlow()
-    private val _scanEvent = MutableStateFlow<State>(State.NONE)
 
     fun getImageAnalysis(): ImageAnalysis {
         if (imageAnalysis == null) {
             imageAnalysis = ImageAnalysis.Builder()
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .build().apply {
-                    barCodeAnalyzer = BarCodeAnalyzer {
-                        // Send event
-                        _scanEvent.tryEmit(State.SCANNING)
+                .build()
 
-                        val barcode = it.firstOrNull()
+            barCodeAnalyzer = BarCodeAnalyzer {
+                it.firstOrNull()?.let { barcode ->
+                    // Disable scanning when we are showing results
+                    isQRCodeScanEnabled(false)
 
-                        // Check content
-                        if (barcode != null) {
-
-                            // Disable scanning when we are showing results
-                            barCodeAnalyzer?.canDetectCode = false
-
-                            viewModelScope.launch {
-                                // Send event
-                                _scanEvent.tryEmit(State.SUCCESS(barcode))
-                            }
-                        }
-                    }
-                    barCodeAnalyzer?.let {
-                        setAnalyzer(cameraExecutor, it)
+                    viewModelScope.launch {
+                        // Show success modal
+                        modalTypeEvent.emit(ModalType.ScanSuccessModal(barcode))
                     }
                 }
+            }
+
+            imageAnalysis?.setAnalyzer(Executors.newSingleThreadExecutor(), barCodeAnalyzer!!)
         }
         return imageAnalysis!!
     }
 
-    fun reactivateQRCodeScan() {
-        barCodeAnalyzer?.canDetectCode = true
-    }
-
-    sealed class State {
-        object SCANNING : State()
-        data class SUCCESS(val barcode: Barcode) : State()
-        object NONE : State()
+    fun isQRCodeScanEnabled(isEnabled: Boolean) {
+        barCodeAnalyzer?.canDetectCode = isEnabled
     }
 }
