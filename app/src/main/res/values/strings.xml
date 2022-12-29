@@ -2,6 +2,7 @@
     <!-- App -->
     <string name="app_name" translatable="false">Scanny</string>
     <string name="app_data_privacy_url" translatable="false">https://skylekayma.github.io/scanny.github.io/privacy-policy.html</string>
+    <string name="openium_url" translatable="false">https://www.openium.fr</string>
 
     <!-- Generic -->
     <string name="generic_create">Create</string>
@@ -47,13 +48,15 @@
     <string name="generate_qr_share">Share</string>
 
     <!-- Settings -->
-    <string name="settings_title_general">General</string>
-    <string name="settings_notifications">Notifications</string>
+    <string name="settings_general">General</string>
+    <string name="settings_vibration">Vibrate when scan is complete</string>
+    <string name="settings_open_url">Open links automatically after scan</string>
+    <string name="settings_app">Scanny</string>
+    <string name="settings_about">About</string>
+    <string name="settings_openium" translatable="false">Openium</string>
     <string name="settings_feedback">Feedback</string>
     <string name="settings_rate_app">Rate the app</string>
-    <string name="settings_title_legal">Legal</string>
     <string name="settings_data_privacy">Data Privacy</string>
-    <string name="settings_about">About</string>
     <string name="settings_version">Version %1$s (Build %2$s)</string>
 
 </resources>

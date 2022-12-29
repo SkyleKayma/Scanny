@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,7 +27,7 @@ fun CameraFilter(
     onGalleryClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val backgroundColor = colorResource(id = R.color.sc_black).copy(alpha = 0.5f)
+    val backgroundColor = SCAppTheme.colors.backgroundBlack.copy(alpha = 0.5f)
 
     ConstraintLayout(modifier = modifier) {
         val (topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner,

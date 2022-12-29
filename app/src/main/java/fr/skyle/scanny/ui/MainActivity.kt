@@ -23,25 +23,28 @@ class MainActivity : ComponentActivity() {
         setContent {
             SCTheme {
                 MainScreen(
-                    onShowDataPrivacy = {
-                        showDataPrivacy()
+                    navigateToDataPrivacy = {
+                        navigateToDataPrivacy()
                     },
-                    onShowRateTheAppScreen = {
-                        showRateTheAppScreen()
+                    navigateToRateApp = {
+                        navigateToRateApp()
                     },
-                    onGoToAppSettings = {
-                        showAppSettings()
+                    navigateToAppSettings = {
+                        navigateToAppSettings()
+                    },
+                    navigateToOpenium = {
+                        navigateToOpenium()
                     }
                 )
             }
         }
     }
 
-    private fun showDataPrivacy() {
+    private fun navigateToDataPrivacy() {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_data_privacy_url))))
     }
 
-    private fun showRateTheAppScreen() {
+    private fun navigateToRateApp() {
         val marketIntent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${packageName}")).apply {
             addFlags(
                 Intent.FLAG_ACTIVITY_NO_HISTORY or
@@ -55,9 +58,13 @@ class MainActivity : ComponentActivity() {
         } else startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=${packageName}")))
     }
 
-    private fun showAppSettings() {
+    private fun navigateToAppSettings() {
         startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
             data = Uri.fromParts("package", packageName, null)
         })
+    }
+
+    private fun navigateToOpenium() {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.openium_url))))
     }
 }

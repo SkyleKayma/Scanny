@@ -1,13 +1,17 @@
 package fr.skyle.scanny.navigation
 
+import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
+import fr.skyle.scanny.ext.findActivity
 import fr.skyle.scanny.ui.home.HomeScreen
+import fr.skyle.scanny.ui.settings.SettingsScreen
 import fr.skyle.scanny.ui.splash.SplashScreen
 
 // --- Routes
@@ -38,10 +42,14 @@ const val ARG_QR_CODE_CONTENT = "ARG_QR_CODE_CONTENT"
 @Composable
 fun ScannyNavHost(
     navHostController: NavHostController,
-    onShowDataPrivacy: () -> Unit,
-    onShowRateTheAppScreen: () -> Unit,
-    onGoToAppSettings: () -> Unit
+    navigateToDataPrivacy: () -> Unit,
+    navigateToRateApp: () -> Unit,
+    navigateToAppSettings: () -> Unit,
+    navigateToOpenium: () -> Unit
 ) {
+    // Context
+    val context = LocalContext.current
+
     AnimatedNavHost(
         modifier = Modifier.fillMaxSize(),
         navController = navHostController,
@@ -60,7 +68,10 @@ fun ScannyNavHost(
         }
         composable(route = Route.HOME) {
             HomeScreen(
-                navigateToAppSettings = onGoToAppSettings
+                navigateToAppSettings = navigateToAppSettings,
+                navigateToSettings = {
+                    navHostController.navigate(Route.SETTINGS)
+                }
             )
         }
 //        composable(route = Destination.SCAN_HISTORY) {
@@ -73,15 +84,18 @@ fun ScannyNavHost(
 //                }
 //            )
 //        }
-//        composable(route = Destination.SETTINGS) {
-//            SettingsScreen(
-//                goToNotifications = {},
-//                goToFeedback = {},
-//                goToDataPrivacy = onShowDataPrivacy,
-//                goToRateTheApp = onShowRateTheAppScreen,
-//                goToAbout = {}
-//            )
-//        }
+        composable(route = Route.SETTINGS) {
+            SettingsScreen(
+                navigateToFeedback = {},
+                navigateToDataPrivacy = navigateToDataPrivacy,
+                navigateToRateApp = navigateToRateApp,
+                navigateToAbout = {},
+                navigateToOpenium = navigateToOpenium,
+                navigateBack = {
+                    navHostController.popBackOrExit(context)
+                }
+            )
+        }
 //        composable(
 //            route = "${Destination.CREATE_QR}/{${Argument.QR_TYPE}}",
 //            arguments = listOf(
@@ -117,5 +131,12 @@ fun ScannyNavHost(
 //                )
 //            }
 //        }
+    }
+}
+
+private fun NavHostController.popBackOrExit(composableContext: Context) {
+    if (!popBackStack()) {
+        val activity = composableContext.findActivity()
+        activity.finish()
     }
 }

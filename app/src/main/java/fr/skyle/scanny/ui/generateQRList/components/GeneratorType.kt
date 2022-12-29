@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -58,7 +57,7 @@ fun GeneratorType(
             Text(
                 text = stringResource(id = qrType.textId),
                 color = SCAppTheme.colors.textPrimary,
-                style = MaterialTheme.typography.body1
+                style = SCAppTheme.typography.body1
             )
         }
     }

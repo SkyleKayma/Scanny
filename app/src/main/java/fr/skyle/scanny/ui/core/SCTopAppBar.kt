@@ -1,6 +1,6 @@
 package fr.skyle.scanny.ui.core
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,45 +36,45 @@ fun SCTopAppBar(
         modifier = modifier.fillMaxWidth(),
         elevation = 0.dp
     ) {
-        Box {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             onClickHomeButton?.let {
+                val startIcon = painterResource(
+                    id = if (!isComingFromDown) {
+                        R.drawable.ic_arrow_left
+                    } else R.drawable.ic_arrow_down
+                )
+
                 IconButton(onClick = it) {
                     Icon(
                         modifier = Modifier.size(32.dp),
-                        painter = if (!isComingFromDown) {
-                            painterResource(id = R.drawable.ic_arrow_left)
-                        } else painterResource(id = R.drawable.ic_arrow_down),
+                        painter = startIcon,
                         contentDescription = null,
-                        tint = Color.Unspecified
+                        tint = SCAppTheme.colors.textDark
                     )
                 }
             }
 
             Text(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.Center)
-                    .padding(40.dp, 0.dp),
+                    .weight(1f)
+                    .padding(horizontal = 12.dp),
                 text = title ?: "",
-                color = SCAppTheme.colors.textPrimary,
-                style = SCAppTheme.typography.menu,
-                textAlign = TextAlign.Center,
+                color = SCAppTheme.colors.textDark,
+                style = SCAppTheme.typography.h3,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
 
-            if (actionIconId != null) {
-                IconButton(
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                    onClick = {
-                        onClickAction?.invoke()
-                    }
-                ) {
+            onClickAction?.let {
+                IconButton(onClick = it) {
                     Icon(
                         modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = actionIconId),
+                        painter = painterResource(id = actionIconId ?: R.drawable.ic_notifications),
                         contentDescription = null,
-                        tint = actionIconColor ?: SCAppTheme.colors.textPrimary
+                        tint = actionIconColor ?: SCAppTheme.colors.textDark
                     )
                 }
             }
@@ -88,11 +87,7 @@ fun SCTopAppBar(
 fun SCTopAppBarPreview() {
     SCTheme {
         SCTopAppBar(
-            modifier = Modifier,
             title = stringResource(id = R.string.app_name),
-            onClickHomeButton = null,
-            actionIconId = null,
-            onClickAction = {}
         )
     }
 }
@@ -102,11 +97,8 @@ fun SCTopAppBarPreview() {
 fun SCTopAppBarPreviewWithHomeButton() {
     SCTheme {
         SCTopAppBar(
-            modifier = Modifier,
             title = stringResource(id = R.string.app_name),
-            onClickHomeButton = {},
-            actionIconId = null,
-            onClickAction = {}
+            onClickHomeButton = {}
         )
     }
 }
@@ -116,7 +108,6 @@ fun SCTopAppBarPreviewWithHomeButton() {
 fun SCTopAppBarPreviewWithHomeAndAction() {
     SCTheme {
         SCTopAppBar(
-            modifier = Modifier,
             title = stringResource(id = R.string.app_name),
             onClickHomeButton = {},
             actionIconId = R.drawable.ic_arrow_right,

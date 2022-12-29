@@ -8,6 +8,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import fr.skyle.scanny.theme.SCAppTheme
+import fr.skyle.scanny.ui.core.SystemIconsColor
 import fr.skyle.scanny.ui.home.components.HomeScreenContent
 
 
@@ -15,8 +17,16 @@ import fr.skyle.scanny.ui.home.components.HomeScreenContent
 @Composable
 fun HomeScreen(
     navigateToAppSettings: () -> Unit,
+    navigateToSettings: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    // Set system icons color
+    SystemIconsColor(
+        statusBarDarkIcons = false,
+        navigationBarDarkIcons = false,
+        navigationBarColor = SCAppTheme.colors.transparent
+    )
+
     // Remember
     val cameraPermissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
     var isFlashEnabled by remember { mutableStateOf(false) }
@@ -36,6 +46,7 @@ fun HomeScreen(
         onGalleryClicked = {
             // TODO
         },
-        navigateToAppSettings = navigateToAppSettings
+        navigateToAppSettings = navigateToAppSettings,
+        navigateToSettings = navigateToSettings
     )
 }

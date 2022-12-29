@@ -27,7 +27,7 @@ fun ScanSuccessBottomSheet(
     Column(
         modifier = Modifier
             .wrapContentHeight()
-            .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+            .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
             .background(SCAppTheme.colors.backgroundLight)
             .padding(start = 16.dp, end = 16.dp, bottom = 32.dp)
             .navigationBarsPadding(),

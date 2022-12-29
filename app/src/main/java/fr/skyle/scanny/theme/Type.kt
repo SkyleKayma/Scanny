@@ -12,7 +12,6 @@ data class SCTypography(
     val h1: TextStyle,
     val h2: TextStyle,
     val h3: TextStyle,
-    val menu: TextStyle,
     val body1: TextStyle,
     val body2: TextStyle,
     val body3: TextStyle,
@@ -35,11 +34,6 @@ val Typography = SCTypography(
     h3 = TextStyle(
         fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp
-    ),
-    menu = TextStyle(
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 12.sp,
-        letterSpacing = 0.4.sp
     ),
     body1 = TextStyle(
         fontWeight = FontWeight.Medium,
@@ -76,7 +70,6 @@ val LocalTypography = staticCompositionLocalOf {
         h1 = TextStyle.Default,
         h2 = TextStyle.Default,
         h3 = TextStyle.Default,
-        menu = TextStyle.Default,
         body1 = TextStyle.Default,
         body2 = TextStyle.Default,
         body3 = TextStyle.Default,

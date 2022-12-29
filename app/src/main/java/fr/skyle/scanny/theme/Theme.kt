@@ -18,6 +18,8 @@ fun SCTheme(content: @Composable () -> Unit) {
         transparent = colorResource(id = R.color.sc_transparent),
         primary = colorResource(id = R.color.sc_primary),
         textPrimary = colorResource(id = R.color.sc_text_primary),
+        text = colorResource(id = R.color.sc_text),
+        textDark = colorResource(id = R.color.sc_text_dark),
         textLight = colorResource(id = R.color.sc_text_light),
         textDisabled = colorResource(id = R.color.sc_text_disabled),
         textBlack = colorResource(id = R.color.sc_black),
@@ -25,6 +27,7 @@ fun SCTheme(content: @Composable () -> Unit) {
         backgroundPrimary = colorResource(id = R.color.sc_background_primary),
         backgroundLight = colorResource(id = R.color.sc_background_light),
         backgroundDisabled = colorResource(id = R.color.sc_background_disabled),
+        backgroundIcon = colorResource(id = R.color.sc_background_icon),
         backgroundBlack = colorResource(id = R.color.sc_black)
     )
 

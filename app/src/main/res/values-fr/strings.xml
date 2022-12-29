@@ -43,13 +43,14 @@
     <string name="generate_qr_share">Partager</string>
 
     <!-- Settings -->
-    <string name="settings_title_general">Général</string>
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_feedback">Feedback</string>
-    <string name="settings_rate_app">Noter l\'application</string>
-    <string name="settings_title_legal">Légal</string>
-    <string name="settings_data_privacy">Politique de confidentialité</string>
+    <string name="settings_general">Général</string>
+    <string name="settings_vibration">Vibrer lorsque le scan est terminé</string>
+    <string name="settings_open_url">Ouvrir les liens automatiquement après le scan</string>
+    <string name="settings_app">Scanny</string>
     <string name="settings_about">À propos</string>
+    <string name="settings_feedback">Avis</string>
+    <string name="settings_rate_app">Noter l\'application</string>
+    <string name="settings_data_privacy">Politique de confidentialité</string>
     <string name="settings_version">Version %1$s (Build %2$s)</string>
 
 </resources>

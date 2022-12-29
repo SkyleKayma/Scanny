@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.ext.clearFocusOnKeyboardDismiss
+import fr.skyle.scanny.theme.SCAppTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -48,7 +49,7 @@ fun ScannyBasicTextField(
 
     Column {
         OutlinedTextField(
-            textStyle = MaterialTheme.typography.body1,
+            textStyle = SCAppTheme.typography.body1,
             modifier = modifier
                 .fillMaxWidth()
                 .clearFocusOnKeyboardDismiss()

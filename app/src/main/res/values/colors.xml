@@ -11,6 +11,8 @@
     <color name="sc_primary">#3B43BE</color>
 
     <color name="sc_text_primary">#3B43BE</color>
+    <color name="sc_text">#666792</color>
+    <color name="sc_text_dark">#2E2669</color>
     <color name="sc_text_light">#FFFFFF</color>
     <color name="sc_text_disabled">#AAAAAA</color>
 
@@ -18,4 +20,5 @@
     <color name="sc_background_light">#FEFEFE</color>
     <color name="sc_background_primary">#3C44BF</color>
     <color name="sc_background_disabled">#CDCDCD</color>
+    <color name="sc_background_icon">#ECEDFA</color>
 </resources>
