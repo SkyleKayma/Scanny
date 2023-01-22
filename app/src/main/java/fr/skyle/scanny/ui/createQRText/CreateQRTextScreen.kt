@@ -86,7 +86,7 @@ fun CreateQRTextScreen(
             onClick = {
                 scope.launch {
                     if (isContentValid(textState.text)) {
-                        goToGenerateQRCode(QRCodeContent.TextContent(textState.text))
+                        goToGenerateQRCode(QRCodeContent.TextContent(text = textState.text))
                     } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                 }
             }

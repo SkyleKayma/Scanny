@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.home.components
+package fr.skyle.scanny.ui.scan.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,7 @@ import fr.skyle.scanny.R
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.core.SCTopAppBar
-import fr.skyle.scanny.ui.home.components.camera.CameraView
+import fr.skyle.scanny.ui.scan.components.camera.CameraView
 
 @Composable
 fun HomeScreenContent(
@@ -51,7 +51,7 @@ fun HomeScreenContent(
                 onClickAction = navigateToSettings
             )
         } else {
-            SettingsPermission(
+            ScanPermissionDenied(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .padding(horizontal = 32.dp),

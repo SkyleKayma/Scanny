@@ -101,7 +101,7 @@ fun PreviewCreateQRTextScreen() {
         CreateQRScreen(
             qrType = QRType.TEXT,
             goBackToGenerateQRList = { true },
-            goToGenerateQRCode = { QRCodeContent.TextContent("Text") }
+            goToGenerateQRCode = { QRCodeContent.TextContent(text = "Text") }
         )
     }
 }
@@ -113,7 +113,7 @@ fun PreviewCreateQRUrlScreen() {
         CreateQRScreen(
             qrType = QRType.URL,
             goBackToGenerateQRList = { true },
-            goToGenerateQRCode = { QRCodeContent.TextContent("Url") }
+            goToGenerateQRCode = { QRCodeContent.TextContent(text = "Url") }
         )
     }
 }
@@ -125,7 +125,7 @@ fun PreviewCreateQREmailScreen() {
         CreateQRScreen(
             qrType = QRType.EMAIL,
             goBackToGenerateQRList = { true },
-            goToGenerateQRCode = { QRCodeContent.TextContent("Email") }
+            goToGenerateQRCode = { QRCodeContent.TextContent(text = "Email") }
         )
     }
 }

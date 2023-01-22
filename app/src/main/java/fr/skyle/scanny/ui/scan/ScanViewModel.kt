@@ -1,8 +1,8 @@
-package fr.skyle.scanny.ui.home
+package fr.skyle.scanny.ui.scan
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel()
+class ScanViewModel @Inject constructor() : ViewModel()

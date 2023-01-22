@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.home.components.camera
+package fr.skyle.scanny.ui.scan.components.camera
 
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector

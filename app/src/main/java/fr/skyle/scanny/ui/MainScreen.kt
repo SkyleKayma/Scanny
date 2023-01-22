@@ -8,6 +8,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -17,7 +19,8 @@ import fr.skyle.scanny.ext.vibrateScan
 import fr.skyle.scanny.navigation.ScannyNavHost
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.ui.core.SystemIconsColor
-import fr.skyle.scanny.ui.home.components.ScanSuccessBottomSheet
+import fr.skyle.scanny.ui.scanDetail.ScanDetail
+import fr.skyle.scanny.utils.qrCode.QRCodeContent
 import fr.skyle.scanny.utils.scan.BarCodeHelper
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -29,7 +32,13 @@ fun MainScreen(
     navigateToDataPrivacy: () -> Unit,
     navigateToRateApp: () -> Unit,
     navigateToAppSettings: () -> Unit,
-    navigateToOpenium: () -> Unit
+    navigateToOpenium: () -> Unit,
+    onShareContent: (String) -> Unit,
+    onOpenLink: (QRCodeContent.UrlContent) -> Unit,
+    onSendEmail: (QRCodeContent.EmailMessageContent) -> Unit,
+    onSendSMS: (QRCodeContent.SMSContent) -> Unit,
+    onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
+    onAddToContact: (QRCodeContent.ContactContent) -> Unit
 ) {
     // Context
     val context = LocalContext.current
@@ -51,6 +60,7 @@ fun MainScreen(
         initialValue = ModalBottomSheetValue.Hidden,
         skipHalfExpanded = true
     )
+    val clipboardManager: ClipboardManager = LocalClipboardManager.current
 
     // Back override
     BackHandler(enabled = modalState.isVisible) {
@@ -70,9 +80,20 @@ fun MainScreen(
         modalTypeEvent.collectLatest { bottomSheetType ->
             when (bottomSheetType) {
                 is ModalType.ScanSuccessModal -> {
+                    context.vibrateScan()
                     modalContent = {
-                        context.vibrateScan()
-                        ScanSuccessBottomSheet(barcode = bottomSheetType.barcode)
+                        ScanDetail(
+                            barcode = bottomSheetType.barcode,
+                            onCopyContent = {
+                                clipboardManager.setText(it)
+                            },
+                            onShareContent = onShareContent,
+                            onOpenLink = onOpenLink,
+                            onSendEmail = onSendEmail,
+                            onSendSMS = onSendSMS,
+                            onConnectToWifi = onConnectToWifi,
+                            onAddToContact = onAddToContact
+                        )
                     }
                     modalState.show()
                 }
@@ -82,7 +103,7 @@ fun MainScreen(
     }
 
     ModalBottomSheetLayout(
-        sheetShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+        sheetShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
         sheetBackgroundColor = SCAppTheme.colors.background,
         sheetState = modalState,
         sheetContent = { modalContent() }
@@ -95,4 +116,23 @@ fun MainScreen(
             navigateToOpenium = navigateToOpenium
         )
     }
+
+//    shareQRCodeContent?.let {
+//        val formattedText = shareQRCodeContent?.asFormattedString(context)?.toString() ?: ""
+//
+//        SCDialog(
+//            title = "Que souhaitez-vous partager ?",
+//            actionText1 = "Le contenu formaté",
+//            actionText2 = "Le contenu brut",
+//            onDismiss = {
+//                shareQRCodeContent = null
+//            },
+//            onClickAction1 = {
+//                onShareContent(formattedText)
+//            },
+//            onClickAction2 = {
+//                onShareContent(shareQRCodeContent?.rawData ?: "")
+//            }
+//        )
+//    }
 }

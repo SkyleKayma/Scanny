@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.home
+package fr.skyle.scanny.ui.scan
 
 import android.Manifest
 import androidx.compose.foundation.layout.*
@@ -10,7 +10,7 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.ui.core.SystemIconsColor
-import fr.skyle.scanny.ui.home.components.HomeScreenContent
+import fr.skyle.scanny.ui.scan.components.HomeScreenContent
 
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -18,7 +18,7 @@ import fr.skyle.scanny.ui.home.components.HomeScreenContent
 fun HomeScreen(
     navigateToAppSettings: () -> Unit,
     navigateToSettings: () -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: ScanViewModel = hiltViewModel()
 ) {
     // Set system icons color
     SystemIconsColor(

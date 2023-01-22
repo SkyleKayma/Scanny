@@ -10,7 +10,7 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import fr.skyle.scanny.ext.findActivity
-import fr.skyle.scanny.ui.home.HomeScreen
+import fr.skyle.scanny.ui.scan.HomeScreen
 import fr.skyle.scanny.ui.settings.SettingsScreen
 import fr.skyle.scanny.ui.splash.SplashScreen
 

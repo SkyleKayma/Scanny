@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.home.components
+package fr.skyle.scanny.ui.scan.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -15,7 +15,7 @@ import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.core.buttons.SCButton
 
 @Composable
-fun SettingsPermission(
+fun ScanPermissionDenied(
     navigateToSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -42,9 +42,9 @@ fun SettingsPermission(
 
 @Preview
 @Composable
-fun PreviewSettingsPermission() {
+fun PreviewScanPermissionDenied() {
     SCTheme {
-        SettingsPermission(
+        ScanPermissionDenied(
             navigateToSettings = {}
         )
     }

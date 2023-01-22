@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.skyle.scanny.ext.asEncodedString
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 import fr.skyle.scanny.utils.qrCode.QRCodeData
 import fr.skyle.scanny.utils.qrCode.QRCodeHelper

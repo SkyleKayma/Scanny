@@ -5,31 +5,34 @@ import fr.skyle.scanny.enums.WifiEncryptionType
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 
 
-val Barcode.toQRCodeContent: QRCodeContent
-    get() = when (this.valueType) {
+val Barcode?.toQRCodeContent: QRCodeContent
+    get() = when (this?.valueType) {
         Barcode.TYPE_TEXT ->
             QRCodeContent.TextContent(
+                rawData = rawValue,
                 text = rawValue ?: ""
             )
         Barcode.TYPE_URL ->
             QRCodeContent.UrlContent(
+                rawData = rawValue ?: "",
                 url = url?.url ?: ""
             )
         Barcode.TYPE_EMAIL ->
-            // The scan can tell us if it's uses MATMSG or MAILTO format
-            // So we use the format that can handle the most data and hope that MLKit handle the rest
             QRCodeContent.EmailMessageContent(
+                rawData = rawValue ?: "",
                 email = email?.address,
                 subject = email?.subject,
                 body = email?.body
             )
         Barcode.TYPE_SMS ->
             QRCodeContent.SMSContent(
+                rawData = rawValue ?: "",
                 phoneNumber = sms?.phoneNumber,
                 message = sms?.message
             )
         Barcode.TYPE_WIFI ->
             QRCodeContent.WiFiContent(
+                rawData = rawValue ?: "",
                 ssid = wifi?.ssid,
                 encryptionType = WifiEncryptionType.fromBarcodeWifi(wifi),
                 password = wifi?.password,
@@ -37,8 +40,9 @@ val Barcode.toQRCodeContent: QRCodeContent
             )
         Barcode.TYPE_CONTACT_INFO ->
             QRCodeContent.ContactContent(
-                contactInfo?.name?.first,
-                contactInfo?.name?.last
+                rawData = rawValue ?: "",
+                firstName = contactInfo?.name?.first,
+                lastName = contactInfo?.name?.last
             ) // TODO
 //        Barcode.TYPE_PHONE -> {
 //
@@ -58,5 +62,8 @@ val Barcode.toQRCodeContent: QRCodeContent
 //        Barcode.TYPE_ISBN -> {
 //
 //        }
-        else -> QRCodeContent.TextContent(rawValue ?: "")
+        else -> QRCodeContent.TextContent(
+            rawData = this?.rawValue ?: "",
+            text = this?.rawValue ?: ""
+        )
     }

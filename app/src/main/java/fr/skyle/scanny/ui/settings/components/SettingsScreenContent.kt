@@ -78,7 +78,7 @@ fun SettingsScreenContent(
                     )
 
                     SettingsSwitchCell(
-                        startIconId = R.drawable.ic_open_url,
+                        startIconId = R.drawable.ic_open_link,
                         text = stringResource(id = R.string.settings_open_url),
                         textColor = SCAppTheme.colors.textDark,
                         isChecked = isOpenLinkAfterScanEnabled,
