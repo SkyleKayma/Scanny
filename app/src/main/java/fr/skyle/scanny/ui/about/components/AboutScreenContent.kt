@@ -115,7 +115,7 @@ fun AboutScreenContent(
 
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(id = R.string.settings_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString()),
+                    text = stringResource(id = R.string.settings_version_short, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString()),
                     style = SCAppTheme.typography.body1,
                     color = SCAppTheme.colors.textDark,
                     overflow = TextOverflow.Ellipsis,
