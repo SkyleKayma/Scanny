@@ -13,7 +13,7 @@ import fr.skyle.scanny.ui.core.SystemIconsColor
 
 @Composable
 fun SplashScreen(
-    goToHome: () -> Unit,
+    goToScan: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
     // Set system icons color
@@ -29,7 +29,7 @@ fun SplashScreen(
     // Effect
     LaunchedEffect(timerFlow) {
         if (timerFlow) {
-            goToHome()
+            goToScan()
         }
     }
 }

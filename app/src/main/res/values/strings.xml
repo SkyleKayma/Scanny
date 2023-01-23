@@ -15,12 +15,6 @@
     <string name="permission_camera_required_message_refused">Camera permission is denied, allow it in phone settings.</string>
     <string name="permission_settings">Settings</string>
 
-    <!-- Bottom bar -->
-    <string name="home_scan">Scan</string>
-    <string name="home_generate">Generate</string>
-    <string name="home_history">History</string>
-    <string name="home_settings">Settings</string>
-
     <!-- Scan -->
     <string name="scan_detail_content">Content</string>
     <string name="scan_detail_formatted_content">Formatted content</string>
@@ -58,9 +52,9 @@
     <string name="generate_wifi">WiFi</string>
     <string name="generate_email">Email</string>
     <string name="generate_sms">SMS</string>
-    <string name="generate_what_type">What type of QRCode do you want to generate?</string>
+    <string name="generate_what_type">What type of QR Code do you want to generate?</string>
 
-    <!-- Create QRCode -->
+    <!-- Create QR Code -->
     <string name="create_qr_label_text">Text</string>
     <string name="create_qr_label_link">Link</string>
     <string name="create_qr_label_email">Email</string>
@@ -75,11 +69,12 @@
     <string name="create_qr_label_wifi_encryption_none">None</string>
     <string name="create_qr_label_wifi_password">Password</string>
 
-    <!-- Generate QRCode -->
+    <!-- Generate QR Code -->
     <string name="generate_qr_save">Save</string>
     <string name="generate_qr_share">Share</string>
 
     <!-- Settings -->
+    <string name="settings_title">Settings</string>
     <string name="settings_general">General</string>
     <string name="settings_vibration">Vibrate when scan is complete</string>
     <string name="settings_open_url">Open links automatically after scan</string>
@@ -91,5 +86,16 @@
     <string name="settings_rate_app">Rate the app</string>
     <string name="settings_data_privacy">Data Privacy</string>
     <string name="settings_version">Version %1$s (Build %2$s)</string>
+    <string name="settings_version_short">%1$s (Build %2$s)</string>
+
+    <!-- About -->
+    <string name="about_title">About</string>
+    <string name="about_version">Version</string>
+    <string name="about_created_by">Created by</string>
+    <string name="about_created_by_desc">Skyle with ❤️ at Openium</string>
+    <string name="about_github">Github</string>
+    <string name="about_github_link">https://github.com/SkyleKayma/Scanny</string>
+    <string name="about_desc">This application aims to be able to scan QR codes and barcodes, using the latest known technologies and without advertising, while remaining very light and reliable.</string>
+    <string name="about_thanks_message">Thank you for using the app!</string>
 
 </resources>

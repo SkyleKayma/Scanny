@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                         shareTextContent(it)
                     },
                     onOpenLink = {
-                        navigateToLink(it.url)
+                        navigateToLink(it)
                     },
                     onSendEmail = {
                         sendEmail(it.email, it.subject, it.body)
@@ -162,8 +162,10 @@ class MainActivity : ComponentActivity() {
                 WifiEncryptionType.WEP -> {
                     // Not handle by the API
                 }
+
                 WifiEncryptionType.WPA_WPA2 ->
                     suggestion.setWpa2Passphrase(password)
+
                 WifiEncryptionType.NONE ->
                     suggestion.setWpa3Passphrase(password)
             }

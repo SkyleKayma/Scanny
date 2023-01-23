@@ -1,7 +1,6 @@
 package fr.skyle.scanny.ui.settings.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -52,120 +51,119 @@ fun SettingsScreenContent(
         topBar = {
             SCTopAppBar(
                 modifier = Modifier.background(SCAppTheme.colors.background),
-                title = stringResource(id = R.string.home_settings),
+                title = stringResource(id = R.string.settings_title),
                 onClickHomeButton = navigateBack
             )
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .background(SCAppTheme.colors.background)
+                .verticalScroll(rememberScrollState())
+                .padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 24.dp)
+        ) {
+            SettingsTitleText(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(id = R.string.settings_general)
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(SCAppTheme.colors.background)
-                    .verticalScroll(rememberScrollState())
-                    .padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 24.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(SCAppTheme.colors.backgroundLight)
             ) {
-                SettingsTitleText(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(id = R.string.settings_general)
+                SettingsSwitchCell(
+                    startIconId = R.drawable.ic_vibration,
+                    text = stringResource(id = R.string.settings_vibration),
+                    textColor = SCAppTheme.colors.textDark,
+                    isChecked = isVibrateAfterScanEnabled,
+                    onSwitchChecked = onVibrationAfterScanChanged
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(SCAppTheme.colors.backgroundLight)
-                ) {
-                    SettingsSwitchCell(
-                        startIconId = R.drawable.ic_vibration,
-                        text = stringResource(id = R.string.settings_vibration),
-                        textColor = SCAppTheme.colors.textDark,
-                        isChecked = isVibrateAfterScanEnabled,
-                        onSwitchChecked = onVibrationAfterScanChanged
-                    )
-
-                    SettingsSwitchCell(
-                        startIconId = R.drawable.ic_open_link,
-                        text = stringResource(id = R.string.settings_open_url),
-                        textColor = SCAppTheme.colors.textDark,
-                        isChecked = isOpenLinkAfterScanEnabled,
-                        onSwitchChecked = onOpenLinkAfterScanChanged
-                    )
-
-                    SettingsSwitchCell(
-                        startIconId = R.drawable.ic_code,
-                        text = stringResource(id = R.string.settings_show_raw_content),
-                        textColor = SCAppTheme.colors.textDark,
-                        isChecked = isRawContentShown,
-                        onSwitchChecked = onRawContentShownChanged,
-                        withDivider = false
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                SettingsTitleText(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(id = R.string.settings_app)
+                SettingsSwitchCell(
+                    startIconId = R.drawable.ic_open_link,
+                    text = stringResource(id = R.string.settings_open_url),
+                    textColor = SCAppTheme.colors.textDark,
+                    isChecked = isOpenLinkAfterScanEnabled,
+                    onSwitchChecked = onOpenLinkAfterScanChanged
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(SCAppTheme.colors.backgroundLight)
-                ) {
-                    SettingsCell(
-                        startIconId = R.drawable.ic_about,
-                        text = stringResource(id = R.string.settings_about),
-                        textColor = SCAppTheme.colors.textDark,
-                        onClick = navigateToAbout
-                    )
-
-                    SettingsCell(
-                        startIconId = R.drawable.ic_openium_logo,
-                        text = stringResource(id = R.string.settings_openium),
-                        textColor = SCAppTheme.colors.textDark,
-                        onClick = navigateToOpenium
-                    )
-
-                    SettingsCell(
-                        startIconId = R.drawable.ic_feedback,
-                        text = stringResource(id = R.string.settings_feedback),
-                        textColor = SCAppTheme.colors.textDark,
-                        onClick = navigateToFeedback
-                    )
-
-                    SettingsCell(
-                        startIconId = R.drawable.ic_rate_app,
-                        text = stringResource(id = R.string.settings_rate_app),
-                        textColor = SCAppTheme.colors.textDark,
-                        onClick = navigateToRateApp
-                    )
-
-                    SettingsCell(
-                        startIconId = R.drawable.ic_data_privacy,
-                        text = stringResource(id = R.string.settings_data_privacy),
-                        textColor = SCAppTheme.colors.textDark,
-                        onClick = navigateToDataPrivacy,
-                        withDivider = false
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.End,
-                    text = stringResource(id = R.string.settings_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString()),
-                    color = SCAppTheme.colors.text,
-                    style = SCAppTheme.typography.caption
+                SettingsSwitchCell(
+                    startIconId = R.drawable.ic_code,
+                    text = stringResource(id = R.string.settings_show_raw_content),
+                    textColor = SCAppTheme.colors.textDark,
+                    isChecked = isRawContentShown,
+                    onSwitchChecked = onRawContentShownChanged,
+                    withDivider = false
                 )
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            SettingsTitleText(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(id = R.string.settings_app)
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(SCAppTheme.colors.backgroundLight)
+            ) {
+                SettingsCell(
+                    startIconId = R.drawable.ic_about,
+                    text = stringResource(id = R.string.settings_about),
+                    textColor = SCAppTheme.colors.textDark,
+                    onClick = navigateToAbout
+                )
+
+                SettingsCell(
+                    startIconId = R.drawable.ic_openium_logo,
+                    text = stringResource(id = R.string.settings_openium),
+                    textColor = SCAppTheme.colors.textDark,
+                    onClick = navigateToOpenium
+                )
+
+                SettingsCell(
+                    startIconId = R.drawable.ic_feedback,
+                    text = stringResource(id = R.string.settings_feedback),
+                    textColor = SCAppTheme.colors.textDark,
+                    onClick = navigateToFeedback
+                )
+
+                SettingsCell(
+                    startIconId = R.drawable.ic_rate_app,
+                    text = stringResource(id = R.string.settings_rate_app),
+                    textColor = SCAppTheme.colors.textDark,
+                    onClick = navigateToRateApp
+                )
+
+                SettingsCell(
+                    startIconId = R.drawable.ic_data_privacy,
+                    text = stringResource(id = R.string.settings_data_privacy),
+                    textColor = SCAppTheme.colors.textDark,
+                    onClick = navigateToDataPrivacy,
+                    withDivider = false
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.End,
+                text = stringResource(id = R.string.settings_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString()),
+                color = SCAppTheme.colors.text,
+                style = SCAppTheme.typography.caption
+            )
         }
     }
 }

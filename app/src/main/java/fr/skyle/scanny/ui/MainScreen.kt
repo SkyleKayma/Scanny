@@ -18,7 +18,7 @@ fun MainScreen(
     navigateToAppSettings: () -> Unit,
     navigateToOpenium: () -> Unit,
     onShareContent: (String) -> Unit,
-    onOpenLink: (QRCodeContent.UrlContent) -> Unit,
+    onOpenLink: (String) -> Unit,
     onSendEmail: (QRCodeContent.EmailMessageContent) -> Unit,
     onSendSMS: (QRCodeContent.SMSContent) -> Unit,
     onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,

@@ -10,12 +10,6 @@
     <string name="permission_camera_required_message_refused">La permission caméra est refusée, autorisez-la dans les paramètres du téléphone.</string>
     <string name="permission_settings">Paramètres</string>
 
-    <!-- Bottom bar -->
-    <string name="home_scan">Scanner</string>
-    <string name="home_generate">Générer</string>
-    <string name="home_history">Historique</string>
-    <string name="home_settings">Paramètres</string>
-
     <!-- Scan -->
     <string name="scan_detail_content">Contenu</string>
     <string name="scan_detail_formatted_content">Contenu formaté</string>
@@ -53,9 +47,9 @@
     <string name="generate_wifi">WiFi</string>
     <string name="generate_email">Email</string>
     <string name="generate_sms">SMS</string>
-    <string name="generate_what_type">Quel type de QRCode souhaitez vous générer ?</string>
+    <string name="generate_what_type">Quel type de QR Code souhaitez vous générer ?</string>
 
-    <!-- Create QRCode -->
+    <!-- Create QR Code -->
     <string name="create_qr_label_text">Texte</string>
     <string name="create_qr_label_link">Lien</string>
     <string name="create_qr_label_email">Email</string>
@@ -70,11 +64,12 @@
     <string name="create_qr_label_wifi_encryption_none">Aucune</string>
     <string name="create_qr_label_wifi_password">Mot de passe</string>
 
-    <!-- Generate QRCode -->
+    <!-- Generate QR Code -->
     <string name="generate_qr_save">Enregistrer</string>
     <string name="generate_qr_share">Partager</string>
 
     <!-- Settings -->
+    <string name="settings_title">Paramètres</string>
     <string name="settings_general">Général</string>
     <string name="settings_vibration">Vibrer lorsque le scan est terminé</string>
     <string name="settings_open_url">Ouvrir les liens automatiquement après le scan</string>
@@ -85,5 +80,16 @@
     <string name="settings_rate_app">Noter l\'application</string>
     <string name="settings_data_privacy">Politique de confidentialité</string>
     <string name="settings_version">Version %1$s (Build %2$s)</string>
+    <string name="settings_version_short">%1$s (Build %2$s)</string>
+
+    <!-- About -->
+    <string name="about_title">À propos</string>
+    <string name="about_version">Version</string>
+    <string name="about_created_by">Créé par</string>
+    <string name="about_created_by_desc">Skyle avec ❤️ à Openium</string>
+    <string name="about_github">Github</string>
+    <string name="about_github_link">https://github.com/SkyleKayma/Scanny</string>
+    <string name="about_desc">Cette application a pour but de pouvoir scanner des codes QR et des code-barres, en utilisant les dernières technologies existantes et sans publicité, le tout en restant très légère et fiable.</string>
+    <string name="about_thanks_message">Nous vous remercions d\'utiliser l\'application !</string>
 
 </resources>
