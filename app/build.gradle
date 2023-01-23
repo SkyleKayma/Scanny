@@ -187,7 +187,7 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
 
     // Firebase
-    implementation platform("com.google.firebase:firebase-bom:30.4.1")
+    implementation platform("com.google.firebase:firebase-bom:31.2.0")
     implementation "com.google.firebase:firebase-crashlytics-ktx"
     implementation "com.google.firebase:firebase-analytics-ktx"
 
@@ -195,7 +195,7 @@ dependencies {
     implementation "com.google.mlkit:barcode-scanning:17.0.3"
 
     // QRCode generation
-    implementation "io.github.g0dkar:qrcode-kotlin-android:3.2.0"
+    implementation "io.github.g0dkar:qrcode-kotlin-android:3.3.0"
 
     // Camera 2
     implementation "androidx.camera:camera-camera2:$camera2_version"
