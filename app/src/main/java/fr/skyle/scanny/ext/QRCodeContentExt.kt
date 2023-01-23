@@ -143,13 +143,7 @@ fun QRCodeContent.asFormattedString(context: Context): AnnotatedString? {
         is QRCodeContent.TextContent ->
             null
         is QRCodeContent.UrlContent ->
-            buildAnnotatedString {
-                append(context.getString(R.string.qr_format_link))
-                append(" ")
-                withStyle(style = spanStyle) {
-                    append(url)
-                }
-            }
+            null
         is QRCodeContent.SMSContent ->
             buildAnnotatedString {
                 append(context.getString(R.string.qr_format_sms_phone_number))
