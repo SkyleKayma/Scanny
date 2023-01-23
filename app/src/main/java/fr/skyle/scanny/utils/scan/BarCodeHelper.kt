@@ -1,8 +1,8 @@
 package fr.skyle.scanny.utils.scan
 
 import androidx.camera.core.ImageAnalysis
-import fr.skyle.scanny.enums.ModalType
-import fr.skyle.scanny.events.modalTypeEvent
+import fr.skyle.scanny.enums.ScanModalType
+import fr.skyle.scanny.events.scanModalTypeEvent
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.concurrent.Executors
@@ -29,7 +29,7 @@ object BarCodeHelper {
 
                     scope.launch {
                         // Show success modal
-                        modalTypeEvent.emit(ModalType.ScanSuccessModal(barcode))
+                        scanModalTypeEvent.emit(ScanModalType.ScanSuccessScanModal(barcode))
                     }
                 }
             }

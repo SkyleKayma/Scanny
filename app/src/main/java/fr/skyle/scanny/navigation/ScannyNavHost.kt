@@ -10,9 +10,10 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import fr.skyle.scanny.ext.findActivity
-import fr.skyle.scanny.ui.scan.HomeScreen
+import fr.skyle.scanny.ui.scan.ScanScreen
 import fr.skyle.scanny.ui.settings.SettingsScreen
 import fr.skyle.scanny.ui.splash.SplashScreen
+import fr.skyle.scanny.utils.qrCode.QRCodeContent
 
 // --- Routes
 // -------------------------------------------
@@ -45,7 +46,13 @@ fun ScannyNavHost(
     navigateToDataPrivacy: () -> Unit,
     navigateToRateApp: () -> Unit,
     navigateToAppSettings: () -> Unit,
-    navigateToOpenium: () -> Unit
+    navigateToOpenium: () -> Unit,
+    onShareContent: (String) -> Unit,
+    onOpenLink: (QRCodeContent.UrlContent) -> Unit,
+    onSendEmail: (QRCodeContent.EmailMessageContent) -> Unit,
+    onSendSMS: (QRCodeContent.SMSContent) -> Unit,
+    onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
+    onAddToContact: (QRCodeContent.ContactContent) -> Unit,
 ) {
     // Context
     val context = LocalContext.current
@@ -67,10 +74,28 @@ fun ScannyNavHost(
             )
         }
         composable(route = Route.HOME) {
-            HomeScreen(
+            ScanScreen(
                 navigateToAppSettings = navigateToAppSettings,
                 navigateToSettings = {
                     navHostController.navigate(Route.SETTINGS)
+                },
+                onShareContent = onShareContent,
+                onOpenLink = onOpenLink,
+                onSendEmail = onSendEmail,
+                onSendSMS = onSendSMS,
+                onConnectToWifi = onConnectToWifi,
+                onAddToContact = onAddToContact
+            )
+        }
+        composable(route = Route.SETTINGS) {
+            SettingsScreen(
+                navigateToFeedback = {},
+                navigateToDataPrivacy = navigateToDataPrivacy,
+                navigateToRateApp = navigateToRateApp,
+                navigateToAbout = {},
+                navigateToOpenium = navigateToOpenium,
+                navigateBack = {
+                    navHostController.popBackOrExit(context)
                 }
             )
         }
@@ -84,18 +109,6 @@ fun ScannyNavHost(
 //                }
 //            )
 //        }
-        composable(route = Route.SETTINGS) {
-            SettingsScreen(
-                navigateToFeedback = {},
-                navigateToDataPrivacy = navigateToDataPrivacy,
-                navigateToRateApp = navigateToRateApp,
-                navigateToAbout = {},
-                navigateToOpenium = navigateToOpenium,
-                navigateBack = {
-                    navHostController.popBackOrExit(context)
-                }
-            )
-        }
 //        composable(
 //            route = "${Destination.CREATE_QR}/{${Argument.QR_TYPE}}",
 //            arguments = listOf(

@@ -1,7 +1,14 @@
 package fr.skyle.scanny.ui.settings.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -32,8 +39,10 @@ fun SettingsScreenContent(
     navigateBack: () -> Unit,
     onVibrationAfterScanChanged: (Boolean) -> Unit,
     onOpenLinkAfterScanChanged: (Boolean) -> Unit,
+    onRawContentShownChanged: (Boolean) -> Unit,
     isVibrateAfterScanEnabled: Boolean,
-    isOpenLinkAfterScanEnabled: Boolean
+    isOpenLinkAfterScanEnabled: Boolean,
+    isRawContentShown: Boolean
 ) {
     Scaffold(
         modifier = Modifier
@@ -82,7 +91,15 @@ fun SettingsScreenContent(
                         text = stringResource(id = R.string.settings_open_url),
                         textColor = SCAppTheme.colors.textDark,
                         isChecked = isOpenLinkAfterScanEnabled,
-                        onSwitchChecked = onOpenLinkAfterScanChanged,
+                        onSwitchChecked = onOpenLinkAfterScanChanged
+                    )
+
+                    SettingsSwitchCell(
+                        startIconId = R.drawable.ic_code,
+                        text = stringResource(id = R.string.settings_show_raw_content),
+                        textColor = SCAppTheme.colors.textDark,
+                        isChecked = isRawContentShown,
+                        onSwitchChecked = onRawContentShownChanged,
                         withDivider = false
                     )
                 }
@@ -166,8 +183,10 @@ fun PreviewSettingsScreenContent() {
             navigateBack = {},
             onVibrationAfterScanChanged = {},
             onOpenLinkAfterScanChanged = {},
+            onRawContentShownChanged = {},
             isVibrateAfterScanEnabled = false,
-            isOpenLinkAfterScanEnabled = false
+            isOpenLinkAfterScanEnabled = false,
+            isRawContentShown = false
         )
     }
 }

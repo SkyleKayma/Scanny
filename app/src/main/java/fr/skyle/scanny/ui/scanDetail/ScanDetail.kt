@@ -29,7 +29,8 @@ fun ScanDetail(
     onSendEmail: (QRCodeContent.EmailMessageContent) -> Unit,
     onSendSMS: (QRCodeContent.SMSContent) -> Unit,
     onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
-    onAddToContact: (QRCodeContent.ContactContent) -> Unit
+    onAddToContact: (QRCodeContent.ContactContent) -> Unit,
+    isRawContentShown: Boolean
 ) {
     Column(
         modifier = Modifier
@@ -48,7 +49,8 @@ fun ScanDetail(
             onSendEmail = onSendEmail,
             onSendSMS = onSendSMS,
             onConnectToWifi = onConnectToWifi,
-            onAddToContact = onAddToContact
+            onAddToContact = onAddToContact,
+            isRawContentShown = isRawContentShown
         )
     }
 }
@@ -65,7 +67,8 @@ fun PreviewScanSuccessBottomSheet() {
             onSendEmail = {},
             onSendSMS = {},
             onConnectToWifi = {},
-            onAddToContact = {}
+            onAddToContact = {},
+            isRawContentShown = false
         )
     }
 }

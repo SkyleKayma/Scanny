@@ -22,6 +22,7 @@
     <string name="home_settings">Settings</string>
 
     <!-- Scan -->
+    <string name="scan_detail_content">Content</string>
     <string name="scan_detail_formatted_content">Formatted content</string>
     <string name="scan_detail_raw_content">Raw content</string>
 
@@ -39,7 +40,6 @@
     <string name="scan_action_connect_to_wifi">Connect to Wi-Fi</string>
 
     <!-- QR Format -->
-    <string name="qr_format_link">Link:</string>
     <string name="qr_format_sms_phone_number">Phone number:</string>
     <string name="qr_format_sms_message">Message:</string>
     <string name="qr_format_email_to">Recipient:</string>
@@ -83,6 +83,7 @@
     <string name="settings_general">General</string>
     <string name="settings_vibration">Vibrate when scan is complete</string>
     <string name="settings_open_url">Open links automatically after scan</string>
+    <string name="settings_show_raw_content">Show raw content on scan</string>
     <string name="settings_app">Scanny</string>
     <string name="settings_about">About</string>
     <string name="settings_openium" translatable="false">Openium</string>

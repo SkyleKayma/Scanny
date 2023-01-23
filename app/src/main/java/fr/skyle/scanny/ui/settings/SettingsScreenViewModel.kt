@@ -25,9 +25,20 @@ class SettingsScreenViewModel @Inject constructor(
             .stateIn(viewModelScope, SharingStarted.Lazily, dataStore.isOpenLinkAfterScanEnabled())
     }
 
+    val isRawContentShown: StateFlow<Boolean> by lazy {
+        dataStore.watchIsRawContentShown()
+            .stateIn(viewModelScope, SharingStarted.Lazily, dataStore.isRawContentShown())
+    }
+
     fun isVibrationAfterScanEnabled(isEnabled: Boolean) {
         viewModelScope.launch {
             dataStore.isVibrationAfterScanEnabled(isEnabled)
+        }
+    }
+
+    fun isRawContentShown(isShown: Boolean) {
+        viewModelScope.launch {
+            dataStore.isRawContentShown(isShown)
         }
     }
 

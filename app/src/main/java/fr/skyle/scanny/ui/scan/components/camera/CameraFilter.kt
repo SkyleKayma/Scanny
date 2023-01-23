@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.scan.components
+package fr.skyle.scanny.ui.scan.components.camera
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

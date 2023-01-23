@@ -1,7 +1,7 @@
 package fr.skyle.scanny.events
 
-import fr.skyle.scanny.enums.ModalType
+import fr.skyle.scanny.enums.ScanModalType
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 
-val modalTypeEvent = MutableSharedFlow<ModalType?>()
+val scanModalTypeEvent = MutableSharedFlow<ScanModalType?>()

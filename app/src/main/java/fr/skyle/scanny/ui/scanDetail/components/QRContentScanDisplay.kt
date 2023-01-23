@@ -1,7 +1,12 @@
 package fr.skyle.scanny.ui.scanDetail.components
 
 import android.os.Build
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +33,8 @@ fun QRContentScanDisplay(
     onSendEmail: (QRCodeContent.EmailMessageContent) -> Unit,
     onSendSMS: (QRCodeContent.SMSContent) -> Unit,
     onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
-    onAddToContact: (QRCodeContent.ContactContent) -> Unit
+    onAddToContact: (QRCodeContent.ContactContent) -> Unit,
+    isRawContentShown: Boolean
 ) {
     // Context
     val context = LocalContext.current
@@ -45,9 +51,13 @@ fun QRContentScanDisplay(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        qrCodeContent.asFormattedString(context)?.let {
+        val formattedString = qrCodeContent.asFormattedString(context)
+
+        formattedString?.let {
             QRContentDisplayHeaderSection(
-                textId = R.string.scan_detail_formatted_content,
+                textId = if (isRawContentShown) {
+                    R.string.scan_detail_formatted_content
+                } else R.string.scan_detail_content,
                 onShareClick = {
                     formattedText?.toString()?.let(onShareContent)
                 },
@@ -56,30 +66,34 @@ fun QRContentScanDisplay(
                 }
             )
 
-            QRContentDisplayBodySection(text = it)
+            QRContentDisplayBodySection(text = formattedString)
 
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-        QRContentDisplayHeaderSection(
-            textId = R.string.scan_detail_raw_content,
-            onShareClick = {
-                onShareContent(qrCodeContent.rawData ?: "")
-            },
-            onCopyClick = {
-                onCopyContent(
-                    buildAnnotatedString {
-                        append(qrCodeContent.rawData ?: "")
-                    }
-                )
-            }
-        )
+        if ((isRawContentShown && formattedString != null) || formattedString == null) {
+            QRContentDisplayHeaderSection(
+                textId = if (formattedString != null) {
+                    R.string.scan_detail_raw_content
+                } else R.string.scan_detail_content,
+                onShareClick = {
+                    onShareContent(qrCodeContent.rawData ?: "")
+                },
+                onCopyClick = {
+                    onCopyContent(
+                        buildAnnotatedString {
+                            append(qrCodeContent.rawData ?: "")
+                        }
+                    )
+                }
+            )
 
-        QRContentDisplayBodySection(
-            text = buildAnnotatedString {
-                append(qrCodeContent.rawData ?: "")
-            }
-        )
+            QRContentDisplayBodySection(
+                text = buildAnnotatedString {
+                    append(qrCodeContent.rawData ?: "")
+                }
+            )
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -97,6 +111,7 @@ fun QRContentScanDisplay(
                             onOpenLink(qrCodeContent)
                         }
                     )
+
                 is QRCodeContent.EmailMessageContent ->
                     SCActionButton(
                         modifier = Modifier.weight(1f),
@@ -106,6 +121,7 @@ fun QRContentScanDisplay(
                             onSendEmail(qrCodeContent)
                         }
                     )
+
                 is QRCodeContent.SMSContent ->
                     SCActionButton(
                         modifier = Modifier.weight(1f),
@@ -115,6 +131,7 @@ fun QRContentScanDisplay(
                             onSendSMS(qrCodeContent)
                         }
                     )
+
                 is QRCodeContent.WiFiContent ->
                     SCActionButton(
                         modifier = Modifier.weight(1f),
@@ -130,6 +147,7 @@ fun QRContentScanDisplay(
                             }
                         }
                     )
+
                 is QRCodeContent.ContactContent ->
                     SCActionButton(
                         modifier = Modifier.weight(1f),
@@ -139,6 +157,7 @@ fun QRContentScanDisplay(
                             onAddToContact(qrCodeContent)
                         }
                     )
+
                 else -> {}
             }
         }
@@ -157,7 +176,8 @@ fun PreviewTextContentScanDisplay() {
             onConnectToWifi = {},
             onAddToContact = {},
             onCopyContent = {},
-            onShareContent = {}
+            onShareContent = {},
+            isRawContentShown = false
         )
     }
 }

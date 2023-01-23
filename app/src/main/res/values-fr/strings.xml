@@ -17,6 +17,7 @@
     <string name="home_settings">Paramètres</string>
 
     <!-- Scan -->
+    <string name="scan_detail_content">Contenu</string>
     <string name="scan_detail_formatted_content">Contenu formaté</string>
     <string name="scan_detail_raw_content">Contenu brut</string>
 
@@ -24,7 +25,7 @@
     <string name="scan_action_open">Ouvrir</string>
     <string name="scan_action_copy">Copier</string>
     <string name="scan_action_share">Partager</string>
-    <string name="scan_action_send_sms">Evoyer un SMS</string>
+    <string name="scan_action_send_sms">Envoyer un SMS</string>
     <string name="scan_action_send_call">Appeler</string>
     <string name="scan_action_add_to_contacts">Ajouter le contact</string>
     <string name="scan_action_send_mail">Envoyer un e-mail</string>
@@ -34,7 +35,6 @@
     <string name="scan_action_connect_to_wifi">Se connecter au Wi-Fi</string>
 
     <!-- QR Format -->
-    <string name="qr_format_link">Lien:</string>
     <string name="qr_format_sms_phone_number">N° de téléphone:</string>
     <string name="qr_format_sms_message">Message:</string>
     <string name="qr_format_email_to">Destinataire:</string>
@@ -78,6 +78,7 @@
     <string name="settings_general">Général</string>
     <string name="settings_vibration">Vibrer lorsque le scan est terminé</string>
     <string name="settings_open_url">Ouvrir les liens automatiquement après le scan</string>
+    <string name="settings_show_raw_content">Afficher le contenu brut lors du scan</string>
     <string name="settings_app">Scanny</string>
     <string name="settings_about">À propos</string>
     <string name="settings_feedback">Avis</string>

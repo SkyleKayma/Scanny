@@ -28,6 +28,7 @@ fun SettingsScreen(
     // Flow
     val isVibrationAfterScanEnabled by viewModel.isVibrationAfterScanEnabled.collectAsState()
     val isOpenLinkAfterScanEnabled by viewModel.isOpenLinkAfterScanEnabled.collectAsState()
+    val isRawContentShown by viewModel.isRawContentShown.collectAsState()
 
     SettingsScreenContent(
         navigateToFeedback = navigateToFeedback,
@@ -42,7 +43,11 @@ fun SettingsScreen(
         onOpenLinkAfterScanChanged = { isEnabled ->
             viewModel.isOpenLinkAfterScanEnabled(isEnabled)
         },
+        onRawContentShownChanged = { isShown ->
+            viewModel.isRawContentShown(isShown)
+        },
         isVibrateAfterScanEnabled = isVibrationAfterScanEnabled,
-        isOpenLinkAfterScanEnabled = isOpenLinkAfterScanEnabled
+        isOpenLinkAfterScanEnabled = isOpenLinkAfterScanEnabled,
+        isRawContentShown = isRawContentShown
     )
 }

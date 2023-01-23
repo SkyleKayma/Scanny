@@ -14,10 +14,11 @@ import fr.skyle.scanny.R
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.core.SCTopAppBar
+import fr.skyle.scanny.ui.scan.components.camera.CameraFilter
 import fr.skyle.scanny.ui.scan.components.camera.CameraView
 
 @Composable
-fun HomeScreenContent(
+fun ScanScreenContent(
     isCameraPermissionGranted: Boolean,
     isFlashEnabled: Boolean,
     onFlashClicked: () -> Unit,
@@ -63,9 +64,9 @@ fun HomeScreenContent(
 
 @Preview
 @Composable
-fun PreviewHomeScreenContent() {
+fun PreviewScanScreenContent() {
     SCTheme {
-        HomeScreenContent(
+        ScanScreenContent(
             isCameraPermissionGranted = true,
             isFlashEnabled = true,
             onFlashClicked = {},

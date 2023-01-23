@@ -80,6 +80,28 @@ class SCDataStore @Inject constructor(@ApplicationContext context: Context) {
             prefs[KEY_OPEN_LINK_AFTER_SCAN] ?: isOpenLinkAfterScanEnabledDefault
         }
 
+    // --- Is raw message shown
+
+    private val isRawContentShownDefault = false
+
+    suspend fun isRawContentShown(isEnabled: Boolean) {
+        _dataStore.edit { prefs ->
+            prefs[KEY_IS_RAW_CONTENT_SHOWN] = isEnabled
+        }
+    }
+
+    fun isRawContentShown(): Boolean =
+        runBlocking {
+            _dataStore.data.map { prefs ->
+                prefs[KEY_IS_RAW_CONTENT_SHOWN]
+            }.firstOrNull() ?: isRawContentShownDefault
+        }
+
+    fun watchIsRawContentShown(): Flow<Boolean> =
+        _dataStore.data.map { prefs ->
+            prefs[KEY_IS_RAW_CONTENT_SHOWN] ?: isRawContentShownDefault
+        }
+
     companion object {
         // Generic
         private val KEY_BUILD_VERSION =
@@ -92,5 +114,9 @@ class SCDataStore @Inject constructor(@ApplicationContext context: Context) {
         // Open link after scan
         private val KEY_OPEN_LINK_AFTER_SCAN =
             booleanPreferencesKey("KEY_OPEN_LINK_AFTER_SCAN")
+
+        // Is raw content shown
+        private val KEY_IS_RAW_CONTENT_SHOWN =
+            booleanPreferencesKey("KEY_IS_RAW_CONTENT_SHOWN")
     }
 }
