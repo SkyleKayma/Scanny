@@ -35,7 +35,7 @@ android {
         versionName versionProperties["versionName"]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        ndk { abiFilters "arm64-v8a", "armeabi-v7a", "x86_64" }
+        ndk { abiFilters "arm64-v8a", "armeabi-v7a", "x86_64", "x86" }
         resConfigs "en", "fr"
     }
 
