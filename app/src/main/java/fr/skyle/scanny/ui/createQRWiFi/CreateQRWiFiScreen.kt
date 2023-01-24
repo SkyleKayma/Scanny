@@ -27,7 +27,7 @@ import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.enums.WifiEncryptionType
 import fr.skyle.scanny.ui.core.buttons.SCButton
 import fr.skyle.scanny.ui.core.textFields.ScannyPasswordTextField
-import fr.skyle.scanny.ui.core.textFields.ScannyTextField
+import fr.skyle.scanny.ui.core.textFields.ScannyCleanableTextField
 import fr.skyle.scanny.ui.createQRWiFi.components.WifiEncryptionSelector
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
@@ -69,12 +69,11 @@ fun CreateQRWiFiScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        ScannyTextField(
+        ScannyCleanableTextField(
             modifier = Modifier.focusRequester(focusRequester),
             label = stringResource(id = R.string.create_qr_label_wifi_ssid),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
-            scope = scope,
             value = ssidState,
             onValueChange = {
                 ssidState = it
@@ -103,7 +102,6 @@ fun CreateQRWiFiScreen(
                 ScannyPasswordTextField(
                     label = stringResource(id = R.string.create_qr_label_wifi_password),
                     bringIntoViewRequester = bringIntoViewRequester,
-                    scope = scope,
                     value = passwordState,
                     onValueChange = {
                         passwordState = it

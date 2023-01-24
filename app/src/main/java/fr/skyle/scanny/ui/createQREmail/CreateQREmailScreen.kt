@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ui.core.buttons.SCButton
-import fr.skyle.scanny.ui.core.textFields.ScannyTextField
+import fr.skyle.scanny.ui.core.textFields.ScannyCleanableTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 import kotlinx.coroutines.launch
@@ -60,12 +60,11 @@ fun CreateQREmailScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        ScannyTextField(
+        ScannyCleanableTextField(
             modifier = Modifier.focusRequester(focusRequester),
             label = stringResource(id = R.string.create_qr_label_email),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
-            scope = scope,
             value = emailState,
             onValueChange = {
                 emailState = it
@@ -76,11 +75,10 @@ fun CreateQREmailScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        ScannyTextField(
+        ScannyCleanableTextField(
             label = stringResource(id = R.string.create_qr_label_email_subject),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
-            scope = scope,
             value = subjectState,
             onValueChange = {
                 subjectState = it
@@ -92,12 +90,11 @@ fun CreateQREmailScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        ScannyTextField(
+        ScannyCleanableTextField(
             modifier = Modifier.height(200.dp),
             label = stringResource(id = R.string.create_qr_label_email_message),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
-            scope = scope,
             value = messageState,
             onValueChange = {
                 messageState = it

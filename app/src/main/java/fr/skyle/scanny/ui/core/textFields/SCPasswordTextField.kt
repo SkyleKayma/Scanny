@@ -21,26 +21,24 @@ import kotlinx.coroutines.CoroutineScope
 fun ScannyPasswordTextField(
     label: String,
     bringIntoViewRequester: BringIntoViewRequester,
-    scope: CoroutineScope,
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
+    modifier: Modifier = Modifier,
     isError: Boolean = false,
     errorText: String? = null,
     capitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     autoCorrect: Boolean = true,
     imeAction: ImeAction = ImeAction.Default,
-    modifier: Modifier = Modifier,
     maxLines: Int = Int.MAX_VALUE,
     leadingIconId: Int? = null,
     onDone: (() -> Unit)? = null
 ) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
-    ScannyBasicTextField(
+    ScannyTextField(
         label = label,
         keyboardType = KeyboardType.Password,
         bringIntoViewRequester = bringIntoViewRequester,
-        scope = scope,
         value = value,
         onValueChange = onValueChange,
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),

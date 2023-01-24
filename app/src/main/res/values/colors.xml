@@ -21,4 +21,6 @@
     <color name="sc_background_primary">#3C44BF</color>
     <color name="sc_background_disabled">#CDCDCD</color>
     <color name="sc_background_icon">#ECEDFA</color>
+
+    <color name="sc_error">#C53535</color>
 </resources>

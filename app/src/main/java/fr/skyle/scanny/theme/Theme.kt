@@ -17,6 +17,7 @@ fun SCTheme(content: @Composable () -> Unit) {
     val colors = SCColors(
         transparent = colorResource(id = R.color.sc_transparent),
         primary = colorResource(id = R.color.sc_primary),
+        error = colorResource(id = R.color.sc_primary),
         textPrimary = colorResource(id = R.color.sc_text_primary),
         text = colorResource(id = R.color.sc_text),
         textDark = colorResource(id = R.color.sc_text_dark),

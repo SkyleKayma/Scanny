@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 data class SCColors(
     val transparent: Color,
     val primary: Color,
+    val error: Color,
     val textPrimary: Color,
     val text: Color,
     val textDark: Color,
@@ -26,6 +27,7 @@ val LocalColors = staticCompositionLocalOf {
     SCColors(
         transparent = Color.Unspecified,
         primary = Color.Unspecified,
+        error = Color.Unspecified,
         textPrimary = Color.Unspecified,
         text = Color.Unspecified,
         textDark = Color.Unspecified,

@@ -92,4 +92,22 @@
     <string name="about_desc">Cette application a pour but de pouvoir scanner des codes QR et des code-barres, en utilisant les dernières technologies existantes et sans publicité, le tout en restant très légère et fiable.</string>
     <string name="about_thanks_message">Nous vous remercions d\'utiliser l\'application !</string>
 
+    <!-- Feedback -->
+    <string name="feedback_title">Avis</string>
+    <string name="feedback_subject">Sujet</string>
+    <string name="feedback_message">Message</string>
+    <string name="feedback_send_mail">Envoyer le mail</string>
+    <string name="feedback_subject_title">Quel est le sujet de votre retour ?</string>
+    <string name="feedback_subject_scan_issue">Problème avec la fonctionnalité de scan</string>
+    <string name="feedback_subject_scan_issue_tag">[ISSUE]</string>
+    <string name="feedback_subject_qrcode_type_detection">Problème avec la détection du type de QR Code</string>
+    <string name="feedback_subject_qrcode_type_detection_tag">[QRCODE_DETECTION]</string>
+    <string name="feedback_subject_other">Autre problème</string>
+    <string name="feedback_subject_other_tag">[OTHER]</string>
+    <string-array name="feedback_subject_list">
+        <item>@string/feedback_subject_scan_issue</item>
+        <item>@string/feedback_subject_qrcode_type_detection</item>
+        <item>@string/feedback_subject_other</item>
+    </string-array>
+
 </resources>

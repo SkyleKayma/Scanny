@@ -13,7 +13,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import fr.skyle.scanny.R
+import fr.skyle.scanny.enums.FeedbackSubject
 import fr.skyle.scanny.enums.WifiEncryptionType
+import fr.skyle.scanny.ext.tag
 import fr.skyle.scanny.theme.SCTheme
 
 
@@ -49,6 +51,9 @@ class MainActivity : ComponentActivity() {
                     },
                     onSendEmail = {
                         sendEmail(it.email, it.subject, it.body)
+                    },
+                    onSendFeedback = { subject, message ->
+                        sendFeedback(subject, message)
                     },
                     onSendSMS = {
                         sendSMS(it.phoneNumber, it.message)
@@ -122,6 +127,10 @@ class MainActivity : ComponentActivity() {
                 null
             )
         )
+    }
+
+    private fun sendFeedback(subject: FeedbackSubject, message: String) {
+        sendEmail(applicationContext.getString(R.string.app_email_contact), applicationContext.getString(subject.tag), message)
     }
 
     private fun sendEmail(email: String?, subject: String?, message: String?) {

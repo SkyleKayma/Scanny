@@ -7,36 +7,37 @@ import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.*
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
-import kotlinx.coroutines.CoroutineScope
 
 
 @Composable
-fun ScannyTextField(
+fun ScannyCleanableTextField(
     label: String,
-    keyboardType: KeyboardType,
     bringIntoViewRequester: BringIntoViewRequester,
-    scope: CoroutineScope,
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
-    visualTransformation: VisualTransformation? = null,
+    keyboardType: KeyboardType,
+    modifier: Modifier = Modifier,
     isError: Boolean = false,
     errorText: String? = null,
+    imeAction: ImeAction = ImeAction.Default,
+    maxLines: Int = Int.MAX_VALUE,
+    visualTransformation: VisualTransformation? = null,
     capitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     autoCorrect: Boolean = true,
-    imeAction: ImeAction = ImeAction.Default,
-    modifier: Modifier = Modifier,
-    maxLines: Int = Int.MAX_VALUE,
-    leadingIconId: Int? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
     onDone: (() -> Unit)? = null
 ) {
-    ScannyBasicTextField(
+    ScannyTextField(
         label = label,
         keyboardType = keyboardType,
         bringIntoViewRequester = bringIntoViewRequester,
-        scope = scope,
         value = value,
         onValueChange = {
             onValueChange(it)
@@ -49,15 +50,7 @@ fun ScannyTextField(
         imeAction = imeAction,
         modifier = modifier,
         maxLines = maxLines,
-        leadingIcon = if (leadingIconId != null) {
-            {
-                Icon(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(id = leadingIconId),
-                    contentDescription = ""
-                )
-            }
-        } else null,
+        leadingIcon = leadingIcon,
         trailingIcon = if (value.text.isNotEmpty()) {
             {
                 IconButton(onClick = {

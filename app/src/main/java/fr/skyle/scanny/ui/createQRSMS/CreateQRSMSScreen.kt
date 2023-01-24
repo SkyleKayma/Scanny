@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ui.core.buttons.SCButton
-import fr.skyle.scanny.ui.core.textFields.ScannyTextField
+import fr.skyle.scanny.ui.core.textFields.ScannyCleanableTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 import kotlinx.coroutines.launch
@@ -59,12 +59,11 @@ fun CreateQRSMSScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        ScannyTextField(
+        ScannyCleanableTextField(
             modifier = Modifier.focusRequester(focusRequester),
             label = stringResource(id = R.string.create_qr_label_sms_phone_number),
             keyboardType = KeyboardType.Phone,
             bringIntoViewRequester = bringIntoViewRequester,
-            scope = scope,
             value = phoneNumberState,
             onValueChange = {
                 phoneNumberState = it
@@ -75,11 +74,10 @@ fun CreateQRSMSScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        ScannyTextField(
+        ScannyCleanableTextField(
             label = stringResource(id = R.string.create_qr_label_sms_message),
             keyboardType = KeyboardType.Text,
             bringIntoViewRequester = bringIntoViewRequester,
-            scope = scope,
             value = messageState,
             onValueChange = {
                 messageState = it

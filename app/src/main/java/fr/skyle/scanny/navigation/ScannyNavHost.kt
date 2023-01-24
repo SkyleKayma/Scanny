@@ -9,8 +9,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
+import fr.skyle.scanny.enums.FeedbackSubject
 import fr.skyle.scanny.ext.findActivity
 import fr.skyle.scanny.ui.about.AboutScreen
+import fr.skyle.scanny.ui.feedback.FeedbackScreen
 import fr.skyle.scanny.ui.scan.ScanScreen
 import fr.skyle.scanny.ui.settings.SettingsScreen
 import fr.skyle.scanny.ui.splash.SplashScreen
@@ -24,6 +26,7 @@ object Route {
     const val SCAN = "scan"
     const val SETTINGS = "settings"
     const val ABOUT = "about"
+    const val FEEDBACK = "feedback"
     const val SCAN_HISTORY = "scanHistory"
     const val GENERATE_QR_LIST = "generateQRList"
     const val CREATE_QR = "createQR"
@@ -50,6 +53,7 @@ fun ScannyNavHost(
     onShareContent: (String) -> Unit,
     onOpenLink: (String) -> Unit,
     onSendEmail: (QRCodeContent.EmailMessageContent) -> Unit,
+    onSendFeedback: (FeedbackSubject, String) -> Unit,
     onSendSMS: (QRCodeContent.SMSContent) -> Unit,
     onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
     onAddToContact: (QRCodeContent.ContactContent) -> Unit,
@@ -91,7 +95,9 @@ fun ScannyNavHost(
         }
         composable(route = Route.SETTINGS) {
             SettingsScreen(
-                navigateToFeedback = {},
+                navigateToFeedback = {
+                    navHostController.navigate(Route.FEEDBACK)
+                },
                 navigateToDataPrivacy = navigateToDataPrivacy,
                 navigateToRateApp = navigateToRateApp,
                 navigateToAbout = {
@@ -111,6 +117,14 @@ fun ScannyNavHost(
                 onOpenLink = {
                     onOpenLink(it)
                 }
+            )
+        }
+        composable(route = Route.FEEDBACK) {
+            FeedbackScreen(
+                navigateBack = {
+                    navHostController.popBackOrExit(context)
+                },
+                onSendFeedback = onSendFeedback
             )
         }
 //        composable(route = Destination.GENERATE_QR_LIST) {

@@ -3,6 +3,7 @@
     <string name="app_name" translatable="false">Scanny</string>
     <string name="app_data_privacy_url" translatable="false">https://skylekayma.github.io/scanny.github.io/privacy-policy.html</string>
     <string name="openium_url" translatable="false">https://www.openium.fr</string>
+    <string name="app_email_contact" translatable="false">scanny.contact@gmail.com</string>
 
     <!-- Generic -->
     <string name="generic_create">Create</string>
@@ -97,5 +98,23 @@
     <string name="about_github_link">https://github.com/SkyleKayma/Scanny</string>
     <string name="about_desc">This application aims to be able to scan QR codes and barcodes, using the latest known technologies and without advertising, while remaining very light and reliable.</string>
     <string name="about_thanks_message">Thank you for using the app!</string>
+
+    <!-- Feedback -->
+    <string name="feedback_title">Feedback</string>
+    <string name="feedback_subject">Subject</string>
+    <string name="feedback_message">Message</string>
+    <string name="feedback_send_mail">Send mail</string>
+    <string name="feedback_subject_title">What is the subject of your feedback ?</string>
+    <string name="feedback_subject_scan_issue">Issue with scan feature</string>
+    <string name="feedback_subject_scan_issue_tag">[SCAN] </string>
+    <string name="feedback_subject_qrcode_type_detection">QR Code type detection issue</string>
+    <string name="feedback_subject_qrcode_type_detection_tag">[QRCODE]</string>
+    <string name="feedback_subject_other">Other issue</string>
+    <string name="feedback_subject_other_tag">[OTHER]</string>
+    <string-array name="feedback_subject_list">
+        <item>@string/feedback_subject_scan_issue</item>
+        <item>@string/feedback_subject_qrcode_type_detection</item>
+        <item>@string/feedback_subject_other</item>
+    </string-array>
 
 </resources>

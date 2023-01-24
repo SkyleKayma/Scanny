@@ -7,49 +7,56 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.text.input.*
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.ext.clearFocusOnKeyboardDismiss
 import fr.skyle.scanny.theme.SCAppTheme
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun ScannyBasicTextField(
+fun ScannyTextField(
     label: String,
-    keyboardType: KeyboardType,
     bringIntoViewRequester: BringIntoViewRequester,
-    scope: CoroutineScope,
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
-    visualTransformation: VisualTransformation? = null,
+    keyboardType: KeyboardType,
+    modifier: Modifier = Modifier,
     isError: Boolean = false,
     errorText: String? = null,
+    imeAction: ImeAction = ImeAction.Default,
+    maxLines: Int = Int.MAX_VALUE,
+    visualTransformation: VisualTransformation? = null,
     capitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     autoCorrect: Boolean = true,
-    imeAction: ImeAction = ImeAction.Default,
-    modifier: Modifier = Modifier,
-    maxLines: Int = Int.MAX_VALUE,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     onDone: (() -> Unit)? = null
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    var hasFocus by remember { mutableStateOf(false) }
 
+    // Remember
+    val scope = rememberCoroutineScope()
+    var hasFocus by remember { mutableStateOf(false) }
     val isErrorState by remember(isError) { mutableStateOf(isError) }
 
     Column {
         OutlinedTextField(
-            textStyle = SCAppTheme.typography.body1,
             modifier = modifier
                 .fillMaxWidth()
                 .clearFocusOnKeyboardDismiss()
@@ -62,31 +69,33 @@ fun ScannyBasicTextField(
                     }
                 },
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = MaterialTheme.colors.primary,
-                unfocusedBorderColor = MaterialTheme.colors.onSurface,
-                textColor = MaterialTheme.colors.primary,
-                errorBorderColor = MaterialTheme.colors.error,
-                unfocusedLabelColor = MaterialTheme.colors.onSurface,
-                focusedLabelColor = MaterialTheme.colors.primary,
-                errorLabelColor = MaterialTheme.colors.error,
-                trailingIconColor = MaterialTheme.colors.primary
+                focusedBorderColor = SCAppTheme.colors.primary,
+                unfocusedBorderColor = SCAppTheme.colors.backgroundBlack,
+                textColor = SCAppTheme.colors.primary,
+                errorBorderColor = SCAppTheme.colors.error,
+                unfocusedLabelColor = SCAppTheme.colors.textDark,
+                focusedLabelColor = SCAppTheme.colors.primary,
+                errorLabelColor = SCAppTheme.colors.error,
+                trailingIconColor = SCAppTheme.colors.primary,
+                backgroundColor = SCAppTheme.colors.backgroundLight
             ),
             shape = RoundedCornerShape(12.dp),
+            label = {
+                Text(
+                    text = label,
+                    style = if (hasFocus || value.text.isNotBlank()) {
+                        SCAppTheme.typography.subtitle2
+                    } else SCAppTheme.typography.body2
+                )
+            },
             value = value,
             onValueChange = {
                 onValueChange(it)
             },
             visualTransformation = visualTransformation ?: VisualTransformation.None,
+            textStyle = SCAppTheme.typography.body1,
             maxLines = maxLines,
             singleLine = maxLines == 1,
-            label = {
-                Text(
-                    text = label,
-                    style = if (hasFocus || value.text.isNotBlank()) {
-                        MaterialTheme.typography.subtitle2
-                    } else MaterialTheme.typography.body2
-                )
-            },
             keyboardOptions = KeyboardOptions(
                 imeAction = imeAction,
                 keyboardType = keyboardType,
@@ -104,8 +113,8 @@ fun ScannyBasicTextField(
         if (isErrorState && !errorText.isNullOrBlank()) {
             Text(
                 text = errorText,
-                color = MaterialTheme.colors.error,
-                style = MaterialTheme.typography.caption,
+                color = SCAppTheme.colors.error,
+                style = SCAppTheme.typography.caption,
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
