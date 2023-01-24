@@ -97,17 +97,16 @@
     <string name="feedback_subject">Sujet</string>
     <string name="feedback_message">Message</string>
     <string name="feedback_send_mail">Envoyer le mail</string>
+    <string name="feedback_subject_none">Choisir un sujet</string>
     <string name="feedback_subject_title">Quel est le sujet de votre retour ?</string>
-    <string name="feedback_subject_scan_issue">Problème avec la fonctionnalité de scan</string>
-    <string name="feedback_subject_scan_issue_tag">[ISSUE]</string>
-    <string name="feedback_subject_qrcode_type_detection">Problème avec la détection du type de QR Code</string>
-    <string name="feedback_subject_qrcode_type_detection_tag">[QRCODE_DETECTION]</string>
-    <string name="feedback_subject_other">Autre problème</string>
-    <string name="feedback_subject_other_tag">[OTHER]</string>
+    <string name="feedback_subject_scan_issue">La fonctionnalité de scan</string>
+    <string name="feedback_subject_qrcode_type_detection">La détection du type de code scanné</string>
+    <string name="feedback_subject_other">Autre</string>
     <string-array name="feedback_subject_list">
         <item>@string/feedback_subject_scan_issue</item>
         <item>@string/feedback_subject_qrcode_type_detection</item>
         <item>@string/feedback_subject_other</item>
     </string-array>
+    <string name="feedback_error_no_subject">Please chose a subject</string>
 
 </resources>

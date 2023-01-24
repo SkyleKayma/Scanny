@@ -49,6 +49,7 @@ import fr.skyle.scanny.ui.core.SCSpinner
 import fr.skyle.scanny.ui.core.SCTopAppBar
 import fr.skyle.scanny.ui.core.buttons.SCButton
 import fr.skyle.scanny.ui.core.textFields.ScannyCleanableTextField
+import kotlinx.coroutines.launch
 
 @Composable
 fun FeedbackScreenContent(
@@ -60,16 +61,16 @@ fun FeedbackScreenContent(
 
     // Remember
     val scope = rememberCoroutineScope()
+    val scaffoldState = rememberScaffoldState()
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
-
-    var feedbackSubject by remember { mutableStateOf(FeedbackSubject.OTHER_ISSUE) }
+    var feedbackSubject by remember { mutableStateOf<FeedbackSubject?>(null) }
     var message by remember { mutableStateOf(TextFieldValue("")) }
 
     Scaffold(
         modifier = Modifier
             .background(SCAppTheme.colors.background)
             .systemBarsPadding(),
-        scaffoldState = rememberScaffoldState(),
+        scaffoldState = scaffoldState,
         topBar = {
             SCTopAppBar(
                 modifier = Modifier.background(SCAppTheme.colors.background),
@@ -104,7 +105,7 @@ fun FeedbackScreenContent(
                     .background(SCAppTheme.colors.backgroundLight),
                 dropDownModifier = Modifier.fillMaxWidth(),
                 items = modeEntries,
-                selectedItem = stringResource(id = feedbackSubject.text),
+                selectedItem = stringResource(id = feedbackSubject?.text ?: R.string.feedback_subject_none),
                 onItemSelected = {
                     feedbackSubject = FeedbackSubject.fromText(context, it)
                 },
@@ -159,7 +160,11 @@ fun FeedbackScreenContent(
                     .padding(top = 16.dp),
                 text = stringResource(id = R.string.feedback_send_mail),
                 onClick = {
-                    onSendFeedback(feedbackSubject, message.text)
+                    scope.launch {
+                        feedbackSubject?.let {
+                            onSendFeedback(it, message.text)
+                        } ?: scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.feedback_error_no_subject))
+                    }
                 }
             )
         }
