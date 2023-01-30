@@ -14,6 +14,8 @@
     <string name="scan_detail_content">Contenu</string>
     <string name="scan_detail_formatted_content">Contenu formaté</string>
     <string name="scan_detail_raw_content">Contenu brut</string>
+    <string name="scan_no_qr_code_found">Aucun code QR ou code-barres trouvé dans l|\'image sélectionnée</string>
+    <string name="scan_file_not_found">Fichier non trouvé/non accessible</string>
 
     <!-- Scan action -->
     <string name="scan_action_open">Ouvrir</string>
@@ -89,7 +91,7 @@
     <string name="about_created_by_desc">Skyle avec ❤️ à Openium</string>
     <string name="about_github">Github</string>
     <string name="about_github_link">https://github.com/SkyleKayma/Scanny</string>
-    <string name="about_desc">Cette application a pour but de pouvoir scanner des codes QR et des code-barres, en utilisant les dernières technologies existantes et sans publicité, le tout en restant très légère et fiable.</string>
+    <string name="about_desc">Cette application a pour but de pouvoir scanner des codes QR et des code-barres, en utilisant les dernières technologies existantes et sans publicité, le tout en restant légère et fiable.</string>
     <string name="about_thanks_message">Nous vous remercions d\'utiliser l\'application !</string>
 
     <!-- Feedback -->

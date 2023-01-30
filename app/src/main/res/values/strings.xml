@@ -20,6 +20,8 @@
     <string name="scan_detail_content">Content</string>
     <string name="scan_detail_formatted_content">Formatted content</string>
     <string name="scan_detail_raw_content">Raw content</string>
+    <string name="scan_no_qr_code_found">No QR Code or barcode found in selected image</string>
+    <string name="scan_file_not_found">File not found/not available</string>
 
     <!-- Scan action -->
     <string name="scan_action_open">Open</string>

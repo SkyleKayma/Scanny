@@ -1,7 +1,11 @@
 package fr.skyle.scanny.ui.scan
 
 import android.Manifest
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -15,6 +19,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.common.InputImage
+import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.ScanModalType
 import fr.skyle.scanny.events.scanModalTypeEvent
 import fr.skyle.scanny.ext.toQRCodeContent
@@ -28,6 +35,7 @@ import fr.skyle.scanny.utils.scan.BarCodeHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -70,6 +78,31 @@ fun ScanScreen(
     var isFlashEnabled by remember { mutableStateOf(false) }
 
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
+
+    val galleryLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            try {
+                BarcodeScanning.getClient()
+                    .process(InputImage.fromFilePath(context, uri!!))
+                    .addOnSuccessListener {
+                        it.firstOrNull()?.let { barcode ->
+                            // Disable scanning when we are showing results
+                            BarCodeHelper.isQRCodeScanEnabled(false)
+
+                            scope.launch {
+                                // Show success modal
+                                scanModalTypeEvent.emit(ScanModalType.ScanSuccessScanModal(barcode))
+                            }
+                        } ?: Toast.makeText(context, context.getString(R.string.scan_no_qr_code_found), Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener {
+                        Timber.e(it)
+                    }
+            } catch (e: Exception) {
+                Timber.e(e)
+                Toast.makeText(context, context.getString(R.string.scan_file_not_found), Toast.LENGTH_SHORT).show()
+            }
+        }
 
     // Flow
     val isVibrationAfterScanEnabled by viewModel.isVibrationAfterScanEnabled.collectAsState()
@@ -143,6 +176,9 @@ fun ScanScreen(
     }
 
     ModalBottomSheetLayout(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(SCAppTheme.colors.backgroundBlack),
         sheetShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
         sheetBackgroundColor = SCAppTheme.colors.background,
         sheetState = modalState,
@@ -155,7 +191,7 @@ fun ScanScreen(
                 isFlashEnabled = !isFlashEnabled
             },
             onGalleryClicked = {
-                // TODO
+                galleryLauncher.launch("image/*")
             },
             navigateToAppSettings = navigateToAppSettings,
             navigateToSettings = navigateToSettings

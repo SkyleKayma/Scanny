@@ -1,6 +1,7 @@
 package fr.skyle.scanny.ui.feedback.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -102,6 +103,7 @@ fun FeedbackScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(12.dp))
+                    .border(1.dp, SCAppTheme.colors.backgroundBlack, RoundedCornerShape(12.dp))
                     .background(SCAppTheme.colors.backgroundLight),
                 dropDownModifier = Modifier.fillMaxWidth(),
                 items = modeEntries,
