@@ -2,8 +2,6 @@
     <!-- Generic -->
     <string name="generic_create">Créer</string>
     <string name="generic_please_fill_mandatory_fields">Veuillez remplir les champs obligatoires</string>
-    <string name="generic_yes">Oui</string>
-    <string name="generic_no">Non</string>
     <string name="generic_cancel">Annuler</string>
 
     <!-- Permissions -->
@@ -39,7 +37,6 @@
     <string name="qr_format_wifi_ssid">SSID:</string>
     <string name="qr_format_wifi_encryption">Type de chiffrage:</string>
     <string name="qr_format_wifi_password">Mot de passe:</string>
-    <string name="qr_format_wifi_is_hidden">Réseau caché:</string>
 
     <!-- Generate -->
     <string name="generate_title">Générer</string>

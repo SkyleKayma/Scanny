@@ -8,8 +8,6 @@
     <!-- Generic -->
     <string name="generic_create">Create</string>
     <string name="generic_please_fill_mandatory_fields">Please fill mandatory fields</string>
-    <string name="generic_yes">Yes</string>
-    <string name="generic_no">No</string>
     <string name="generic_cancel">Cancel</string>
 
     <!-- Permissions -->
@@ -45,7 +43,6 @@
     <string name="qr_format_wifi_ssid">SSID:</string>
     <string name="qr_format_wifi_encryption">Encryption:</string>
     <string name="qr_format_wifi_password">Password:</string>
-    <string name="qr_format_wifi_is_hidden">Hidden:</string>
 
     <!-- Generate -->
     <string name="generate_title">Generate</string>

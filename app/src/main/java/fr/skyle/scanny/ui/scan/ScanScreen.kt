@@ -7,7 +7,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -179,8 +178,8 @@ fun ScanScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(SCAppTheme.colors.backgroundBlack),
-        sheetShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
-        sheetBackgroundColor = SCAppTheme.colors.background,
+        sheetBackgroundColor = SCAppTheme.colors.transparent,
+        sheetElevation = 0.dp,
         sheetState = modalState,
         sheetContent = { modalContent() }
     ) {

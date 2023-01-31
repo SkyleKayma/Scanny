@@ -56,7 +56,6 @@ sealed class QRCodeContent(val type: QRType, val rawData: String?) {
         var ssid: String? = null,
         var encryptionType: WifiEncryptionType? = null,
         var password: String? = null,
-        var isHidden: Boolean? = null,
         rawData: String? = null
     ) : QRCodeContent(QRType.WIFI, rawData) {
 
@@ -65,27 +64,33 @@ sealed class QRCodeContent(val type: QRType, val rawData: String?) {
             const val SSID = "S"
             const val TYPE = "T"
             const val PASSWORD = "P"
-            const val HIDDEN = "H"
             const val END = ";"
         }
     }
 
     class ContactContent(
-        var firstName: String? = null,
-        var lastName: String? = null,
+        var names: List<String>? = null, // LASTNAME; FIRSTNAME; ADDITIONAL NAME
+        var formattedName: String? = null,
+        var org: String? = null,
+        var title: String? = null,
+        var tels: List<String>? = null,
+        var emails: List<String>? = null,
+        var addresses: List<String>? = null,
+        var urls: List<String>? = null,
         rawData: String? = null
     ) : QRCodeContent(QRType.CONTACT, rawData) {
 
         companion object {
             const val BEGIN = "BEGIN:VCARD"
-            const val NAMES = "N"
-            const val TEL_TYPE = "TEL;TYPE"
-            const val EMAIL = "EMAIL"
-            const val COMPANY = "ORG"
-            const val PROFESSION = "TITLE"
-            const val ADR_TYPE = "ADR;TYPE"
-            const val URL = "URL"
             const val VERSION = "VERSION:3.0"
+            const val NAMES = "N:"
+            const val FORMATTED_NAME = "FN:"
+            const val ORG = "ORG:"
+            const val TITLE = "TITLE:"
+            const val EMAIL = "EMAIL:"
+            const val TEL = "TEL:"
+            const val ADDRESS = "ADR:"
+            const val URL = "URL:"
             const val END = "END:VCARD"
         }
     }

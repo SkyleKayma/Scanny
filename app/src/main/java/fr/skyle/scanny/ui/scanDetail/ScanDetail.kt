@@ -1,9 +1,11 @@
 package fr.skyle.scanny.ui.scanDetail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -32,26 +34,32 @@ fun ScanDetail(
     onAddToContact: (QRCodeContent.ContactContent) -> Unit,
     isRawContentShown: Boolean
 ) {
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
-            .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
-            .background(SCAppTheme.colors.background)
-            .navigationBarsPadding(),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .statusBarsPadding()
     ) {
-        QRContentScanDisplay(
-            qrCodeContent = barcode.toQRCodeContent,
-            onCopyContent = onCopyContent,
-            onShareContent = onShareContent,
-            onOpenLink = onOpenLink,
-            onSendEmail = onSendEmail,
-            onSendSMS = onSendSMS,
-            onConnectToWifi = onConnectToWifi,
-            onAddToContact = onAddToContact,
-            isRawContentShown = isRawContentShown
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+                .background(SCAppTheme.colors.background)
+                .navigationBarsPadding(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            QRContentScanDisplay(
+                qrCodeContent = barcode.toQRCodeContent,
+                onCopyContent = onCopyContent,
+                onShareContent = onShareContent,
+                onOpenLink = onOpenLink,
+                onSendEmail = onSendEmail,
+                onSendSMS = onSendSMS,
+                onConnectToWifi = onConnectToWifi,
+                onAddToContact = onAddToContact,
+                isRawContentShown = isRawContentShown
+            )
+        }
     }
 }
 
