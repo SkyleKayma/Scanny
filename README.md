@@ -35,13 +35,13 @@ What app currently features:
 This application can scan all types of code that Google MLKit handles.
 
 
-# What will be added in the next releases:
+# What will be added in the next releases
 
-## Next release:
+## Next release
 
 - [ ] Scan history
 
-## Upcoming releases:
+## Upcoming releases
 
 - [ ] Create QRCode
 - [ ] Creation history
