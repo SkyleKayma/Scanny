@@ -13,7 +13,7 @@ It aims to be reliable and fast.
 
 # What does it uses ?
 
-Written in full Kotlin.
+Fully written in Kotlin.
 
 Most important libraries:
 - AndroidX
