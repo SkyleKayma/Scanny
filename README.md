@@ -1,6 +1,6 @@
 ![Scanny](app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/SkyleKayma/Scanny/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/SkyleKayma/Scanny/tree/main) 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/SkyleKayma/Scanny/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/SkyleKayma/Scanny/tree/main) 
 [![License](https://img.shields.io/badge/License-Apache-blue.svg)](https://github.com/SkyleKayma/Scanny/edit/main/LICENSE)
 
 # Scanny
