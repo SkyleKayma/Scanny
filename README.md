@@ -1,43 +1,57 @@
+![Scanny](app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
+
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/SkyleKayma/Scanny/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/SkyleKayma/Scanny/tree/main) 
+[![License](https://img.shields.io/badge/License-Apache-blue.svg)](https://github.com/SkyleKayma/Scanny/edit/main/LICENSE)
+
 # Scanny
 
-App to scan and create QRCode, with scan history.
+Modern app to scan and create QRCode, with history.
+It does use only latest libraries and do NOT depends on Zxing.
+It aims to be reliable and fast.
+
+<a href='https://play.google.com/store/apps/details?id=fr.skyle.scanny&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width="200" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
 # What does it uses ?
 
+Fully written in Kotlin.
+
+Most important libraries:
 - AndroidX
 - Google ML Kit
-- Custom QRCode generation without Zxing (https://github.com/g0dkar/qrcode-kotlin)
+- Custom QRCode generation (https://github.com/g0dkar/qrcode-kotlin)
 - Compose
-- Accompanist
 - Coroutines
 - Hilt
 - Camera 2
-- Coil
-- Datastore
 
 # Features
 
-App features:
+What app currently features:
 
-- [ ] Scan QRCode
-- [ ] Create QRCode
+- [x] Scan QRCode with Camera
+- [x] Find QRCode in image
+- [x] Feedback system
+
+This application can scan all types of code that Google MLKit handles.
+
+
+# What will be added in the next releases
+
+## Next release
+
 - [ ] Scan history
-- [ ] Settings to tweak the features
 
-Dev features:
+## Upcoming releases
 
-- [x] Use https://circleci.com/
-- [x] Firebase App Distribution
-- [x] Firebase Crashlytics
-
-Others:
-
-- Google In-App rating
-- Google In-App update
+- [ ] Create QRCode
+- [ ] Creation history
+- [ ] Customization of created QRCode
+- [ ] Google In-App rating
+- [ ] Google In-App update
 
 # Contributions
 
-If you've found an error in this sample, please file an issue.
+If you've found an error in this project, please file an issue.
 
 Patches are encouraged and may be submitted by forking this project and submitting a pull request. Since this project is still in its very
 early stages, if your change is substantial, please raise an issue first to discuss it.
