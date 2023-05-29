@@ -40,7 +40,7 @@ fun SCButton(
             disabledBackgroundColor = SCAppTheme.colors.backgroundDisabled,
             disabledContentColor = SCAppTheme.colors.textDisabled
         ),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(10.dp),
         onClick = onClick,
         enabled = isEnabled
     ) {

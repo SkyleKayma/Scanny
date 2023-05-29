@@ -1,13 +1,7 @@
 package fr.skyle.scanny.ui.settings.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -17,12 +11,16 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.BuildConfig
 import fr.skyle.scanny.R
+import fr.skyle.scanny.ext.navigateToDataPrivacy
+import fr.skyle.scanny.ext.navigateToOpenium
+import fr.skyle.scanny.ext.navigateToRateApp
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.core.SCTopAppBar
@@ -31,18 +29,18 @@ import fr.skyle.scanny.ui.core.SettingsTitleText
 @Composable
 fun SettingsScreenContent(
     navigateToFeedback: () -> Unit,
-    navigateToDataPrivacy: () -> Unit,
-    navigateToRateApp: () -> Unit,
     navigateToAbout: () -> Unit,
-    navigateToOpenium: () -> Unit,
     navigateBack: () -> Unit,
     onVibrationAfterScanChanged: (Boolean) -> Unit,
     onOpenLinkAfterScanChanged: (Boolean) -> Unit,
     onRawContentShownChanged: (Boolean) -> Unit,
-    isVibrateAfterScanEnabled: Boolean,
-    isOpenLinkAfterScanEnabled: Boolean,
-    isRawContentShown: Boolean
+    isVibrateAfterScanEnabled: () -> Boolean,
+    isOpenLinkAfterScanEnabled: () -> Boolean,
+    isRawContentShown: () -> Boolean
 ) {
+    // Context
+    val context = LocalContext.current
+
     Scaffold(
         modifier = Modifier
             .background(SCAppTheme.colors.background)
@@ -74,7 +72,7 @@ fun SettingsScreenContent(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(10.dp))
                     .background(SCAppTheme.colors.backgroundLight)
             ) {
                 SettingsSwitchCell(
@@ -115,7 +113,7 @@ fun SettingsScreenContent(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(10.dp))
                     .background(SCAppTheme.colors.backgroundLight)
             ) {
                 SettingsCell(
@@ -129,7 +127,7 @@ fun SettingsScreenContent(
                     startIconId = R.drawable.ic_openium_logo,
                     text = stringResource(id = R.string.settings_openium),
                     textColor = SCAppTheme.colors.textDark,
-                    onClick = navigateToOpenium
+                    onClick = { context.navigateToOpenium() }
                 )
 
                 SettingsCell(
@@ -143,14 +141,14 @@ fun SettingsScreenContent(
                     startIconId = R.drawable.ic_rate_app,
                     text = stringResource(id = R.string.settings_rate_app),
                     textColor = SCAppTheme.colors.textDark,
-                    onClick = navigateToRateApp
+                    onClick = { context.navigateToRateApp() }
                 )
 
                 SettingsCell(
                     startIconId = R.drawable.ic_data_privacy,
                     text = stringResource(id = R.string.settings_data_privacy),
                     textColor = SCAppTheme.colors.textDark,
-                    onClick = navigateToDataPrivacy,
+                    onClick = { context.navigateToDataPrivacy() },
                     withDivider = false
                 )
             }
@@ -174,17 +172,14 @@ fun PreviewSettingsScreenContent() {
     SCTheme {
         SettingsScreenContent(
             navigateToFeedback = {},
-            navigateToDataPrivacy = {},
-            navigateToRateApp = {},
             navigateToAbout = {},
-            navigateToOpenium = {},
             navigateBack = {},
             onVibrationAfterScanChanged = {},
             onOpenLinkAfterScanChanged = {},
             onRawContentShownChanged = {},
-            isVibrateAfterScanEnabled = false,
-            isOpenLinkAfterScanEnabled = false,
-            isRawContentShown = false
+            isVibrateAfterScanEnabled = { false },
+            isOpenLinkAfterScanEnabled = { false },
+            isRawContentShown = { false }
         )
     }
 }

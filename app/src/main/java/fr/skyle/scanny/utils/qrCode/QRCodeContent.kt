@@ -1,25 +1,29 @@
 package fr.skyle.scanny.utils.qrCode
 
+import fr.skyle.scanny.enums.BarcodeFormat
 import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.enums.WifiEncryptionType
 
-sealed class QRCodeContent(val type: QRType, val rawData: String?) {
+sealed class QRCodeContent(val type: QRType, val format: BarcodeFormat? = null, val rawData: String? = null) {
 
     class TextContent(
         var text: String,
-        rawData: String? = null
-    ) : QRCodeContent(QRType.TEXT, rawData)
+        format: BarcodeFormat?,
+        rawData: String?
+    ) : QRCodeContent(QRType.TEXT, format, rawData)
 
     class UrlContent(
         var url: String,
-        rawData: String? = null
-    ) : QRCodeContent(QRType.URL, rawData)
+        format: BarcodeFormat?,
+        rawData: String?
+    ) : QRCodeContent(QRType.URL, format, rawData)
 
     class SMSContent(
         var phoneNumber: String? = null,
         var message: String? = null,
-        rawData: String? = null
-    ) : QRCodeContent(QRType.SMS, rawData) {
+        format: BarcodeFormat?,
+        rawData: String?
+    ) : QRCodeContent(QRType.SMS, format, rawData) {
 
         companion object {
             const val SMS_TO = "SMSTO"
@@ -28,8 +32,9 @@ sealed class QRCodeContent(val type: QRType, val rawData: String?) {
 
     class EmailContent(
         var email: String,
-        rawData: String? = null
-    ) : QRCodeContent(QRType.EMAIL, rawData) {
+        format: BarcodeFormat?,
+        rawData: String?
+    ) : QRCodeContent(QRType.EMAIL, format, rawData) {
 
         companion object {
             const val MAILTO = "MAILTO"
@@ -40,8 +45,9 @@ sealed class QRCodeContent(val type: QRType, val rawData: String?) {
         var email: String? = null,
         var subject: String? = null,
         var body: String? = null,
-        rawData: String? = null
-    ) : QRCodeContent(QRType.EMAIL_MSG, rawData) {
+        format: BarcodeFormat?,
+        rawData: String?
+    ) : QRCodeContent(QRType.EMAIL_MSG, format, rawData) {
 
         companion object {
             const val BEGIN = "MATMSG"
@@ -56,8 +62,9 @@ sealed class QRCodeContent(val type: QRType, val rawData: String?) {
         var ssid: String? = null,
         var encryptionType: WifiEncryptionType? = null,
         var password: String? = null,
-        rawData: String? = null
-    ) : QRCodeContent(QRType.WIFI, rawData) {
+        format: BarcodeFormat?,
+        rawData: String?
+    ) : QRCodeContent(QRType.WIFI, format, rawData) {
 
         companion object {
             const val WIFI = "WIFI"
@@ -77,8 +84,9 @@ sealed class QRCodeContent(val type: QRType, val rawData: String?) {
         var emails: List<String>? = null,
         var addresses: List<String>? = null,
         var urls: List<String>? = null,
-        rawData: String? = null
-    ) : QRCodeContent(QRType.CONTACT, rawData) {
+        format: BarcodeFormat?,
+        rawData: String?
+    ) : QRCodeContent(QRType.CONTACT, format, rawData) {
 
         companion object {
             const val BEGIN = "BEGIN:VCARD"

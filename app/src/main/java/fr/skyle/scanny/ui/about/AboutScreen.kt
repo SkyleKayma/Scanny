@@ -9,8 +9,7 @@ import fr.skyle.scanny.ui.core.SystemIconsColor
 
 @Composable
 fun AboutScreen(
-    navigateBack: () -> Unit,
-    onOpenLink: (String) -> Unit
+    navigateBack: () -> Unit
 ) {
     // Set system icons color
     SystemIconsColor(
@@ -20,8 +19,7 @@ fun AboutScreen(
     )
 
     AboutScreenContent(
-        navigateBack = navigateBack,
-        onOpenLink = onOpenLink
+        navigateBack = navigateBack
     )
 }
 
@@ -30,8 +28,7 @@ fun AboutScreen(
 fun PreviewAboutScreen() {
     SCTheme {
         AboutScreen(
-            navigateBack = {},
-            onOpenLink = {}
+            navigateBack = {}
         )
     }
 }

@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
+import fr.skyle.scanny.ext.navigateToAppSettings
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.core.SCTopAppBar
@@ -23,9 +25,11 @@ fun ScanScreenContent(
     isFlashEnabled: Boolean,
     onFlashClicked: () -> Unit,
     onGalleryClicked: () -> Unit,
-    navigateToAppSettings: () -> Unit,
     navigateToSettings: () -> Unit
 ) {
+    // Context
+    val context = LocalContext.current
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -56,7 +60,7 @@ fun ScanScreenContent(
                 modifier = Modifier
                     .align(Alignment.Center)
                     .padding(horizontal = 32.dp),
-                navigateToSettings = navigateToAppSettings
+                navigateToSettings = { context.navigateToAppSettings() }
             )
         }
     }
@@ -71,7 +75,6 @@ fun PreviewScanScreenContent() {
             isFlashEnabled = true,
             onFlashClicked = {},
             onGalleryClicked = {},
-            navigateToAppSettings = {},
             navigateToSettings = {}
         )
     }

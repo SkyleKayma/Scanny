@@ -2,8 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.Scanny" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:windowBackground">@color/sc_background</item>
+        <item name="android:windowBackground">@color/sc_black</item>
         <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/sc_black</item>
-        <item name="android:statusBarColor">@color/sc_black</item>
     </style>
 </resources>

@@ -9,7 +9,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import fr.skyle.scanny.enums.FeedbackSubject
 import fr.skyle.scanny.ext.findActivity
 import fr.skyle.scanny.ui.about.AboutScreen
 import fr.skyle.scanny.ui.feedback.FeedbackScreen
@@ -46,16 +45,6 @@ const val ARG_QR_CODE_CONTENT = "ARG_QR_CODE_CONTENT"
 @Composable
 fun ScannyNavHost(
     navHostController: NavHostController,
-    navigateToDataPrivacy: () -> Unit,
-    navigateToRateApp: () -> Unit,
-    navigateToAppSettings: () -> Unit,
-    navigateToOpenium: () -> Unit,
-    onShareContent: (String) -> Unit,
-    onOpenLink: (String) -> Unit,
-    onSendEmail: (QRCodeContent.EmailMessageContent) -> Unit,
-    onSendFeedback: (FeedbackSubject, String) -> Unit,
-    onSendSMS: (QRCodeContent.SMSContent) -> Unit,
-    onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
     onAddToContact: (QRCodeContent.ContactContent) -> Unit,
 ) {
     // Context
@@ -79,17 +68,9 @@ fun ScannyNavHost(
         }
         composable(route = Route.SCAN) {
             ScanScreen(
-                navigateToAppSettings = navigateToAppSettings,
                 navigateToSettings = {
                     navHostController.navigate(Route.SETTINGS)
                 },
-                onShareContent = onShareContent,
-                onOpenLink = {
-                    onOpenLink(it.url)
-                },
-                onSendEmail = onSendEmail,
-                onSendSMS = onSendSMS,
-                onConnectToWifi = onConnectToWifi,
                 onAddToContact = onAddToContact
             )
         }
@@ -98,12 +79,9 @@ fun ScannyNavHost(
                 navigateToFeedback = {
                     navHostController.navigate(Route.FEEDBACK)
                 },
-                navigateToDataPrivacy = navigateToDataPrivacy,
-                navigateToRateApp = navigateToRateApp,
                 navigateToAbout = {
                     navHostController.navigate(Route.ABOUT)
                 },
-                navigateToOpenium = navigateToOpenium,
                 navigateBack = {
                     navHostController.popBackOrExit(context)
                 }
@@ -113,9 +91,6 @@ fun ScannyNavHost(
             AboutScreen(
                 navigateBack = {
                     navHostController.popBackOrExit(context)
-                },
-                onOpenLink = {
-                    onOpenLink(it)
                 }
             )
         }
@@ -123,8 +98,7 @@ fun ScannyNavHost(
             FeedbackScreen(
                 navigateBack = {
                     navHostController.popBackOrExit(context)
-                },
-                onSendFeedback = onSendFeedback
+                }
             )
         }
 //        composable(route = Destination.GENERATE_QR_LIST) {

@@ -1,12 +1,7 @@
 package fr.skyle.scanny.ui.scanDetail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,13 +21,8 @@ import fr.skyle.scanny.utils.qrCode.QRCodeContent
 fun ScanDetail(
     barcode: Barcode? = null,
     onCopyContent: (AnnotatedString) -> Unit,
-    onShareContent: (String) -> Unit,
-    onOpenLink: (QRCodeContent.UrlContent) -> Unit,
-    onSendEmail: (QRCodeContent.EmailMessageContent) -> Unit,
-    onSendSMS: (QRCodeContent.SMSContent) -> Unit,
-    onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
     onAddToContact: (QRCodeContent.ContactContent) -> Unit,
-    isRawContentShown: Boolean
+    isRawContentShown: () -> Boolean
 ) {
     Box(
         modifier = Modifier
@@ -43,7 +33,7 @@ fun ScanDetail(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+                .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
                 .background(SCAppTheme.colors.background)
                 .navigationBarsPadding(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -51,11 +41,6 @@ fun ScanDetail(
             QRContentScanDisplay(
                 qrCodeContent = barcode.toQRCodeContent,
                 onCopyContent = onCopyContent,
-                onShareContent = onShareContent,
-                onOpenLink = onOpenLink,
-                onSendEmail = onSendEmail,
-                onSendSMS = onSendSMS,
-                onConnectToWifi = onConnectToWifi,
                 onAddToContact = onAddToContact,
                 isRawContentShown = isRawContentShown
             )
@@ -70,13 +55,8 @@ fun PreviewScanSuccessBottomSheet() {
         ScanDetail(
             barcode = null,
             onCopyContent = {},
-            onShareContent = {},
-            onOpenLink = {},
-            onSendEmail = {},
-            onSendSMS = {},
-            onConnectToWifi = {},
             onAddToContact = {},
-            isRawContentShown = false
+            isRawContentShown = { false }
         )
     }
 }

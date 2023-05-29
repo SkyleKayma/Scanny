@@ -28,7 +28,7 @@ fun QRContentDisplayHeaderSection(
     Row(
         modifier = modifier
             .wrapContentHeight()
-            .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+            .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
             .background(SCAppTheme.colors.primary)
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically

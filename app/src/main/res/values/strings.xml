@@ -5,6 +5,21 @@
     <string name="openium_url" translatable="false">https://www.openium.fr</string>
     <string name="app_email_contact" translatable="false">scanny.contact@gmail.com</string>
 
+    <!-- Barcode format -->
+    <string name="barcode_format_code_128" translatable="false">CODE 128</string>
+    <string name="barcode_format_code_39" translatable="false">CODE 39</string>
+    <string name="barcode_format_code_93" translatable="false">CODE 93</string>
+    <string name="barcode_format_barcode" translatable="false">Barcode</string>
+    <string name="barcode_format_data_matrix" translatable="false">Data Matrix</string>
+    <string name="barcode_format_ean_13" translatable="false">EAN 13</string>
+    <string name="barcode_format_ean_8" translatable="false">EAN 8</string>
+    <string name="barcode_format_itf" translatable="false">ITF</string>
+    <string name="barcode_format_qr_code" translatable="false">QR Code</string>
+    <string name="barcode_format_upc_a" translatable="false">UPC A</string>
+    <string name="barcode_format_upc_e" translatable="false">UPC E</string>
+    <string name="barcode_format_pdf417" translatable="false">PDF417</string>
+    <string name="barcode_format_aztec" translatable="false">Aztec</string>
+
     <!-- Generic -->
     <string name="generic_create">Create</string>
     <string name="generic_please_fill_mandatory_fields">Please fill mandatory fields</string>

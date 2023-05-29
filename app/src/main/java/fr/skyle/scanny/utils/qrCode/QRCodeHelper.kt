@@ -3,12 +3,12 @@ package fr.skyle.scanny.utils.qrCode
 import android.content.Context
 import android.graphics.Bitmap
 import fr.skyle.scanny.enums.FileType
+import fr.skyle.scanny.ext.extension
 import fr.skyle.scanny.utils.ShareUtils
 import io.github.g0dkar.qrcode.QRCode
 import io.github.g0dkar.qrcode.internals.QRCodeSquare
 import timber.log.Timber
-import java.util.*
-import kotlin.jvm.Throws
+import java.util.UUID
 
 object QRCodeHelper {
 
@@ -32,7 +32,7 @@ object QRCodeHelper {
                 darkColor = qrCodeData.darkColor,
                 marginColor = qrCodeData.marginColor
             ).nativeImage() as Bitmap
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Timber.e(e)
             null
         }
@@ -49,7 +49,7 @@ object QRCodeHelper {
         // Render
         val fileName = "$uuid${fileType.extension}"
 
-        ShareUtils.getOutputStream(context, fileName).let { outputStream->
+        ShareUtils.getOutputStream(context, fileName).let { outputStream ->
             qrCode.render(
                 cellSize = qrCodeData.cellSize,
                 margin = qrCodeData.margin,
@@ -80,7 +80,7 @@ object QRCodeHelper {
         try {
             saveQRCode(qrCode, qrCodeData, FileType.PNG, context)
             true
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Timber.e(e)
             false
         }

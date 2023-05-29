@@ -17,7 +17,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -27,7 +26,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.skyle.scanny.R
+import fr.skyle.scanny.enums.BarcodeFormat
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.core.SCTopAppBar
@@ -46,7 +47,7 @@ fun GenerateQRScreen(
     val scaffoldState = rememberScaffoldState()
 
     // Flow
-    val bitmapFlow by viewModel.bitmapSharedFlow.collectAsState()
+    val bitmapFlow by viewModel.bitmapSharedFlow.collectAsStateWithLifecycle()
 
     // TODO Move that
     viewModel.generateQRCode(qrCodeContent)
@@ -118,7 +119,7 @@ fun PreviewGenerateQRScreen() {
     SCTheme {
         GenerateQRScreen(
             goBackToMain = { true },
-            qrCodeContent = QRCodeContent.TextContent("Text")
+            qrCodeContent = QRCodeContent.TextContent("Text", format = BarcodeFormat.QR_CODE, rawData = null)
         )
     }
 }

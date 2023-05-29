@@ -2,7 +2,6 @@
 <resources>
 
     <style name="Theme.Scanny" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/sc_black</item>
         <item name="android:windowBackground">@color/sc_black</item>
         <item name="android:windowSplashScreenBackground">@color/sc_black</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/sc_white</item>

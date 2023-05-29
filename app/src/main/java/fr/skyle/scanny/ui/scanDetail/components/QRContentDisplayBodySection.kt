@@ -24,7 +24,7 @@ fun QRContentDisplayBodySection(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+            .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
             .background(SCAppTheme.colors.backgroundLight)
             .padding(12.dp),
         text = text,

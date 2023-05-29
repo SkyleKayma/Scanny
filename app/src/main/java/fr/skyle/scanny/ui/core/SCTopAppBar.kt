@@ -24,6 +24,7 @@ import fr.skyle.scanny.theme.SCTheme
 @Composable
 fun SCTopAppBar(
     modifier: Modifier = Modifier,
+    backgroundColor: Color? = null,
     title: String? = null,
     onClickHomeButton: (() -> Unit)? = null,
     actionIconId: Int? = null,
@@ -32,8 +33,8 @@ fun SCTopAppBar(
     isComingFromDown: Boolean = false
 ) {
     TopAppBar(
-        backgroundColor = SCAppTheme.colors.transparent,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
+        backgroundColor = backgroundColor ?: SCAppTheme.colors.transparent,
         elevation = 0.dp
     ) {
         Row(

@@ -2,10 +2,10 @@ package fr.skyle.scanny.ui.splash
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.core.SystemIconsColor
@@ -24,7 +24,7 @@ fun SplashScreen(
     )
 
     // Flow
-    val timerFlow by viewModel.splashTimer.collectAsState()
+    val timerFlow by viewModel.splashTimer.collectAsStateWithLifecycle()
 
     // Effect
     LaunchedEffect(timerFlow) {

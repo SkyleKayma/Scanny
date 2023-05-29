@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -23,6 +24,7 @@ import com.google.mlkit.vision.common.InputImage
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.ScanModalType
 import fr.skyle.scanny.events.scanModalTypeEvent
+import fr.skyle.scanny.ext.navigateToLink
 import fr.skyle.scanny.ext.toQRCodeContent
 import fr.skyle.scanny.ext.vibrateScan
 import fr.skyle.scanny.theme.SCAppTheme
@@ -40,13 +42,7 @@ import timber.log.Timber
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun ScanScreen(
-    navigateToAppSettings: () -> Unit,
     navigateToSettings: () -> Unit,
-    onShareContent: (String) -> Unit,
-    onOpenLink: (QRCodeContent.UrlContent) -> Unit,
-    onSendEmail: (QRCodeContent.EmailMessageContent) -> Unit,
-    onSendSMS: (QRCodeContent.SMSContent) -> Unit,
-    onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
     onAddToContact: (QRCodeContent.ContactContent) -> Unit,
     viewModel: ScanViewModel = hiltViewModel()
 ) {
@@ -104,9 +100,9 @@ fun ScanScreen(
         }
 
     // Flow
-    val isVibrationAfterScanEnabled by viewModel.isVibrationAfterScanEnabled.collectAsState()
-    val isOpenLinkAfterScanEnabled by viewModel.isOpenLinkAfterScanEnabled.collectAsState()
-    val isRawContentShown by viewModel.isRawContentShown.collectAsState()
+    val isVibrationAfterScanEnabled by viewModel.isVibrationAfterScanEnabled.collectAsStateWithLifecycle()
+    val isOpenLinkAfterScanEnabled by viewModel.isOpenLinkAfterScanEnabled.collectAsStateWithLifecycle()
+    val isRawContentShown by viewModel.isRawContentShown.collectAsStateWithLifecycle()
 
     // Permission
     LaunchedEffect(key1 = Unit, block = {
@@ -142,7 +138,7 @@ fun ScanScreen(
                     }
 
                     if (qrCodeContent is QRCodeContent.UrlContent && isOpenLinkAfterScanEnabled) {
-                        onOpenLink(qrCodeContent)
+                        context.navigateToLink(qrCodeContent.url)
 
                         // Wait before enabling scan feature, otherwise it will be called multiple times before browser open
                         delay(2_000L)
@@ -156,13 +152,8 @@ fun ScanScreen(
                                 onCopyContent = {
                                     clipboardManager.setText(it)
                                 },
-                                onShareContent = onShareContent,
-                                onOpenLink = onOpenLink,
-                                onSendEmail = onSendEmail,
-                                onSendSMS = onSendSMS,
-                                onConnectToWifi = onConnectToWifi,
                                 onAddToContact = onAddToContact,
-                                isRawContentShown = isRawContentShown
+                                isRawContentShown = { isRawContentShown }
                             )
                         }
                         modalState.show()
@@ -192,7 +183,6 @@ fun ScanScreen(
             onGalleryClicked = {
                 galleryLauncher.launch("image/*")
             },
-            navigateToAppSettings = navigateToAppSettings,
             navigateToSettings = navigateToSettings
         )
     }

@@ -1,9 +1,9 @@
 package fr.skyle.scanny.ui.settings
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.ui.core.SystemIconsColor
 import fr.skyle.scanny.ui.settings.components.SettingsScreenContent
@@ -11,10 +11,7 @@ import fr.skyle.scanny.ui.settings.components.SettingsScreenContent
 @Composable
 fun SettingsScreen(
     navigateToFeedback: () -> Unit,
-    navigateToDataPrivacy: () -> Unit,
-    navigateToRateApp: () -> Unit,
     navigateToAbout: () -> Unit,
-    navigateToOpenium: () -> Unit,
     navigateBack: () -> Unit,
     viewModel: SettingsScreenViewModel = hiltViewModel()
 ) {
@@ -26,16 +23,13 @@ fun SettingsScreen(
     )
 
     // Flow
-    val isVibrationAfterScanEnabled by viewModel.isVibrationAfterScanEnabled.collectAsState()
-    val isOpenLinkAfterScanEnabled by viewModel.isOpenLinkAfterScanEnabled.collectAsState()
-    val isRawContentShown by viewModel.isRawContentShown.collectAsState()
+    val isVibrationAfterScanEnabled by viewModel.isVibrationAfterScanEnabled.collectAsStateWithLifecycle()
+    val isOpenLinkAfterScanEnabled by viewModel.isOpenLinkAfterScanEnabled.collectAsStateWithLifecycle()
+    val isRawContentShown by viewModel.isRawContentShown.collectAsStateWithLifecycle()
 
     SettingsScreenContent(
         navigateToFeedback = navigateToFeedback,
-        navigateToDataPrivacy = navigateToDataPrivacy,
-        navigateToRateApp = navigateToRateApp,
         navigateToAbout = navigateToAbout,
-        navigateToOpenium = navigateToOpenium,
         navigateBack = navigateBack,
         onVibrationAfterScanChanged = { isEnabled ->
             viewModel.isVibrationAfterScanEnabled(isEnabled)
@@ -46,8 +40,8 @@ fun SettingsScreen(
         onRawContentShownChanged = { isShown ->
             viewModel.isRawContentShown(isShown)
         },
-        isVibrateAfterScanEnabled = isVibrationAfterScanEnabled,
-        isOpenLinkAfterScanEnabled = isOpenLinkAfterScanEnabled,
-        isRawContentShown = isRawContentShown
+        isVibrateAfterScanEnabled = { isVibrationAfterScanEnabled },
+        isOpenLinkAfterScanEnabled = { isOpenLinkAfterScanEnabled },
+        isRawContentShown = { isRawContentShown }
     )
 }

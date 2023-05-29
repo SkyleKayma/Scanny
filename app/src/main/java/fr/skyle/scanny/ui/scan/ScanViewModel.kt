@@ -3,6 +3,7 @@ package fr.skyle.scanny.ui.scan
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.skyle.scanny.WHILE_SUBSCRIBE_DELAY
 import fr.skyle.scanny.utils.SCDataStore
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -16,16 +17,16 @@ class ScanViewModel @Inject constructor(
 
     val isVibrationAfterScanEnabled: StateFlow<Boolean> by lazy {
         dataStore.watchIsVibrationAfterScanEnabled()
-            .stateIn(viewModelScope, SharingStarted.Lazily, dataStore.isVibrationAfterScanEnabled())
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(WHILE_SUBSCRIBE_DELAY), dataStore.isVibrationAfterScanEnabled())
     }
 
     val isOpenLinkAfterScanEnabled: StateFlow<Boolean> by lazy {
         dataStore.watchIsOpenLinkAfterScanEnabled()
-            .stateIn(viewModelScope, SharingStarted.Lazily, dataStore.isOpenLinkAfterScanEnabled())
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(WHILE_SUBSCRIBE_DELAY), dataStore.isOpenLinkAfterScanEnabled())
     }
 
     val isRawContentShown: StateFlow<Boolean> by lazy {
         dataStore.watchIsRawContentShown()
-            .stateIn(viewModelScope, SharingStarted.Lazily, dataStore.isRawContentShown())
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(WHILE_SUBSCRIBE_DELAY), dataStore.isRawContentShown())
     }
 }

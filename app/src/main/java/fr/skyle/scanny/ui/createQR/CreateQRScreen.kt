@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import fr.skyle.scanny.enums.BarcodeFormat
 import fr.skyle.scanny.enums.QRType
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCTheme
@@ -101,7 +102,7 @@ fun PreviewCreateQRTextScreen() {
         CreateQRScreen(
             qrType = QRType.TEXT,
             goBackToGenerateQRList = { true },
-            goToGenerateQRCode = { QRCodeContent.TextContent(text = "Text") }
+            goToGenerateQRCode = { QRCodeContent.TextContent(text = "Text", format = BarcodeFormat.QR_CODE, rawData = null) }
         )
     }
 }
@@ -113,7 +114,7 @@ fun PreviewCreateQRUrlScreen() {
         CreateQRScreen(
             qrType = QRType.URL,
             goBackToGenerateQRList = { true },
-            goToGenerateQRCode = { QRCodeContent.TextContent(text = "Url") }
+            goToGenerateQRCode = { QRCodeContent.TextContent(text = "Url", format = BarcodeFormat.QR_CODE, rawData = null) }
         )
     }
 }
@@ -125,7 +126,7 @@ fun PreviewCreateQREmailScreen() {
         CreateQRScreen(
             qrType = QRType.EMAIL,
             goBackToGenerateQRList = { true },
-            goToGenerateQRCode = { QRCodeContent.TextContent(text = "Email") }
+            goToGenerateQRCode = { QRCodeContent.TextContent(text = "Email", format = BarcodeFormat.QR_CODE, rawData = null) }
         )
     }
 }

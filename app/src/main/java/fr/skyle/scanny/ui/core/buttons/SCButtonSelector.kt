@@ -18,7 +18,7 @@ fun SCButtonSelector(
 ) {
     OutlinedButton(
         modifier = modifier,
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(10.dp),
         onClick = onClick,
         border = BorderStroke(0.dp, MaterialTheme.colors.primaryVariant)
     ) {

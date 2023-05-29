@@ -1,8 +1,5 @@
 package fr.skyle.scanny.enums
 
-import androidx.annotation.Keep
-
-@Keep
 enum class QRType {
     TEXT,
     URL,

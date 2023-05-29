@@ -23,4 +23,5 @@
     <color name="sc_background_icon">#ECEDFA</color>
 
     <color name="sc_error">#C53535</color>
+    <color name="sc_success">#4BC535</color>
 </resources>

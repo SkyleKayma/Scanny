@@ -17,7 +17,8 @@ fun SCTheme(content: @Composable () -> Unit) {
     val colors = SCColors(
         transparent = colorResource(id = R.color.sc_transparent),
         primary = colorResource(id = R.color.sc_primary),
-        error = colorResource(id = R.color.sc_primary),
+        error = colorResource(id = R.color.sc_error),
+        success = colorResource(id = R.color.sc_success),
         textPrimary = colorResource(id = R.color.sc_text_primary),
         text = colorResource(id = R.color.sc_text),
         textDark = colorResource(id = R.color.sc_text_dark),
@@ -28,6 +29,7 @@ fun SCTheme(content: @Composable () -> Unit) {
         backgroundPrimary = colorResource(id = R.color.sc_background_primary),
         backgroundLight = colorResource(id = R.color.sc_background_light),
         backgroundDisabled = colorResource(id = R.color.sc_background_disabled),
+        backgroundDisabledAlpha = colorResource(id = R.color.sc_background_disabled).copy(alpha = 0.3f),
         backgroundIcon = colorResource(id = R.color.sc_background_icon),
         backgroundBlack = colorResource(id = R.color.sc_black)
     )
@@ -72,14 +74,16 @@ object SCAppTheme {
 private object MaterialRippleTheme : RippleTheme {
 
     @Composable
-    override fun defaultColor() = RippleTheme.defaultRippleColor(
-        contentColor = LocalContentColor.current,
-        lightTheme = MaterialTheme.colors.isLight
-    )
+    override fun defaultColor() =
+        RippleTheme.defaultRippleColor(
+            contentColor = LocalContentColor.current,
+            lightTheme = MaterialTheme.colors.isLight
+        )
 
     @Composable
-    override fun rippleAlpha() = RippleTheme.defaultRippleAlpha(
-        contentColor = LocalContentColor.current,
-        lightTheme = MaterialTheme.colors.isLight
-    )
+    override fun rippleAlpha() =
+        RippleTheme.defaultRippleAlpha(
+            contentColor = LocalContentColor.current,
+            lightTheme = MaterialTheme.colors.isLight
+        )
 }

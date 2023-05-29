@@ -1,22 +1,8 @@
 package fr.skyle.scanny.ui.about.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -25,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -33,15 +20,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.BuildConfig
 import fr.skyle.scanny.R
+import fr.skyle.scanny.ext.navigateToLink
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.core.SCTopAppBar
 
 @Composable
 fun AboutScreenContent(
-    navigateBack: () -> Unit,
-    onOpenLink: (String) -> Unit
+    navigateBack: () -> Unit
 ) {
+    // Context
+    val context = LocalContext.current
+
     Scaffold(
         modifier = Modifier
             .background(SCAppTheme.colors.background)
@@ -76,7 +66,7 @@ fun AboutScreenContent(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(10.dp))
                     .background(SCAppTheme.colors.backgroundLight)
                     .padding(16.dp)
             ) {
@@ -158,7 +148,7 @@ fun AboutScreenContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            onOpenLink(githubLink)
+                            context.navigateToLink(githubLink)
                         },
                     text = githubLink,
                     style = SCAppTheme.typography.body1,
@@ -197,8 +187,7 @@ fun AboutScreenContent(
 fun PreviewAboutScreenContent() {
     SCTheme {
         AboutScreenContent(
-            navigateBack = {},
-            onOpenLink = {}
+            navigateBack = {}
         )
     }
 }

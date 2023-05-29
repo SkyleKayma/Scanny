@@ -59,7 +59,7 @@ fun WifiEncryptionSelector(
         Box(
             modifier = Modifier
                 .offset(x = animatedOffsetDpState)
-                .clip(RoundedCornerShape(12.dp))
+                .clip(RoundedCornerShape(10.dp))
                 .background(SCAppTheme.colors.backgroundLight)
                 .size(LocalDensity.current.run { sizeState.width.toDp() }, LocalDensity.current.run { sizeState.height.toDp() })
                 .align(Alignment.CenterStart)
@@ -67,12 +67,12 @@ fun WifiEncryptionSelector(
 
         Row(
             modifier = modifier
-                .border(1.dp, colorResource(id = R.color.sc_black), RoundedCornerShape(12.dp))
+                .border(1.dp, colorResource(id = R.color.sc_black), RoundedCornerShape(10.dp))
         ) {
             Text(
                 modifier = Modifier
                     .weight(1f)
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(10.dp))
                     .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {
                         onEncryptionTypeChanged(WifiEncryptionType.NONE)
                         currentOffsetSelected = cell1YOffset
@@ -97,7 +97,7 @@ fun WifiEncryptionSelector(
             Text(
                 modifier = Modifier
                     .weight(1f)
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(10.dp))
                     .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {
                         onEncryptionTypeChanged(WifiEncryptionType.WEP)
                         currentOffsetSelected = cell2YOffset
@@ -119,7 +119,7 @@ fun WifiEncryptionSelector(
             Text(
                 modifier = Modifier
                     .weight(1f)
-                    .clip(RoundedCornerShape(12.dp))
+                    .clip(RoundedCornerShape(10.dp))
                     .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {
                         onEncryptionTypeChanged(WifiEncryptionType.WPA_WPA2)
                         currentOffsetSelected = cell3YOffset

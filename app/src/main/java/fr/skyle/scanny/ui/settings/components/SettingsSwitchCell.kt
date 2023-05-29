@@ -24,12 +24,14 @@ fun SettingsSwitchCell(
     @DrawableRes startIconId: Int,
     text: String,
     textColor: Color,
-    isChecked: Boolean,
+    isChecked: () -> Boolean,
     onSwitchChecked: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     withDivider: Boolean = true
 ) {
-    var isSwitchChecked by remember(isChecked) { mutableStateOf(isChecked) }
+    var mIsChecked by remember(isChecked()) {
+        mutableStateOf(isChecked())
+    }
 
     Column(
         modifier = modifier
@@ -39,8 +41,7 @@ fun SettingsSwitchCell(
                 .fillMaxWidth()
                 .height(60.dp)
                 .clickable {
-                    isSwitchChecked = !isSwitchChecked
-                    onSwitchChecked(isSwitchChecked)
+                    onSwitchChecked(!mIsChecked)
                 }
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -62,9 +63,9 @@ fun SettingsSwitchCell(
             )
 
             SCSwitch(
-                isSwitchChecked = isSwitchChecked,
+                isSwitchChecked = mIsChecked,
                 onCheckedChange = {
-                    isSwitchChecked = it
+                    mIsChecked = it
                     onSwitchChecked(it)
                 }
             )
@@ -87,7 +88,7 @@ fun PreviewSettingsSwitchCell() {
             startIconId = R.drawable.ic_vibration,
             text = stringResource(id = R.string.settings_vibration),
             textColor = SCAppTheme.colors.textDark,
-            isChecked = false,
+            isChecked = { false },
             onSwitchChecked = {}
         )
     }

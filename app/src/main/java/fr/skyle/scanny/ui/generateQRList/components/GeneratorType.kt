@@ -31,7 +31,7 @@ fun GeneratorType(
             .aspectRatio(1f),
         elevation = 0.dp,
         backgroundColor = SCAppTheme.colors.backgroundPrimary,
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(10.dp),
         onClick = onClick
     ) {
         Column(

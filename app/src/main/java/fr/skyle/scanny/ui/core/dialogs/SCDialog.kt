@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.core
+package fr.skyle.scanny.ui.core.dialogs
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

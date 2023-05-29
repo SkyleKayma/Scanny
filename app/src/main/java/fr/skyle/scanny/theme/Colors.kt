@@ -9,6 +9,7 @@ data class SCColors(
     val transparent: Color,
     val primary: Color,
     val error: Color,
+    val success: Color,
     val textPrimary: Color,
     val text: Color,
     val textDark: Color,
@@ -19,6 +20,7 @@ data class SCColors(
     val backgroundLight: Color,
     val backgroundPrimary: Color,
     val backgroundDisabled: Color,
+    val backgroundDisabledAlpha: Color,
     val backgroundIcon: Color,
     val backgroundBlack: Color
 )
@@ -28,6 +30,7 @@ val LocalColors = staticCompositionLocalOf {
         transparent = Color.Unspecified,
         primary = Color.Unspecified,
         error = Color.Unspecified,
+        success = Color.Unspecified,
         textPrimary = Color.Unspecified,
         text = Color.Unspecified,
         textDark = Color.Unspecified,
@@ -38,6 +41,7 @@ val LocalColors = staticCompositionLocalOf {
         backgroundLight = Color.Unspecified,
         backgroundPrimary = Color.Unspecified,
         backgroundDisabled = Color.Unspecified,
+        backgroundDisabledAlpha = Color.Unspecified,
         backgroundIcon = Color.Unspecified,
         backgroundBlack = Color.Unspecified
     )
