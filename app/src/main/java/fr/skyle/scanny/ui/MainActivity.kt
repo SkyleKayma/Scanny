@@ -7,7 +7,10 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import fr.skyle.scanny.theme.SCTheme
 
@@ -23,6 +26,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SCTheme {
+                val systemUiController = rememberSystemUiController()
+
+                SideEffect {
+                    systemUiController.setSystemBarsColor(color = Color.Transparent, darkIcons = true)
+                }
+
                 MainScreen(
                     onAddToContact = {
                         addContact(it.names, it.formattedName, it.org, it.title, it.tels, it.emails, it.addresses, it.urls)

@@ -1,6 +1,5 @@
-package fr.skyle.scanny.utils.scan
+package fr.skyle.scanny.utils
 
-import android.annotation.SuppressLint
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
@@ -15,16 +14,15 @@ class BarCodeAnalyzer(
 
     // Options
     private val options = BarcodeScannerOptions.Builder()
-        .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
+        .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
         .build()
 
     // Scanner
     private val scanner = BarcodeScanning.getClient(options)
 
     // To control it when a barcode has been detected and we are showing results
-    var canDetectCode: Boolean = true
+    private var canDetectCode: Boolean = true
 
-    @SuppressLint("UnsafeExperimentalUsageError")
     @androidx.camera.core.ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
         try {

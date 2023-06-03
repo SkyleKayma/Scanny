@@ -1,8 +1,10 @@
 package fr.skyle.scanny.ui.scan
 
 import android.Manifest
+import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -10,7 +12,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -22,17 +23,15 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import fr.skyle.scanny.R
-import fr.skyle.scanny.enums.ScanModalType
-import fr.skyle.scanny.events.scanModalTypeEvent
+import fr.skyle.scanny.enums.ModalType
+import fr.skyle.scanny.events.modalTypeEvent
 import fr.skyle.scanny.ext.navigateToLink
 import fr.skyle.scanny.ext.toQRCodeContent
 import fr.skyle.scanny.ext.vibrateScan
 import fr.skyle.scanny.theme.SCAppTheme
-import fr.skyle.scanny.ui.core.SystemIconsColor
 import fr.skyle.scanny.ui.scan.components.ScanScreenContent
 import fr.skyle.scanny.ui.scanDetail.ScanDetail
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
-import fr.skyle.scanny.utils.scan.BarCodeHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -46,18 +45,23 @@ fun ScanScreen(
     onAddToContact: (QRCodeContent.ContactContent) -> Unit,
     viewModel: ScanViewModel = hiltViewModel()
 ) {
-    // Set system icons color
-    SystemIconsColor(
-        statusBarDarkIcons = false,
-        navigationBarDarkIcons = false,
-        navigationBarColor = SCAppTheme.colors.transparent
-    )
-
     // Context
     val context = LocalContext.current
 
+    // Clip Manager
+    val clipboardManager = LocalClipboardManager.current
+
+    // Flow
+    val isVibrationAfterScanEnabled by viewModel.isVibrationAfterScanEnabled.collectAsStateWithLifecycle()
+    val isOpenLinkAfterScanEnabled by viewModel.isOpenLinkAfterScanEnabled.collectAsStateWithLifecycle()
+    val isRawContentShown by viewModel.isRawContentShown.collectAsStateWithLifecycle()
+
+
     // Remember
     val scope = rememberCoroutineScope()
+    var canDetectQRCode by remember {
+        mutableStateOf(true)
+    }
 
     var modalContent: @Composable () -> Unit by remember {
         mutableStateOf({
@@ -66,27 +70,29 @@ fun ScanScreen(
     }
     val modalState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
-        skipHalfExpanded = true
+        skipHalfExpanded = true,
+        confirmValueChange = {
+            if (it == ModalBottomSheetValue.Hidden) {
+                canDetectQRCode = true
+            }
+
+            true
+        }
     )
 
     val cameraPermissionState = rememberPermissionState(permission = Manifest.permission.CAMERA)
     var isFlashEnabled by remember { mutableStateOf(false) }
 
-    val clipboardManager: ClipboardManager = LocalClipboardManager.current
-
-    val galleryLauncher =
+    val galleryLauncher: ManagedActivityResultLauncher<String, Uri?> =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             try {
                 BarcodeScanning.getClient()
                     .process(InputImage.fromFilePath(context, uri!!))
                     .addOnSuccessListener {
                         it.firstOrNull()?.let { barcode ->
-                            // Disable scanning when we are showing results
-                            BarCodeHelper.isQRCodeScanEnabled(false)
-
                             scope.launch {
                                 // Show success modal
-                                scanModalTypeEvent.emit(ScanModalType.ScanSuccessScanModal(barcode))
+                                modalTypeEvent.emit(ModalType.ScanSuccessModal(barcode))
                             }
                         } ?: Toast.makeText(context, context.getString(R.string.scan_no_qr_code_found), Toast.LENGTH_SHORT).show()
                     }
@@ -99,10 +105,12 @@ fun ScanScreen(
             }
         }
 
-    // Flow
-    val isVibrationAfterScanEnabled by viewModel.isVibrationAfterScanEnabled.collectAsStateWithLifecycle()
-    val isOpenLinkAfterScanEnabled by viewModel.isOpenLinkAfterScanEnabled.collectAsStateWithLifecycle()
-    val isRawContentShown by viewModel.isRawContentShown.collectAsStateWithLifecycle()
+    val onDismissBottomSheet: () -> Unit = {
+        scope.launch {
+            modalState.hide()
+            canDetectQRCode = true
+        }
+    }
 
     // Permission
     LaunchedEffect(key1 = Unit, block = {
@@ -111,40 +119,23 @@ fun ScanScreen(
         }
     })
 
-    // Back override
-    BackHandler(enabled = modalState.isVisible) {
-        scope.launch {
-            modalState.hide()
-        }
+    // Back Handler
+    BackHandler(enabled = modalState.isVisible || modalState.targetValue == ModalBottomSheetValue.Expanded) {
+        onDismissBottomSheet()
     }
-
-    // Re-enable scan feature
-    LaunchedEffect(key1 = modalState.currentValue, block = {
-        if (!modalState.isVisible) {
-            BarCodeHelper.isQRCodeScanEnabled(true)
-        }
-    })
 
     // Handle modal
     LaunchedEffect(modalState) {
-        scanModalTypeEvent.collectLatest { bottomSheetType ->
+        modalTypeEvent.collectLatest { bottomSheetType ->
             when (bottomSheetType) {
-                is ScanModalType.ScanSuccessScanModal -> {
+                is ModalType.ScanSuccessModal -> {
                     val qrCodeContent = bottomSheetType.barcode.toQRCodeContent
-
-                    // Vibrate
-                    if (isVibrationAfterScanEnabled) {
-                        context.vibrateScan()
-                    }
 
                     if (qrCodeContent is QRCodeContent.UrlContent && isOpenLinkAfterScanEnabled) {
                         context.navigateToLink(qrCodeContent.url)
 
                         // Wait before enabling scan feature, otherwise it will be called multiple times before browser open
                         delay(2_000L)
-
-                        // Enable scan feature
-                        BarCodeHelper.isQRCodeScanEnabled(true)
                     } else {
                         modalContent = {
                             ScanDetail(
@@ -160,7 +151,7 @@ fun ScanScreen(
                     }
                 }
 
-                null -> modalState.hide()
+                null -> onDismissBottomSheet()
             }
         }
     }
@@ -177,11 +168,26 @@ fun ScanScreen(
         ScanScreenContent(
             isCameraPermissionGranted = cameraPermissionState.status.isGranted,
             isFlashEnabled = isFlashEnabled,
+            onCanDetectQRCodeChanged = {
+                canDetectQRCode = it
+            },
             onFlashClicked = {
                 isFlashEnabled = !isFlashEnabled
             },
             onGalleryClicked = {
                 galleryLauncher.launch("image/*")
+            },
+            onBarcodeDetected = {
+                scope.launch {
+                    if (canDetectQRCode) {
+                        canDetectQRCode = false
+                        if (isVibrationAfterScanEnabled) {
+                            context.vibrateScan()
+                        }
+
+                        modalTypeEvent.emit(ModalType.ScanSuccessModal(it))
+                    }
+                }
             },
             navigateToSettings = navigateToSettings
         )

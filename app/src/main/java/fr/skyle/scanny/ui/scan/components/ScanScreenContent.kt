@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.mlkit.vision.barcode.common.Barcode
 import fr.skyle.scanny.R
 import fr.skyle.scanny.ext.navigateToAppSettings
 import fr.skyle.scanny.theme.SCAppTheme
@@ -25,6 +26,8 @@ fun ScanScreenContent(
     isFlashEnabled: Boolean,
     onFlashClicked: () -> Unit,
     onGalleryClicked: () -> Unit,
+    onCanDetectQRCodeChanged: (Boolean) -> Unit,
+    onBarcodeDetected: (Barcode) -> Unit,
     navigateToSettings: () -> Unit
 ) {
     // Context
@@ -38,7 +41,10 @@ fun ScanScreenContent(
         if (isCameraPermissionGranted) {
             CameraView(
                 modifier = Modifier.fillMaxSize(),
-                isFlashEnabled = isFlashEnabled
+                onBarcodeDetected = onBarcodeDetected,
+                onDetectQRCodeChanged = {
+                    onCanDetectQRCodeChanged(it)
+                }
             )
 
             CameraFilter(
@@ -75,6 +81,8 @@ fun PreviewScanScreenContent() {
             isFlashEnabled = true,
             onFlashClicked = {},
             onGalleryClicked = {},
+            onCanDetectQRCodeChanged = {},
+            onBarcodeDetected = {},
             navigateToSettings = {}
         )
     }
