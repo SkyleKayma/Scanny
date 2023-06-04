@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Scanny"
 include ":app"
+include ":data"

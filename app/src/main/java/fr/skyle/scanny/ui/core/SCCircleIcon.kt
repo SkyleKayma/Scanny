@@ -12,7 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.skyle.scanny.enums.BarcodeFormat
+import fr.skyle.scanny.data.enums.BarcodeFormat
 import fr.skyle.scanny.ext.iconId
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
@@ -25,7 +25,7 @@ fun SCCircleIcon(
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(100))
-            .background(SCAppTheme.colors.backgroundLight)
+            .background(SCAppTheme.colors.nuance100)
             .padding(16.dp)
     ) {
         Icon(

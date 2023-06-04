@@ -25,11 +25,11 @@ fun QRContentDisplayBodySection(
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
-            .background(SCAppTheme.colors.backgroundLight)
+            .background(SCAppTheme.colors.nuance100)
             .padding(12.dp),
         text = text,
         style = SCAppTheme.typography.body2,
-        color = SCAppTheme.colors.text
+        color = SCAppTheme.colors.nuance10
     )
 }
 

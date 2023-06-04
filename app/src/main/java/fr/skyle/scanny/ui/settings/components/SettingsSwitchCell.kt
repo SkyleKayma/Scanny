@@ -74,7 +74,7 @@ fun SettingsSwitchCell(
         if (withDivider) {
             Divider(
                 modifier = Modifier.padding(start = 48.dp, end = 16.dp),
-                color = SCAppTheme.colors.background
+                color = SCAppTheme.colors.nuance90
             )
         }
     }
@@ -87,7 +87,7 @@ fun PreviewSettingsSwitchCell() {
         SettingsSwitchCell(
             startIconId = R.drawable.ic_vibration,
             text = stringResource(id = R.string.settings_vibration),
-            textColor = SCAppTheme.colors.textDark,
+            textColor = SCAppTheme.colors.nuance10,
             isChecked = { false },
             onSwitchChecked = {}
         )

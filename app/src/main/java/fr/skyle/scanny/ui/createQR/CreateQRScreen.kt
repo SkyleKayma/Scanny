@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import fr.skyle.scanny.enums.BarcodeFormat
-import fr.skyle.scanny.enums.QRType
+import fr.skyle.scanny.data.enums.BarcodeFormat
+import fr.skyle.scanny.data.enums.QRType
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.createQR.components.CreateQRScaffold
@@ -61,6 +61,7 @@ fun CreateQRScreen(
                         bringIntoViewRequester = bringIntoViewRequester,
                         goToGenerateQRCode = goToGenerateQRCode
                     )
+
                 QRType.URL ->
                     CreateQRUrlScreen(
                         scaffoldState = scaffoldState,
@@ -68,6 +69,7 @@ fun CreateQRScreen(
                         bringIntoViewRequester = bringIntoViewRequester,
                         goToGenerateQRCode = goToGenerateQRCode
                     )
+
                 QRType.EMAIL, QRType.EMAIL_MSG ->
                     CreateQREmailScreen(
                         scaffoldState = scaffoldState,
@@ -75,6 +77,7 @@ fun CreateQRScreen(
                         bringIntoViewRequester = bringIntoViewRequester,
                         goToGenerateQRCode = goToGenerateQRCode
                     )
+
                 QRType.SMS ->
                     CreateQRSMSScreen(
                         scaffoldState = scaffoldState,
@@ -82,6 +85,7 @@ fun CreateQRScreen(
                         bringIntoViewRequester = bringIntoViewRequester,
                         goToGenerateQRCode = goToGenerateQRCode
                     )
+
                 QRType.WIFI ->
                     CreateQRWiFiScreen(
                         scaffoldState = scaffoldState,
@@ -89,6 +93,7 @@ fun CreateQRScreen(
                         bringIntoViewRequester = bringIntoViewRequester,
                         goToGenerateQRCode = goToGenerateQRCode
                     )
+
                 QRType.CONTACT -> TODO()
             }
         }

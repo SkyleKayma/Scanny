@@ -2,7 +2,14 @@ package fr.skyle.scanny.ui.feedback.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,7 +20,12 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,7 +47,7 @@ import fr.skyle.scanny.ext.text
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.core.SCSpinner
-import fr.skyle.scanny.ui.core.SCTopAppBar
+import fr.skyle.scanny.ui.core.SCTopAppBarWithHomeButton
 import fr.skyle.scanny.ui.core.buttons.SCButton
 import fr.skyle.scanny.ui.core.textFields.ScannyCleanableTextField
 import kotlinx.coroutines.launch
@@ -60,13 +72,13 @@ fun FeedbackScreenContent(
 
     Scaffold(
         modifier = Modifier
-            .background(SCAppTheme.colors.background)
+            .background(SCAppTheme.colors.nuance90)
             .statusBarsPadding(),
         scaffoldState = scaffoldState,
         topBar = {
-            SCTopAppBar(
+            SCTopAppBarWithHomeButton(
                 modifier = Modifier.fillMaxWidth(),
-                backgroundColor = SCAppTheme.colors.background,
+                backgroundColor = SCAppTheme.colors.nuance90,
                 title = stringResource(id = R.string.feedback_title),
                 onClickHomeButton = navigateBack
             )
@@ -76,14 +88,14 @@ fun FeedbackScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(SCAppTheme.colors.background)
+                .background(SCAppTheme.colors.nuance90)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 24.dp)
         ) {
             Text(
                 text = stringResource(id = R.string.feedback_subject_title),
                 style = SCAppTheme.typography.body2,
-                color = SCAppTheme.colors.textDark,
+                color = SCAppTheme.colors.nuance10,
                 textAlign = TextAlign.Center
             )
 
@@ -93,8 +105,8 @@ fun FeedbackScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .border(1.dp, SCAppTheme.colors.backgroundBlack, RoundedCornerShape(10.dp))
-                    .background(SCAppTheme.colors.backgroundLight),
+                    .border(1.dp, SCAppTheme.colors.nuance10, RoundedCornerShape(10.dp))
+                    .background(SCAppTheme.colors.nuance100),
                 dropDownModifier = Modifier.fillMaxWidth(),
                 items = modeEntries,
                 selectedItem = stringResource(id = feedbackSubject?.text ?: R.string.feedback_subject_none),
@@ -110,7 +122,7 @@ fun FeedbackScreenContent(
                             modifier = Modifier.weight(1f),
                             text = item,
                             style = SCAppTheme.typography.body2,
-                            color = SCAppTheme.colors.textDark,
+                            color = SCAppTheme.colors.nuance10,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1
                         )

@@ -28,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.skyle.scanny.R
-import fr.skyle.scanny.enums.BarcodeFormat
+import fr.skyle.scanny.data.enums.BarcodeFormat
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCTheme
-import fr.skyle.scanny.ui.core.SCTopAppBar
+import fr.skyle.scanny.ui.core.SCTopAppBarWithHomeButton
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 
 @Composable
@@ -56,7 +56,7 @@ fun GenerateQRScreen(
         modifier = Modifier.systemBarsPadding(),
         scaffoldState = scaffoldState,
         topBar = {
-            SCTopAppBar(
+            SCTopAppBarWithHomeButton(
                 title = stringResource(id = qrCodeContent.type.textId),
                 onClickHomeButton = {
                     goBackToMain()

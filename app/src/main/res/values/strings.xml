@@ -135,4 +135,8 @@
     </string-array>
     <string name="feedback_error_no_subject">Please chose a subject</string>
 
+    <!-- History -->
+    <string name="history_title">History</string>
+
+
 </resources>

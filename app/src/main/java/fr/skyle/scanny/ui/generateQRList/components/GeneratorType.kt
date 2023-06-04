@@ -1,7 +1,15 @@
 package fr.skyle.scanny.ui.generateQRList.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -14,7 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.skyle.scanny.enums.QRType
+import fr.skyle.scanny.data.enums.QRType
 import fr.skyle.scanny.ext.iconId
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCAppTheme
@@ -30,7 +38,7 @@ fun GeneratorType(
             .fillMaxWidth()
             .aspectRatio(1f),
         elevation = 0.dp,
-        backgroundColor = SCAppTheme.colors.backgroundPrimary,
+        backgroundColor = SCAppTheme.colors.primary,
         shape = RoundedCornerShape(10.dp),
         onClick = onClick
     ) {
@@ -41,7 +49,7 @@ fun GeneratorType(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(100))
-                    .background(SCAppTheme.colors.backgroundLight)
+                    .background(SCAppTheme.colors.nuance100)
                     .padding(16.dp)
             ) {
                 Icon(
@@ -56,7 +64,7 @@ fun GeneratorType(
 
             Text(
                 text = stringResource(id = qrType.textId),
-                color = SCAppTheme.colors.textPrimary,
+                color = SCAppTheme.colors.primary,
                 style = SCAppTheme.typography.body1
             )
         }

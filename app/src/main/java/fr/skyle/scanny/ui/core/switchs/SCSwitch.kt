@@ -12,10 +12,10 @@ fun SCSwitch(
 ) {
     Switch(
         colors = SwitchDefaults.colors(
-            checkedThumbColor = SCAppTheme.colors.backgroundPrimary,
-            checkedTrackColor = SCAppTheme.colors.backgroundPrimary.copy(alpha = 0.3f),
-            uncheckedThumbColor = SCAppTheme.colors.backgroundDisabled,
-            uncheckedTrackColor = SCAppTheme.colors.backgroundDisabled.copy(alpha = 0.3f)
+            checkedThumbColor = SCAppTheme.colors.primary,
+            checkedTrackColor = SCAppTheme.colors.primary.copy(alpha = 0.3f),
+            uncheckedThumbColor = SCAppTheme.colors.nuance40,
+            uncheckedTrackColor = SCAppTheme.colors.nuance40.copy(alpha = 0.3f)
         ),
         checked = isSwitchChecked,
         onCheckedChange = {

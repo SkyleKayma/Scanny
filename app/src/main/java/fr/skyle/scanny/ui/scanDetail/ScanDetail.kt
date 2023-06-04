@@ -39,7 +39,7 @@ fun ScanDetail(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
-                .background(SCAppTheme.colors.background)
+                .background(SCAppTheme.colors.nuance90)
                 .navigationBarsPadding(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

@@ -61,14 +61,14 @@ fun ScannyTextField(
                 },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = SCAppTheme.colors.primary,
-                unfocusedBorderColor = SCAppTheme.colors.backgroundBlack,
+                unfocusedBorderColor = SCAppTheme.colors.nuance10,
                 textColor = SCAppTheme.colors.primary,
                 errorBorderColor = SCAppTheme.colors.error,
-                unfocusedLabelColor = SCAppTheme.colors.textDark,
+                unfocusedLabelColor = SCAppTheme.colors.nuance10,
                 focusedLabelColor = SCAppTheme.colors.primary,
                 errorLabelColor = SCAppTheme.colors.error,
                 trailingIconColor = SCAppTheme.colors.primary,
-                backgroundColor = SCAppTheme.colors.backgroundLight
+                backgroundColor = SCAppTheme.colors.nuance100
             ),
             shape = RoundedCornerShape(10.dp),
             label = {

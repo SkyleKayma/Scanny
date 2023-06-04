@@ -7,6 +7,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,8 +27,9 @@ import java.util.concurrent.Executors
 
 @Composable
 fun CameraView(
+    isFlashEnabled: Boolean,
     onBarcodeDetected: (Barcode) -> Unit,
-    onDetectQRCodeChanged: (Boolean) -> Unit,
+    onCanDetectQRCodeChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     // Context
@@ -38,12 +40,23 @@ fun CameraView(
 
     // Remember
     var camera by remember { mutableStateOf<Camera?>(null) }
+    val isFlashOn by remember(camera, isFlashEnabled) {
+        mutableStateOf(
+            if (camera?.cameraInfo?.hasFlashUnit() == true) {
+                isFlashEnabled
+            } else false
+        )
+    }
     val cameraProviderFuture by remember {
         mutableStateOf(ProcessCameraProvider.getInstance(context))
     }
     var isCameraShown by remember {
         mutableStateOf(true)
     }
+
+    LaunchedEffect(key1 = isFlashOn, block = {
+        camera?.cameraControl?.enableTorch(isFlashOn)
+    })
 
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -101,7 +114,7 @@ fun CameraView(
                                     val cameraProvider = get()
 
                                     cameraProvider.unbindAll()
-                                    onDetectQRCodeChanged(true)
+                                    onCanDetectQRCodeChanged(true)
 
                                     camera = cameraProvider.bindToLifecycle(
                                         lifecycleOwner,
@@ -127,8 +140,9 @@ fun CameraView(
 fun PreviewCameraView() {
     SCTheme {
         CameraView(
+            isFlashEnabled = false,
             onBarcodeDetected = {},
-            onDetectQRCodeChanged = {}
+            onCanDetectQRCodeChanged = {}
         )
     }
 }

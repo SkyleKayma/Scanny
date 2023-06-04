@@ -1,82 +1,107 @@
 package fr.skyle.scanny.ui.core
 
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import fr.skyle.scanny.R
+import fr.skyle.scanny.ext.pxToDp
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
 
 @Composable
 fun SCTopAppBar(
     modifier: Modifier = Modifier,
-    backgroundColor: Color? = null,
     title: String? = null,
-    onClickHomeButton: (() -> Unit)? = null,
-    actionIconId: Int? = null,
-    actionIconColor: Color? = null,
-    onClickAction: (() -> Unit)? = null,
-    isComingFromDown: Boolean = false
+    backgroundColor: Color? = null,
+    rightActionContent: @Composable (() -> Unit)? = null,
+    leftActionContent: @Composable (() -> Unit)? = null
 ) {
+    // Density
+    val density = LocalDensity.current
+
+    var leftActionButtonsSize by remember { mutableStateOf(IntSize.Zero) }
+    var rightActionButtonsSize by remember { mutableStateOf(IntSize.Zero) }
+
     TopAppBar(
-        modifier = modifier,
-        backgroundColor = backgroundColor ?: SCAppTheme.colors.transparent,
+        modifier = modifier.fillMaxWidth(),
+        backgroundColor = backgroundColor ?: SCAppTheme.colors.nuance90,
         elevation = 0.dp
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            onClickHomeButton?.let {
-                val startIcon = painterResource(
-                    id = if (!isComingFromDown) {
-                        R.drawable.ic_arrow_left
-                    } else R.drawable.ic_arrow_down
-                )
+        ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+            val (leftActionView, titleView, rightActionView) = createRefs()
 
-                IconButton(onClick = it) {
-                    Icon(
-                        modifier = Modifier.size(32.dp),
-                        painter = startIcon,
-                        contentDescription = null,
-                        tint = SCAppTheme.colors.textDark
-                    )
+            leftActionContent?.let {
+                Box(
+                    modifier = Modifier
+                        .constrainAs(leftActionView) {
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            start.linkTo(parent.start)
+                            width = Dimension.wrapContent
+                        }
+                        .onGloballyPositioned {
+                            leftActionButtonsSize = it.size
+                        }
+                ) {
+                    it()
                 }
             }
 
             Text(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = 12.dp),
+                    .constrainAs(titleView) {
+                        val maxMargin = maxOf(leftActionButtonsSize.width.pxToDp(density), rightActionButtonsSize.width.pxToDp(density))
+
+                        start.linkTo(parent.start, margin = maxMargin)
+                        bottom.linkTo(parent.bottom)
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end, margin = maxMargin)
+                        width = Dimension.fillToConstraints
+                    },
                 text = title ?: "",
-                color = SCAppTheme.colors.textDark,
+                color = SCAppTheme.colors.nuance10,
                 style = SCAppTheme.typography.h3,
+                textAlign = TextAlign.Center,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
 
-            onClickAction?.let {
-                IconButton(onClick = it) {
-                    Icon(
-                        modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = actionIconId ?: R.drawable.ic_notifications),
-                        contentDescription = null,
-                        tint = actionIconColor ?: SCAppTheme.colors.textDark
-                    )
+            rightActionContent?.let {
+                Box(
+                    modifier = Modifier
+                        .constrainAs(rightActionView) {
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            end.linkTo(parent.end)
+                            width = Dimension.wrapContent
+                        }
+                        .onGloballyPositioned {
+                            rightActionButtonsSize = it.size
+                        }
+                ) {
+                    it()
                 }
             }
         }
@@ -84,35 +109,97 @@ fun SCTopAppBar(
 }
 
 @Composable
+fun SCTopAppBarWithHomeButton(
+    modifier: Modifier = Modifier,
+    title: String? = null,
+    actionIconColor: Color? = null,
+    backgroundColor: Color? = null,
+    onClickHomeButton: (() -> Unit)? = null,
+    rightActionContent: @Composable (() -> Unit)? = null,
+) {
+    SCTopAppBar(
+        modifier = modifier,
+        title = title,
+        backgroundColor = backgroundColor,
+        leftActionContent = {
+            IconButton(
+                onClick = {
+                    onClickHomeButton?.invoke()
+                }
+            ) {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(id = R.drawable.ic_arrow_left),
+                    contentDescription = null,
+                    tint = actionIconColor ?: SCAppTheme.colors.nuance10
+                )
+            }
+        },
+        rightActionContent = rightActionContent
+    )
+}
+
 @Preview
-fun SCTopAppBarPreview() {
+@Composable
+private fun PreviewSCTopAppBar() {
     SCTheme {
-        SCTopAppBar(
-            title = stringResource(id = R.string.app_name),
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(SCAppTheme.colors.nuance90)
+        ) {
+            SCTopAppBar(
+                modifier = Modifier.fillMaxWidth(),
+                title = "Title"
+            )
+        }
     }
 }
 
-@Composable
 @Preview
-fun SCTopAppBarPreviewWithHomeButton() {
+@Composable
+private fun PreviewSCTopAppBarWithHomeButton() {
     SCTheme {
-        SCTopAppBar(
-            title = stringResource(id = R.string.app_name),
-            onClickHomeButton = {}
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(SCAppTheme.colors.nuance90)
+        ) {
+            SCTopAppBarWithHomeButton(
+                modifier = Modifier.fillMaxWidth(),
+                title = "Title",
+                onClickHomeButton = {}
+            )
+        }
     }
 }
 
-@Composable
 @Preview
-fun SCTopAppBarPreviewWithHomeAndAction() {
+@Composable
+private fun PreviewSCTopAppBarWithEndActions() {
     SCTheme {
-        SCTopAppBar(
-            title = stringResource(id = R.string.app_name),
-            onClickHomeButton = {},
-            actionIconId = R.drawable.ic_arrow_right,
-            onClickAction = {}
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(SCAppTheme.colors.nuance90)
+        ) {
+            SCTopAppBarWithHomeButton(
+                modifier = Modifier.fillMaxWidth(),
+                title = "Title",
+                onClickHomeButton = {},
+                rightActionContent = {
+                    IconButton(
+                        onClick = {}
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(24.dp),
+                            painter = painterResource(id = R.drawable.ic_settings),
+                            contentDescription = null,
+                            tint = SCAppTheme.colors.nuance100
+                        )
+                    }
+                }
+            )
+        }
     }
 }

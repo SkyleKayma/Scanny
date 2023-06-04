@@ -45,7 +45,7 @@ fun CustomDialog(
         Card(
             modifier = modifier.padding(start = 10.dp, top = 5.dp, end = 10.dp, bottom = 10.dp),
             shape = RoundedCornerShape(10.dp),
-            backgroundColor = SCAppTheme.colors.backgroundLight,
+            backgroundColor = SCAppTheme.colors.nuance100,
             elevation = 8.dp
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -70,7 +70,7 @@ fun CustomDialog(
                         text = title,
                         textAlign = TextAlign.Center,
                         style = SCAppTheme.typography.h2,
-                        color = SCAppTheme.colors.text
+                        color = SCAppTheme.colors.nuance10
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -80,14 +80,14 @@ fun CustomDialog(
                         text = description,
                         textAlign = TextAlign.Center,
                         style = SCAppTheme.typography.body1,
-                        color = SCAppTheme.colors.text
+                        color = SCAppTheme.colors.nuance10
                     )
                 }
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(SCAppTheme.colors.backgroundDisabledAlpha),
+                        .background(SCAppTheme.colors.nuance10.copy(alpha = 0.4f)),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     Text(
@@ -97,7 +97,7 @@ fun CustomDialog(
                             .padding(vertical = 12.dp),
                         text = negativeText,
                         style = SCAppTheme.typography.button,
-                        color = SCAppTheme.colors.textDisabled,
+                        color = SCAppTheme.colors.nuance40,
                         textAlign = TextAlign.Center
                     )
 
@@ -108,7 +108,7 @@ fun CustomDialog(
                             .padding(vertical = 12.dp),
                         text = positiveText,
                         style = SCAppTheme.typography.button,
-                        color = SCAppTheme.colors.text,
+                        color = SCAppTheme.colors.nuance10,
                         textAlign = TextAlign.Center
                     )
                 }

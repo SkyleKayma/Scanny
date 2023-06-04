@@ -70,7 +70,7 @@ fun SettingsCell(
         if (withDivider) {
             Divider(
                 modifier = Modifier.padding(start = 48.dp, end = 16.dp),
-                color = SCAppTheme.colors.background
+                color = SCAppTheme.colors.nuance90
             )
         }
     }
@@ -83,7 +83,7 @@ fun PreviewSettingsCellWithStartIcon() {
         SettingsCell(
             startIconId = R.drawable.ic_notifications,
             text = stringResource(id = R.string.settings_about),
-            textColor = SCAppTheme.colors.textDark,
+            textColor = SCAppTheme.colors.nuance10,
             onClick = {}
         )
     }
@@ -96,7 +96,7 @@ fun PreviewSettingsCellWithEndIcon() {
         SettingsCell(
             startIconId = R.drawable.ic_notifications,
             text = stringResource(id = R.string.settings_about),
-            textColor = SCAppTheme.colors.textDark,
+            textColor = SCAppTheme.colors.nuance10,
             onClick = {},
             endIconId = R.drawable.ic_arrow_right
         )

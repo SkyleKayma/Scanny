@@ -34,8 +34,8 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import fr.skyle.scanny.R
-import fr.skyle.scanny.enums.BarcodeFormat
-import fr.skyle.scanny.enums.QRType
+import fr.skyle.scanny.data.enums.BarcodeFormat
+import fr.skyle.scanny.data.enums.QRType
 import fr.skyle.scanny.ui.core.buttons.SCButton
 import fr.skyle.scanny.ui.core.buttons.SCButtonSelector
 import fr.skyle.scanny.ui.core.textFields.ScannyCleanableTextField

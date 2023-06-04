@@ -24,7 +24,7 @@ fun SCButtonSelector(
     ) {
         Text(
             text = text,
-            color = SCAppTheme.colors.textPrimary
+            color = SCAppTheme.colors.primary
         )
     }
 }

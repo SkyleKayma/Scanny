@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui.core
+package fr.skyle.scanny.ui.settings.components
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +17,7 @@ fun SettingsTitleText(
     Text(
         modifier = modifier,
         text = text,
-        color = SCAppTheme.colors.text,
+        color = SCAppTheme.colors.nuance10,
         style = SCAppTheme.typography.body3
     )
 }

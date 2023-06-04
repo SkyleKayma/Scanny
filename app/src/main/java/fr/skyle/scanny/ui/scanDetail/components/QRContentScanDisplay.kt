@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
-import fr.skyle.scanny.enums.BarcodeFormat
+import fr.skyle.scanny.data.enums.BarcodeFormat
 import fr.skyle.scanny.enums.WifiEncryptionType
 import fr.skyle.scanny.ext.asFormattedString
 import fr.skyle.scanny.ext.navigateToLink
@@ -74,7 +74,7 @@ fun QRContentScanDisplay(
             text = "Format: ${qrCodeContent.format?.textId?.let { stringResource(id = it) }}",
             textAlign = TextAlign.Center,
             style = SCAppTheme.typography.body1,
-            color = SCAppTheme.colors.text
+            color = SCAppTheme.colors.nuance10
         )
 
         Spacer(modifier = Modifier.height(10.dp))

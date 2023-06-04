@@ -43,7 +43,7 @@ fun SCActionButton(
                 modifier = Modifier.size(24.dp),
                 painter = painterResource(id = iconId),
                 contentDescription = "",
-                tint = SCAppTheme.colors.textLight
+                tint = SCAppTheme.colors.nuance100
             )
         }
 

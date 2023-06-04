@@ -6,43 +6,37 @@ import androidx.compose.ui.graphics.Color
 
 @Immutable
 data class SCColors(
-    val transparent: Color,
     val primary: Color,
+    val primaryVariant: Color,
+    val nuance100: Color,
+    val nuance90: Color,
+    val nuance80: Color,
+    val nuance70: Color,
+    val nuance60: Color,
+    val nuance40: Color,
+    val nuance30: Color,
+    val nuance20: Color,
+    val nuance10: Color,
     val error: Color,
-    val success: Color,
-    val textPrimary: Color,
-    val text: Color,
-    val textDark: Color,
-    val textLight: Color,
-    val textDisabled: Color,
-    val textBlack: Color,
-    val background: Color,
-    val backgroundLight: Color,
-    val backgroundPrimary: Color,
-    val backgroundDisabled: Color,
-    val backgroundDisabledAlpha: Color,
-    val backgroundIcon: Color,
-    val backgroundBlack: Color
+    val warning: Color,
+    val success: Color
 )
 
-val LocalColors = staticCompositionLocalOf {
+internal val LocalColors = staticCompositionLocalOf {
     SCColors(
-        transparent = Color.Unspecified,
         primary = Color.Unspecified,
+        primaryVariant = Color.Unspecified,
+        nuance100 = Color.Unspecified,
+        nuance90 = Color.Unspecified,
+        nuance80 = Color.Unspecified,
+        nuance70 = Color.Unspecified,
+        nuance60 = Color.Unspecified,
+        nuance40 = Color.Unspecified,
+        nuance30 = Color.Unspecified,
+        nuance20 = Color.Unspecified,
+        nuance10 = Color.Unspecified,
         error = Color.Unspecified,
-        success = Color.Unspecified,
-        textPrimary = Color.Unspecified,
-        text = Color.Unspecified,
-        textDark = Color.Unspecified,
-        textLight = Color.Unspecified,
-        textDisabled = Color.Unspecified,
-        textBlack = Color.Unspecified,
-        background = Color.Unspecified,
-        backgroundLight = Color.Unspecified,
-        backgroundPrimary = Color.Unspecified,
-        backgroundDisabled = Color.Unspecified,
-        backgroundDisabledAlpha = Color.Unspecified,
-        backgroundIcon = Color.Unspecified,
-        backgroundBlack = Color.Unspecified
+        warning = Color.Unspecified,
+        success = Color.Unspecified
     )
 }

@@ -14,7 +14,7 @@ class BarCodeAnalyzer(
 
     // Options
     private val options = BarcodeScannerOptions.Builder()
-        .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
+        .setBarcodeFormats(Barcode.FORMAT_ALL_FORMATS)
         .build()
 
     // Scanner

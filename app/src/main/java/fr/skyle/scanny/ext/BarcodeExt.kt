@@ -1,7 +1,7 @@
 package fr.skyle.scanny.ext
 
 import com.google.mlkit.vision.barcode.common.Barcode
-import fr.skyle.scanny.enums.BarcodeFormat
+import fr.skyle.scanny.data.enums.BarcodeFormat
 import fr.skyle.scanny.enums.WifiEncryptionType
 import fr.skyle.scanny.utils.qrCode.QRCodeContent
 

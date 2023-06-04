@@ -26,8 +26,8 @@ fun SCButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = SCAppTheme.colors.backgroundPrimary,
-    contentColor: Color = SCAppTheme.colors.textLight,
+    backgroundColor: Color = SCAppTheme.colors.primary,
+    contentColor: Color = SCAppTheme.colors.nuance100,
     isEnabled: Boolean = true
 ) {
     Button(
@@ -37,8 +37,8 @@ fun SCButton(
         colors = ButtonDefaults.buttonColors(
             backgroundColor = backgroundColor,
             contentColor = contentColor,
-            disabledBackgroundColor = SCAppTheme.colors.backgroundDisabled,
-            disabledContentColor = SCAppTheme.colors.textDisabled
+            disabledBackgroundColor = SCAppTheme.colors.nuance40,
+            disabledContentColor = SCAppTheme.colors.nuance40
         ),
         shape = RoundedCornerShape(10.dp),
         onClick = onClick,

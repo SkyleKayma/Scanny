@@ -1,7 +1,13 @@
 package fr.skyle.scanny.ui.settings.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -23,8 +29,7 @@ import fr.skyle.scanny.ext.navigateToOpenium
 import fr.skyle.scanny.ext.navigateToRateApp
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
-import fr.skyle.scanny.ui.core.SCTopAppBar
-import fr.skyle.scanny.ui.core.SettingsTitleText
+import fr.skyle.scanny.ui.core.SCTopAppBarWithHomeButton
 
 @Composable
 fun SettingsScreenContent(
@@ -43,12 +48,12 @@ fun SettingsScreenContent(
 
     Scaffold(
         modifier = Modifier
-            .background(SCAppTheme.colors.background)
+            .background(SCAppTheme.colors.nuance90)
             .systemBarsPadding(),
         scaffoldState = rememberScaffoldState(),
         topBar = {
-            SCTopAppBar(
-                modifier = Modifier.background(SCAppTheme.colors.background),
+            SCTopAppBarWithHomeButton(
+                modifier = Modifier.background(SCAppTheme.colors.nuance90),
                 title = stringResource(id = R.string.settings_title),
                 onClickHomeButton = navigateBack
             )
@@ -58,7 +63,7 @@ fun SettingsScreenContent(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(SCAppTheme.colors.background)
+                .background(SCAppTheme.colors.nuance90)
                 .verticalScroll(rememberScrollState())
                 .padding(start = 12.dp, end = 12.dp, top = 12.dp, bottom = 24.dp)
         ) {
@@ -73,12 +78,12 @@ fun SettingsScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .background(SCAppTheme.colors.backgroundLight)
+                    .background(SCAppTheme.colors.nuance100)
             ) {
                 SettingsSwitchCell(
                     startIconId = R.drawable.ic_vibration,
                     text = stringResource(id = R.string.settings_vibration),
-                    textColor = SCAppTheme.colors.textDark,
+                    textColor = SCAppTheme.colors.nuance10,
                     isChecked = isVibrateAfterScanEnabled,
                     onSwitchChecked = onVibrationAfterScanChanged
                 )
@@ -86,7 +91,7 @@ fun SettingsScreenContent(
                 SettingsSwitchCell(
                     startIconId = R.drawable.ic_open_link,
                     text = stringResource(id = R.string.settings_open_url),
-                    textColor = SCAppTheme.colors.textDark,
+                    textColor = SCAppTheme.colors.nuance10,
                     isChecked = isOpenLinkAfterScanEnabled,
                     onSwitchChecked = onOpenLinkAfterScanChanged
                 )
@@ -94,7 +99,7 @@ fun SettingsScreenContent(
                 SettingsSwitchCell(
                     startIconId = R.drawable.ic_code,
                     text = stringResource(id = R.string.settings_show_raw_content),
-                    textColor = SCAppTheme.colors.textDark,
+                    textColor = SCAppTheme.colors.nuance10,
                     isChecked = isRawContentShown,
                     onSwitchChecked = onRawContentShownChanged,
                     withDivider = false
@@ -114,40 +119,40 @@ fun SettingsScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .background(SCAppTheme.colors.backgroundLight)
+                    .background(SCAppTheme.colors.nuance100)
             ) {
                 SettingsCell(
                     startIconId = R.drawable.ic_about,
                     text = stringResource(id = R.string.settings_about),
-                    textColor = SCAppTheme.colors.textDark,
+                    textColor = SCAppTheme.colors.nuance10,
                     onClick = navigateToAbout
                 )
 
                 SettingsCell(
                     startIconId = R.drawable.ic_openium_logo,
                     text = stringResource(id = R.string.settings_openium),
-                    textColor = SCAppTheme.colors.textDark,
+                    textColor = SCAppTheme.colors.nuance10,
                     onClick = { context.navigateToOpenium() }
                 )
 
                 SettingsCell(
                     startIconId = R.drawable.ic_feedback,
                     text = stringResource(id = R.string.settings_feedback),
-                    textColor = SCAppTheme.colors.textDark,
+                    textColor = SCAppTheme.colors.nuance10,
                     onClick = navigateToFeedback
                 )
 
                 SettingsCell(
                     startIconId = R.drawable.ic_rate_app,
                     text = stringResource(id = R.string.settings_rate_app),
-                    textColor = SCAppTheme.colors.textDark,
+                    textColor = SCAppTheme.colors.nuance10,
                     onClick = { context.navigateToRateApp() }
                 )
 
                 SettingsCell(
                     startIconId = R.drawable.ic_data_privacy,
                     text = stringResource(id = R.string.settings_data_privacy),
-                    textColor = SCAppTheme.colors.textDark,
+                    textColor = SCAppTheme.colors.nuance10,
                     onClick = { context.navigateToDataPrivacy() },
                     withDivider = false
                 )
@@ -159,7 +164,7 @@ fun SettingsScreenContent(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.End,
                 text = stringResource(id = R.string.settings_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString()),
-                color = SCAppTheme.colors.text,
+                color = SCAppTheme.colors.nuance10,
                 style = SCAppTheme.typography.caption
             )
         }

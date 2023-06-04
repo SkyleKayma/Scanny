@@ -39,7 +39,7 @@ fun QRContentDisplayHeaderSection(
                 .padding(12.dp),
             text = stringResource(id = textId),
             style = SCAppTheme.typography.body1,
-            color = SCAppTheme.colors.textLight
+            color = SCAppTheme.colors.nuance100
         )
 
         Spacer(modifier = Modifier.width(8.dp))
@@ -52,7 +52,7 @@ fun QRContentDisplayHeaderSection(
                 modifier = Modifier.size(24.dp),
                 painter = painterResource(id = R.drawable.ic_copy),
                 contentDescription = "",
-                tint = SCAppTheme.colors.textLight
+                tint = SCAppTheme.colors.nuance100
             )
         }
 
@@ -64,7 +64,7 @@ fun QRContentDisplayHeaderSection(
                 modifier = Modifier.size(24.dp),
                 painter = painterResource(id = R.drawable.ic_share),
                 contentDescription = "",
-                tint = SCAppTheme.colors.textLight
+                tint = SCAppTheme.colors.nuance100
             )
         }
     }

@@ -1,4 +1,4 @@
-package fr.skyle.scanny.enums
+package fr.skyle.scanny.data.enums
 
 enum class BarcodeFormat {
     CODE_128,

@@ -1,7 +1,7 @@
 package fr.skyle.scanny.utils.qrCode
 
-import fr.skyle.scanny.enums.BarcodeFormat
-import fr.skyle.scanny.enums.QRType
+import fr.skyle.scanny.data.enums.BarcodeFormat
+import fr.skyle.scanny.data.enums.QRType
 import fr.skyle.scanny.enums.WifiEncryptionType
 
 sealed class QRCodeContent(val type: QRType, val format: BarcodeFormat? = null, val rawData: String? = null) {

@@ -34,7 +34,7 @@ fun SCDialog(
         Box(modifier = Modifier.padding(16.dp)) {
             Column(
                 modifier = Modifier
-                    .background(color = SCAppTheme.colors.backgroundLight, shape = RoundedCornerShape(10.dp))
+                    .background(color = SCAppTheme.colors.nuance100, shape = RoundedCornerShape(10.dp))
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -51,7 +51,7 @@ fun SCDialog(
                     modifier = Modifier.fillMaxWidth(),
                     text = actionText1,
                     onClick = onClickAction1,
-                    contentColor = SCAppTheme.colors.textLight
+                    contentColor = SCAppTheme.colors.nuance100
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -60,7 +60,7 @@ fun SCDialog(
                     modifier = Modifier.fillMaxWidth(),
                     text = actionText2,
                     onClick = onClickAction2,
-                    contentColor = SCAppTheme.colors.textLight
+                    contentColor = SCAppTheme.colors.nuance100
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -69,8 +69,8 @@ fun SCDialog(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.generic_cancel),
                     onClick = onDismiss,
-                    backgroundColor = SCAppTheme.colors.backgroundDisabled,
-                    contentColor = SCAppTheme.colors.textLight
+                    backgroundColor = SCAppTheme.colors.nuance40,
+                    contentColor = SCAppTheme.colors.nuance100
                 )
             }
         }

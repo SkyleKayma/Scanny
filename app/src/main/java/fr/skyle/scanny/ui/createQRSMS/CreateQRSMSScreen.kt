@@ -31,8 +31,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
-import fr.skyle.scanny.enums.BarcodeFormat
-import fr.skyle.scanny.enums.QRType
+import fr.skyle.scanny.data.enums.BarcodeFormat
+import fr.skyle.scanny.data.enums.QRType
 import fr.skyle.scanny.ui.core.buttons.SCButton
 import fr.skyle.scanny.ui.core.textFields.ScannyCleanableTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell

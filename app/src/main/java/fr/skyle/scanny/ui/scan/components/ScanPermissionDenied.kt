@@ -26,7 +26,7 @@ fun ScanPermissionDenied(
                 .padding(horizontal = 24.dp),
             text = stringResource(id = R.string.permission_camera_required_message_refused),
             style = SCAppTheme.typography.body1,
-            color = SCAppTheme.colors.textLight,
+            color = SCAppTheme.colors.nuance100,
             textAlign = TextAlign.Center
         )
 

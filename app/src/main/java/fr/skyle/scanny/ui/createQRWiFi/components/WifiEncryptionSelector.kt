@@ -7,10 +7,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,7 +27,6 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
@@ -60,14 +67,14 @@ fun WifiEncryptionSelector(
             modifier = Modifier
                 .offset(x = animatedOffsetDpState)
                 .clip(RoundedCornerShape(10.dp))
-                .background(SCAppTheme.colors.backgroundLight)
+                .background(SCAppTheme.colors.nuance100)
                 .size(LocalDensity.current.run { sizeState.width.toDp() }, LocalDensity.current.run { sizeState.height.toDp() })
                 .align(Alignment.CenterStart)
         ) {}
 
         Row(
             modifier = modifier
-                .border(1.dp, colorResource(id = R.color.sc_black), RoundedCornerShape(10.dp))
+                .border(1.dp, SCAppTheme.colors.nuance10, RoundedCornerShape(10.dp))
         ) {
             Text(
                 modifier = Modifier
@@ -90,8 +97,9 @@ fun WifiEncryptionSelector(
                 text = stringResource(id = R.string.create_qr_label_wifi_encryption_none),
                 color = animateColorAsState(
                     if (currentOffsetSelected == cell1YOffset) {
-                        colorResource(id = R.color.sc_white)
-                    } else colorResource(id = R.color.sc_black)
+                        SCAppTheme.colors.nuance100
+                    } else SCAppTheme.colors.nuance10,
+                    label = ""
                 ).value
             )
             Text(
@@ -112,8 +120,8 @@ fun WifiEncryptionSelector(
                 text = stringResource(id = R.string.create_qr_label_wifi_encryption_wep),
                 color = animateColorAsState(
                     if (currentOffsetSelected == cell2YOffset) {
-                        colorResource(id = R.color.sc_white)
-                    } else colorResource(id = R.color.sc_black)
+                        SCAppTheme.colors.nuance100
+                    } else SCAppTheme.colors.nuance10
                 ).value
             )
             Text(
@@ -134,8 +142,8 @@ fun WifiEncryptionSelector(
                 text = stringResource(id = R.string.create_qr_label_wifi_encryption_wpa_wpa2),
                 color = animateColorAsState(
                     if (currentOffsetSelected == cell3YOffset) {
-                        colorResource(id = R.color.sc_white)
-                    } else colorResource(id = R.color.sc_black)
+                        SCAppTheme.colors.nuance100
+                    } else SCAppTheme.colors.nuance10
                 ).value
             )
         }

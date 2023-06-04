@@ -27,7 +27,7 @@ fun CameraFilter(
     onGalleryClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val backgroundColor = SCAppTheme.colors.backgroundBlack.copy(alpha = 0.5f)
+    val backgroundColor = SCAppTheme.colors.nuance10.copy(alpha = 0.5f)
 
     ConstraintLayout(modifier = modifier) {
         val (topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner,
@@ -107,7 +107,7 @@ fun CameraFilter(
                 },
             painter = painterResource(id = R.drawable.camera_filter_top_left),
             contentDescription = "",
-            tint = SCAppTheme.colors.backgroundLight
+            tint = SCAppTheme.colors.nuance100
         )
 
         Icon(
@@ -119,7 +119,7 @@ fun CameraFilter(
                 },
             painter = painterResource(id = R.drawable.camera_filter_top_right),
             contentDescription = "",
-            tint = SCAppTheme.colors.backgroundLight
+            tint = SCAppTheme.colors.nuance100
         )
 
         Icon(
@@ -131,7 +131,7 @@ fun CameraFilter(
                 },
             painter = painterResource(id = R.drawable.camera_filter_bottom_left),
             contentDescription = "",
-            tint = SCAppTheme.colors.backgroundLight
+            tint = SCAppTheme.colors.nuance100
         )
 
         Icon(
@@ -143,7 +143,7 @@ fun CameraFilter(
                 },
             painter = painterResource(id = R.drawable.camera_filter_bottom_right),
             contentDescription = "",
-            tint = SCAppTheme.colors.backgroundLight
+            tint = SCAppTheme.colors.nuance100
         )
 
         // Top Text
@@ -156,7 +156,7 @@ fun CameraFilter(
                     top.linkTo(parent.top)
                 },
             text = "Scanner un QRCode",
-            color = SCAppTheme.colors.textLight,
+            color = SCAppTheme.colors.nuance100,
             textAlign = TextAlign.Center,
             style = SCAppTheme.typography.h3
         )
@@ -180,14 +180,14 @@ fun CameraFilter(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(RoundedCornerShape(100))
-                    .background(SCAppTheme.colors.backgroundLight.copy(alpha = 0.3f)),
+                    .background(SCAppTheme.colors.nuance100.copy(alpha = 0.3f)),
                 onClick = onFlashClicked
             ) {
                 Icon(
                     modifier = Modifier.size(24.dp),
                     painter = painterResource(id = flashIconId),
                     contentDescription = "",
-                    tint = SCAppTheme.colors.textLight
+                    tint = SCAppTheme.colors.nuance100
                 )
             }
 
@@ -197,14 +197,14 @@ fun CameraFilter(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(RoundedCornerShape(100))
-                    .background(SCAppTheme.colors.backgroundLight.copy(alpha = 0.3f)),
+                    .background(SCAppTheme.colors.nuance100.copy(alpha = 0.3f)),
                 onClick = onGalleryClicked
             ) {
                 Icon(
                     modifier = Modifier.size(24.dp),
                     painter = painterResource(id = R.drawable.ic_picture),
                     contentDescription = "",
-                    tint = SCAppTheme.colors.textLight
+                    tint = SCAppTheme.colors.nuance100
                 )
             }
         }

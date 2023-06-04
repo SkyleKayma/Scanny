@@ -2,7 +2,7 @@ package fr.skyle.scanny.ext
 
 import com.google.mlkit.vision.barcode.common.Barcode
 import fr.skyle.scanny.R
-import fr.skyle.scanny.enums.BarcodeFormat
+import fr.skyle.scanny.data.enums.BarcodeFormat
 
 val BarcodeFormat.value: Int
     get() = when (this) {

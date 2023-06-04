@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.skyle.scanny.enums.BarcodeFormat
+import fr.skyle.scanny.data.enums.BarcodeFormat
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
@@ -31,7 +31,7 @@ fun SCCircleIconWithText(
 
         Text(
             text = stringResource(id = qrCodeContent.type.textId),
-            color = SCAppTheme.colors.textPrimary,
+            color = SCAppTheme.colors.primary
         )
     }
 }

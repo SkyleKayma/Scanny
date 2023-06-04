@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ==== Light colors specific ==== -->
-
-    <!-- Generic -->
-    <color name="sc_black">#FF000000</color>
-    <color name="sc_white">#FFFFFFFF</color>
-    <color name="sc_transparent">#00000000</color>
-
-    <!-- App specific -->
     <color name="sc_primary">#3B43BE</color>
-
-    <color name="sc_text_primary">#3B43BE</color>
-    <color name="sc_text">#666792</color>
-    <color name="sc_text_dark">#2E2669</color>
-    <color name="sc_text_light">#FFFFFF</color>
-    <color name="sc_text_disabled">#AAAAAA</color>
-
-    <color name="sc_background">#F5F6FC</color>
-    <color name="sc_background_light">#FEFEFE</color>
-    <color name="sc_background_primary">#3C44BF</color>
-    <color name="sc_background_disabled">#CDCDCD</color>
-    <color name="sc_background_icon">#ECEDFA</color>
-
+    <color name="sc_primary_variant">#2E2669</color>
+    <color name="sc_nuance_100">#FFFFFF</color>
+    <color name="sc_nuance_90">#F7F9FA</color>
+    <color name="sc_nuance_80">#E6E8EB</color>
+    <color name="sc_nuance_70">#DCE1E5</color>
+    <color name="sc_nuance_60">#D4D7D9</color>
+    <color name="sc_nuance_40">#AAAAAA</color>
+    <color name="sc_nuance_30">#84888C</color>
+    <color name="sc_nuance_20">#525659</color>
+    <color name="sc_nuance_10">#1B2026</color>
     <color name="sc_error">#C53535</color>
+    <color name="sc_warning">#EE7F00</color>
     <color name="sc_success">#4BC535</color>
 </resources>

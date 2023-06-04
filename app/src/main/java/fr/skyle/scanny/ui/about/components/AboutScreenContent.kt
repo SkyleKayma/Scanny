@@ -23,7 +23,7 @@ import fr.skyle.scanny.R
 import fr.skyle.scanny.ext.navigateToLink
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
-import fr.skyle.scanny.ui.core.SCTopAppBar
+import fr.skyle.scanny.ui.core.SCTopAppBarWithHomeButton
 
 @Composable
 fun AboutScreenContent(
@@ -34,12 +34,12 @@ fun AboutScreenContent(
 
     Scaffold(
         modifier = Modifier
-            .background(SCAppTheme.colors.background)
+            .background(SCAppTheme.colors.nuance90)
             .systemBarsPadding(),
         scaffoldState = rememberScaffoldState(),
         topBar = {
-            SCTopAppBar(
-                modifier = Modifier.background(SCAppTheme.colors.background),
+            SCTopAppBarWithHomeButton(
+                modifier = Modifier.background(SCAppTheme.colors.nuance90),
                 title = stringResource(id = R.string.about_title),
                 onClickHomeButton = navigateBack
             )
@@ -49,7 +49,7 @@ fun AboutScreenContent(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(SCAppTheme.colors.background)
+                .background(SCAppTheme.colors.nuance90)
                 .verticalScroll(rememberScrollState())
                 .padding(24.dp)
         ) {
@@ -67,7 +67,7 @@ fun AboutScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .background(SCAppTheme.colors.backgroundLight)
+                    .background(SCAppTheme.colors.nuance100)
                     .padding(16.dp)
             ) {
                 Column(
@@ -77,7 +77,7 @@ fun AboutScreenContent(
                         modifier = Modifier.wrapContentSize(),
                         text = stringResource(id = R.string.app_name),
                         style = SCAppTheme.typography.h1,
-                        color = SCAppTheme.colors.textDark,
+                        color = SCAppTheme.colors.nuance10,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1
                     )
@@ -88,7 +88,7 @@ fun AboutScreenContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(2.dp),
-                        color = SCAppTheme.colors.backgroundBlack
+                        color = SCAppTheme.colors.nuance10
                     )
                 }
 
@@ -107,7 +107,7 @@ fun AboutScreenContent(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.settings_version_short, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE.toString()),
                     style = SCAppTheme.typography.body1,
-                    color = SCAppTheme.colors.textDark,
+                    color = SCAppTheme.colors.nuance10,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
                 )
@@ -127,7 +127,7 @@ fun AboutScreenContent(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.about_created_by_desc),
                     style = SCAppTheme.typography.body1,
-                    color = SCAppTheme.colors.textDark,
+                    color = SCAppTheme.colors.nuance10,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
                 )
@@ -152,7 +152,7 @@ fun AboutScreenContent(
                         },
                     text = githubLink,
                     style = SCAppTheme.typography.body1,
-                    color = SCAppTheme.colors.textDark,
+                    color = SCAppTheme.colors.nuance10,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
                 )
@@ -163,7 +163,7 @@ fun AboutScreenContent(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(id = R.string.about_desc),
                     style = SCAppTheme.typography.body1,
-                    color = SCAppTheme.colors.textDark
+                    color = SCAppTheme.colors.nuance10
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -174,7 +174,7 @@ fun AboutScreenContent(
                         .padding(horizontal = 12.dp),
                     text = stringResource(id = R.string.about_thanks_message),
                     style = SCAppTheme.typography.h2,
-                    color = SCAppTheme.colors.textDark,
+                    color = SCAppTheme.colors.nuance10,
                     textAlign = TextAlign.Center
                 )
             }

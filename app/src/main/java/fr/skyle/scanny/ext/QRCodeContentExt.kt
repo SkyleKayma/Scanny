@@ -177,7 +177,7 @@ fun QRCodeContent.asEncodedString(): String =
 fun QRCodeContent.asFormattedString(context: Context): AnnotatedString? {
     val spanStyle =
         SpanStyle(
-            color = SCAppTheme.colors.textDark,
+            color = SCAppTheme.colors.nuance10,
             fontWeight = FontWeight.Bold,
             fontStyle = SCAppTheme.typography.body1.fontStyle
         )

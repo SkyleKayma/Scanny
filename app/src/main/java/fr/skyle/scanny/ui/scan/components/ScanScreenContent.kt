@@ -4,11 +4,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.mlkit.vision.barcode.common.Barcode
@@ -28,7 +33,8 @@ fun ScanScreenContent(
     onGalleryClicked: () -> Unit,
     onCanDetectQRCodeChanged: (Boolean) -> Unit,
     onBarcodeDetected: (Barcode) -> Unit,
-    navigateToSettings: () -> Unit
+    navigateToSettings: () -> Unit,
+    navigateToHistory: () -> Unit
 ) {
     // Context
     val context = LocalContext.current
@@ -36,13 +42,14 @@ fun ScanScreenContent(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(SCAppTheme.colors.backgroundBlack)
+            .background(SCAppTheme.colors.nuance10)
     ) {
         if (isCameraPermissionGranted) {
             CameraView(
                 modifier = Modifier.fillMaxSize(),
+                isFlashEnabled = isFlashEnabled,
                 onBarcodeDetected = onBarcodeDetected,
-                onDetectQRCodeChanged = {
+                onCanDetectQRCodeChanged = {
                     onCanDetectQRCodeChanged(it)
                 }
             )
@@ -57,9 +64,31 @@ fun ScanScreenContent(
             SCTopAppBar(
                 modifier = Modifier.statusBarsPadding(),
                 title = null,
-                actionIconId = R.drawable.ic_settings,
-                actionIconColor = SCAppTheme.colors.textLight,
-                onClickAction = navigateToSettings
+                backgroundColor = Color.Transparent,
+                leftActionContent = {
+                    IconButton(
+                        onClick = navigateToHistory
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(24.dp),
+                            painter = painterResource(id = R.drawable.ic_history),
+                            contentDescription = null,
+                            tint = SCAppTheme.colors.nuance100
+                        )
+                    }
+                },
+                rightActionContent = {
+                    IconButton(
+                        onClick = navigateToSettings
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(24.dp),
+                            painter = painterResource(id = R.drawable.ic_settings),
+                            contentDescription = null,
+                            tint = SCAppTheme.colors.nuance100
+                        )
+                    }
+                },
             )
         } else {
             ScanPermissionDenied(
@@ -83,7 +112,8 @@ fun PreviewScanScreenContent() {
             onGalleryClicked = {},
             onCanDetectQRCodeChanged = {},
             onBarcodeDetected = {},
-            navigateToSettings = {}
+            navigateToSettings = {},
+            navigateToHistory = {}
         )
     }
 }

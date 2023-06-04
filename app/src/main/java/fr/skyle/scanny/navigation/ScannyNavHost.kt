@@ -12,6 +12,7 @@ import com.google.accompanist.navigation.animation.composable
 import fr.skyle.scanny.ext.findActivity
 import fr.skyle.scanny.ui.about.AboutScreen
 import fr.skyle.scanny.ui.feedback.FeedbackScreen
+import fr.skyle.scanny.ui.history.HistoryScreen
 import fr.skyle.scanny.ui.scan.ScanScreen
 import fr.skyle.scanny.ui.settings.SettingsScreen
 import fr.skyle.scanny.ui.splash.SplashScreen
@@ -71,6 +72,9 @@ fun ScannyNavHost(
                 navigateToSettings = {
                     navHostController.navigate(Route.SETTINGS)
                 },
+                navigateToHistory = {
+                    navHostController.navigate(Route.SCAN_HISTORY)
+                },
                 onAddToContact = onAddToContact
             )
         }
@@ -101,15 +105,19 @@ fun ScannyNavHost(
                 }
             )
         }
+        composable(route = Route.SCAN_HISTORY) {
+            HistoryScreen(
+                navigateBack = {
+                    navHostController.popBackOrExit(context)
+                }
+            )
+        }
 //        composable(route = Destination.GENERATE_QR_LIST) {
 //            GenerateQRListScreen(
 //                goToCreateQRScreen = {
 //                    navHostController.navigate(route = "${Destination.CREATE_QR}/${it.name}")
 //                }
 //            )
-//        }
-//        composable(route = Destination.SCAN_HISTORY) {
-//            HistoryScreen()
 //        }
 //        composable(route = Destination.GENERATE_QR_LIST) {
 //            GenerateQRListScreen(

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -42,6 +43,7 @@ import timber.log.Timber
 @Composable
 fun ScanScreen(
     navigateToSettings: () -> Unit,
+    navigateToHistory: () -> Unit,
     onAddToContact: (QRCodeContent.ContactContent) -> Unit,
     viewModel: ScanViewModel = hiltViewModel()
 ) {
@@ -159,8 +161,8 @@ fun ScanScreen(
     ModalBottomSheetLayout(
         modifier = Modifier
             .fillMaxSize()
-            .background(SCAppTheme.colors.backgroundBlack),
-        sheetBackgroundColor = SCAppTheme.colors.transparent,
+            .background(SCAppTheme.colors.nuance10),
+        sheetBackgroundColor = Color.Transparent,
         sheetElevation = 0.dp,
         sheetState = modalState,
         sheetContent = { modalContent() }
@@ -179,6 +181,7 @@ fun ScanScreen(
             },
             onBarcodeDetected = {
                 scope.launch {
+                    Timber.d("TEST canDetectQRCode $canDetectQRCode")
                     if (canDetectQRCode) {
                         canDetectQRCode = false
                         if (isVibrationAfterScanEnabled) {
@@ -186,10 +189,13 @@ fun ScanScreen(
                         }
 
                         modalTypeEvent.emit(ModalType.ScanSuccessModal(it))
+
+                        viewModel.insertQRCodeContent(it.toQRCodeContent)
                     }
                 }
             },
-            navigateToSettings = navigateToSettings
+            navigateToSettings = navigateToSettings,
+            navigateToHistory = navigateToHistory
         )
     }
 }
