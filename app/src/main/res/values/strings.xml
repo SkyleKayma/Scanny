@@ -20,6 +20,9 @@
     <string name="barcode_format_pdf417" translatable="false">PDF417</string>
     <string name="barcode_format_aztec" translatable="false">Aztec</string>
 
+    <!-- DateFormat -->
+    <string name="date_format_dd_MM_yyyy_HHmm">dd MMMM yyyy \'at\' HH:mm</string>
+
     <!-- Generic -->
     <string name="generic_create">Create</string>
     <string name="generic_please_fill_mandatory_fields">Please fill mandatory fields</string>

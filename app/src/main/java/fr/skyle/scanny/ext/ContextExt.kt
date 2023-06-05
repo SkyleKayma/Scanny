@@ -1,9 +1,7 @@
 package fr.skyle.scanny.ext
 
-import android.app.Activity
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
-import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
 import android.net.wifi.WifiManager
@@ -16,22 +14,6 @@ import androidx.annotation.RequiresApi
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.FeedbackSubject
 import fr.skyle.scanny.enums.WifiEncryptionType
-
-/**
- * Use only in Composable !
- */
-fun Context.findActivity(): Activity {
-    var ctx = this
-    while (ctx is ContextWrapper) {
-        if (ctx is Activity) {
-            return ctx
-        }
-        ctx = ctx.baseContext
-    }
-    throw IllegalStateException(
-        "Expected an activity context but instead found: $ctx"
-    )
-}
 
 fun Context.vibrateScan() {
     val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -117,13 +99,13 @@ fun Context.sendSMS(phoneNumber: String?, message: String?) {
     )
 }
 
+// TODO
 @RequiresApi(Build.VERSION_CODES.R)
 fun WifiManager.connectToWifi(
     ssid: String,
     encryptionType: WifiEncryptionType?,
     password: String?
 ) {
-    // TODO
 //    val suggestion =
 //        WifiNetworkSuggestion.Builder()
 //            .setSsid(ssid)

@@ -3,7 +3,6 @@ package fr.skyle.scanny.ui.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import fr.skyle.scanny.WHILE_SUBSCRIBE_DELAY
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -19,6 +18,6 @@ class SplashViewModel @Inject constructor() : ViewModel() {
         flow {
             delay(1L)
             emit(true)
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(WHILE_SUBSCRIBE_DELAY), false)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
     }
 }

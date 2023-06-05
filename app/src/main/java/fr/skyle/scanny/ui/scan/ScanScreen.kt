@@ -27,12 +27,12 @@ import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.ModalType
 import fr.skyle.scanny.events.modalTypeEvent
 import fr.skyle.scanny.ext.navigateToLink
-import fr.skyle.scanny.ext.toQRCodeContent
+import fr.skyle.scanny.ext.toBarcodeCodeContent
 import fr.skyle.scanny.ext.vibrateScan
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.ui.scan.components.ScanScreenContent
 import fr.skyle.scanny.ui.scanDetail.ScanDetail
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -44,7 +44,7 @@ import timber.log.Timber
 fun ScanScreen(
     navigateToSettings: () -> Unit,
     navigateToHistory: () -> Unit,
-    onAddToContact: (QRCodeContent.ContactContent) -> Unit,
+    onAddToContact: (BarcodeCodeContent.ContactContent) -> Unit,
     viewModel: ScanViewModel = hiltViewModel()
 ) {
     // Context
@@ -131,10 +131,12 @@ fun ScanScreen(
         modalTypeEvent.collectLatest { bottomSheetType ->
             when (bottomSheetType) {
                 is ModalType.ScanSuccessModal -> {
-                    val qrCodeContent = bottomSheetType.barcode.toQRCodeContent
+                    val qrCodeContent = bottomSheetType.barcode.toBarcodeCodeContent
 
-                    if (qrCodeContent is QRCodeContent.UrlContent && isOpenLinkAfterScanEnabled) {
-                        context.navigateToLink(qrCodeContent.url)
+                    if (qrCodeContent is BarcodeCodeContent.UrlContent && isOpenLinkAfterScanEnabled) {
+                        qrCodeContent.url?.let {
+                            context.navigateToLink(it)
+                        }
 
                         // Wait before enabling scan feature, otherwise it will be called multiple times before browser open
                         delay(2_000L)
@@ -190,7 +192,7 @@ fun ScanScreen(
 
                         modalTypeEvent.emit(ModalType.ScanSuccessModal(it))
 
-                        viewModel.insertQRCodeContent(it.toQRCodeContent)
+                        viewModel.insertQRCodeContent(it.toBarcodeCodeContent)
                     }
                 }
             },

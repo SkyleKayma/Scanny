@@ -15,7 +15,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import fr.skyle.scanny.data.enums.BarcodeFormat
-import fr.skyle.scanny.data.enums.QRType
+import fr.skyle.scanny.data.enums.BarcodeType
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.createQR.components.CreateQRScaffold
@@ -24,14 +24,14 @@ import fr.skyle.scanny.ui.createQRSMS.CreateQRSMSScreen
 import fr.skyle.scanny.ui.createQRText.CreateQRTextScreen
 import fr.skyle.scanny.ui.createQRUrl.CreateQRUrlScreen
 import fr.skyle.scanny.ui.createQRWiFi.CreateQRWiFiScreen
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 
 
 @Composable
 fun CreateQRScreen(
-    qrType: QRType,
+    barcodeType: BarcodeType,
     goBackToGenerateQRList: () -> Boolean,
-    goToGenerateQRCode: (QRCodeContent) -> Unit
+    goToGenerateQRCode: (BarcodeCodeContent) -> Unit
 ) {
     // Remember
     val focusRequester = remember { FocusRequester() }
@@ -49,12 +49,12 @@ fun CreateQRScreen(
             .imePadding()
             .bringIntoViewRequester(bringIntoViewRequester),
         scaffoldState = scaffoldState,
-        title = stringResource(id = qrType.textId),
+        title = stringResource(id = barcodeType.textId),
         onClickHomeButton = goBackToGenerateQRList
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
-            when (qrType) {
-                QRType.TEXT ->
+            when (barcodeType) {
+                BarcodeType.TEXT ->
                     CreateQRTextScreen(
                         scaffoldState = scaffoldState,
                         focusRequester = focusRequester,
@@ -62,7 +62,7 @@ fun CreateQRScreen(
                         goToGenerateQRCode = goToGenerateQRCode
                     )
 
-                QRType.URL ->
+                BarcodeType.URL ->
                     CreateQRUrlScreen(
                         scaffoldState = scaffoldState,
                         focusRequester = focusRequester,
@@ -70,7 +70,7 @@ fun CreateQRScreen(
                         goToGenerateQRCode = goToGenerateQRCode
                     )
 
-                QRType.EMAIL, QRType.EMAIL_MSG ->
+                BarcodeType.EMAIL, BarcodeType.EMAIL_MSG ->
                     CreateQREmailScreen(
                         scaffoldState = scaffoldState,
                         focusRequester = focusRequester,
@@ -78,7 +78,7 @@ fun CreateQRScreen(
                         goToGenerateQRCode = goToGenerateQRCode
                     )
 
-                QRType.SMS ->
+                BarcodeType.SMS ->
                     CreateQRSMSScreen(
                         scaffoldState = scaffoldState,
                         focusRequester = focusRequester,
@@ -86,7 +86,7 @@ fun CreateQRScreen(
                         goToGenerateQRCode = goToGenerateQRCode
                     )
 
-                QRType.WIFI ->
+                BarcodeType.WIFI ->
                     CreateQRWiFiScreen(
                         scaffoldState = scaffoldState,
                         focusRequester = focusRequester,
@@ -94,7 +94,7 @@ fun CreateQRScreen(
                         goToGenerateQRCode = goToGenerateQRCode
                     )
 
-                QRType.CONTACT -> TODO()
+                BarcodeType.CONTACT -> TODO()
             }
         }
     }
@@ -105,9 +105,9 @@ fun CreateQRScreen(
 fun PreviewCreateQRTextScreen() {
     SCTheme {
         CreateQRScreen(
-            qrType = QRType.TEXT,
+            barcodeType = BarcodeType.TEXT,
             goBackToGenerateQRList = { true },
-            goToGenerateQRCode = { QRCodeContent.TextContent(text = "Text", format = BarcodeFormat.QR_CODE, rawData = null) }
+            goToGenerateQRCode = { BarcodeCodeContent.TextContent(text = "Text", format = BarcodeFormat.QR_CODE, rawData = null) }
         )
     }
 }
@@ -117,9 +117,9 @@ fun PreviewCreateQRTextScreen() {
 fun PreviewCreateQRUrlScreen() {
     SCTheme {
         CreateQRScreen(
-            qrType = QRType.URL,
+            barcodeType = BarcodeType.URL,
             goBackToGenerateQRList = { true },
-            goToGenerateQRCode = { QRCodeContent.TextContent(text = "Url", format = BarcodeFormat.QR_CODE, rawData = null) }
+            goToGenerateQRCode = { BarcodeCodeContent.TextContent(text = "Url", format = BarcodeFormat.QR_CODE, rawData = null) }
         )
     }
 }
@@ -129,9 +129,9 @@ fun PreviewCreateQRUrlScreen() {
 fun PreviewCreateQREmailScreen() {
     SCTheme {
         CreateQRScreen(
-            qrType = QRType.EMAIL,
+            barcodeType = BarcodeType.EMAIL,
             goBackToGenerateQRList = { true },
-            goToGenerateQRCode = { QRCodeContent.TextContent(text = "Email", format = BarcodeFormat.QR_CODE, rawData = null) }
+            goToGenerateQRCode = { BarcodeCodeContent.TextContent(text = "Email", format = BarcodeFormat.QR_CODE, rawData = null) }
         )
     }
 }

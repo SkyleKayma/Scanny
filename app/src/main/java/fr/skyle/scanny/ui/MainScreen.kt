@@ -5,13 +5,13 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import fr.skyle.scanny.navigation.ScannyNavHost
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainScreen(
-    onAddToContact: (QRCodeContent.ContactContent) -> Unit
+    onAddToContact: (BarcodeCodeContent.ContactContent) -> Unit
 ) {
     // Nav
     val navController = rememberAnimatedNavController()

@@ -1,25 +1,22 @@
 package fr.skyle.scanny.navigation
 
-import android.content.Context
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import fr.skyle.scanny.ext.findActivity
+import fr.skyle.scanny.ext.popUpToRouteThenNavigate
 import fr.skyle.scanny.ui.about.AboutScreen
+import fr.skyle.scanny.ui.barcodeDetail.BarcodeDetailScreen
 import fr.skyle.scanny.ui.feedback.FeedbackScreen
 import fr.skyle.scanny.ui.history.HistoryScreen
 import fr.skyle.scanny.ui.scan.ScanScreen
 import fr.skyle.scanny.ui.settings.SettingsScreen
 import fr.skyle.scanny.ui.splash.SplashScreen
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
-
-// --- Routes
-// -------------------------------------------
+import fr.skyle.scanny.enums.BarcodeCodeContent
 
 object Route {
     const val SPLASH = "splash"
@@ -28,29 +25,21 @@ object Route {
     const val ABOUT = "about"
     const val FEEDBACK = "feedback"
     const val SCAN_HISTORY = "scanHistory"
+    const val BARCODE_DETAIL = "barcodeDetail"
     const val GENERATE_QR_LIST = "generateQRList"
     const val CREATE_QR = "createQR"
     const val GENERATE_QR = "generateQR"
 }
 
-object Argument {
-    const val QR_TYPE = "QrType"
+object RouteArgument {
+    const val ARG_BARCODE_DATA_ID = "ARG_BARCODE_DATA_ID"
 }
 
-// --- Arguments
-// -------------------------------------------
-
-const val ARG_QR_CODE_CONTENT = "ARG_QR_CODE_CONTENT"
-
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ScannyNavHost(
     navHostController: NavHostController,
-    onAddToContact: (QRCodeContent.ContactContent) -> Unit,
+    onAddToContact: (BarcodeCodeContent.ContactContent) -> Unit,
 ) {
-    // Context
-    val context = LocalContext.current
-
     AnimatedNavHost(
         modifier = Modifier.fillMaxSize(),
         navController = navHostController,
@@ -59,14 +48,11 @@ fun ScannyNavHost(
         composable(route = Route.SPLASH) {
             SplashScreen(
                 goToScan = {
-                    navHostController.navigate(route = Route.SCAN) {
-                        popUpTo(Route.SPLASH) {
-                            inclusive = true
-                        }
-                    }
+                    navHostController.popUpToRouteThenNavigate(popBackTo = Route.SPLASH, destination = Route.SCAN)
                 }
             )
         }
+
         composable(route = Route.SCAN) {
             ScanScreen(
                 navigateToSettings = {
@@ -78,6 +64,7 @@ fun ScannyNavHost(
                 onAddToContact = onAddToContact
             )
         }
+
         composable(route = Route.SETTINGS) {
             SettingsScreen(
                 navigateToFeedback = {
@@ -87,38 +74,53 @@ fun ScannyNavHost(
                     navHostController.navigate(Route.ABOUT)
                 },
                 navigateBack = {
-                    navHostController.popBackOrExit(context)
+                    navHostController.popBackStack()
                 }
             )
         }
+
         composable(route = Route.ABOUT) {
             AboutScreen(
                 navigateBack = {
-                    navHostController.popBackOrExit(context)
+                    navHostController.popBackStack()
                 }
             )
         }
+
         composable(route = Route.FEEDBACK) {
             FeedbackScreen(
                 navigateBack = {
-                    navHostController.popBackOrExit(context)
+                    navHostController.popBackStack()
                 }
             )
         }
+
         composable(route = Route.SCAN_HISTORY) {
             HistoryScreen(
+                navigateToBarcodeDetail = { barcodeDataId ->
+                    navHostController.navigate(route = "${Route.BARCODE_DETAIL}/$barcodeDataId")
+                },
                 navigateBack = {
-                    navHostController.popBackOrExit(context)
+                    navHostController.popBackStack()
                 }
             )
         }
-//        composable(route = Destination.GENERATE_QR_LIST) {
-//            GenerateQRListScreen(
-//                goToCreateQRScreen = {
-//                    navHostController.navigate(route = "${Destination.CREATE_QR}/${it.name}")
-//                }
-//            )
-//        }
+
+        composable(
+            route = "${Route.BARCODE_DETAIL}/{${RouteArgument.ARG_BARCODE_DATA_ID}}",
+            arguments = listOf(
+                navArgument(RouteArgument.ARG_BARCODE_DATA_ID) {
+                    type = NavType.LongType
+                }
+            ),
+        ) {
+            BarcodeDetailScreen(
+                navigateBack = {
+                    navHostController.popBackStack()
+                }
+            )
+        }
+
 //        composable(route = Destination.GENERATE_QR_LIST) {
 //            GenerateQRListScreen(
 //                goToCreateQRScreen = {
@@ -161,12 +163,5 @@ fun ScannyNavHost(
 //                )
 //            }
 //        }
-    }
-}
-
-private fun NavHostController.popBackOrExit(composableContext: Context) {
-    if (!popBackStack()) {
-        val activity = composableContext.findActivity()
-        activity.finish()
     }
 }

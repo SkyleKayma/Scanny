@@ -5,8 +5,11 @@ import androidx.annotation.StringRes
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.FeedbackSubject
 
-@get:StringRes
+fun FeedbackSubject.Companion.fromText(context: Context, text: String): FeedbackSubject =
+    FeedbackSubject.values().find { context.getString(it.text) == text } ?: FeedbackSubject.OTHER
+
 val FeedbackSubject.tag: Int
+    @StringRes
     get() = when (this) {
         FeedbackSubject.SCAN ->
             R.string.feedback_tag_scan
@@ -18,8 +21,8 @@ val FeedbackSubject.tag: Int
             R.string.feedback_tag_other
     }
 
-@get:StringRes
 val FeedbackSubject.text: Int
+    @StringRes
     get() = when (this) {
         FeedbackSubject.SCAN ->
             R.string.feedback_subject_scan_issue
@@ -30,6 +33,3 @@ val FeedbackSubject.text: Int
         FeedbackSubject.OTHER ->
             R.string.feedback_subject_other
     }
-
-fun FeedbackSubject.Companion.fromText(context: Context, text: String): FeedbackSubject =
-    FeedbackSubject.values().find { context.getString(it.text) == text } ?: FeedbackSubject.OTHER

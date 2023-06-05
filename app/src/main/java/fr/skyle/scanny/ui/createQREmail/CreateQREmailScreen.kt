@@ -32,11 +32,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
 import fr.skyle.scanny.data.enums.BarcodeFormat
-import fr.skyle.scanny.data.enums.QRType
+import fr.skyle.scanny.data.enums.BarcodeType
 import fr.skyle.scanny.ui.core.buttons.SCButton
 import fr.skyle.scanny.ui.core.textFields.ScannyCleanableTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 import kotlinx.coroutines.launch
 
 
@@ -45,7 +45,7 @@ fun CreateQREmailScreen(
     scaffoldState: ScaffoldState,
     focusRequester: FocusRequester,
     bringIntoViewRequester: BringIntoViewRequester,
-    goToGenerateQRCode: (QRCodeContent) -> Unit
+    goToGenerateQRCode: (BarcodeCodeContent) -> Unit
 ) {
     // Context
     val context = LocalContext.current
@@ -70,7 +70,7 @@ fun CreateQREmailScreen(
             .padding(24.dp, 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        QRTypeSquareCell(QRType.EMAIL)
+        QRTypeSquareCell(BarcodeType.EMAIL)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -130,7 +130,7 @@ fun CreateQREmailScreen(
                 scope.launch {
                     if (isContentValid(emailState.text, subjectState.text, messageState.text)) {
                         goToGenerateQRCode(
-                            QRCodeContent.EmailMessageContent(
+                            BarcodeCodeContent.EmailMessageContent(
                                 emailState.text,
                                 subjectState.text,
                                 messageState.text,

@@ -9,12 +9,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import fr.skyle.scanny.R
 
-val Lato = FontFamily(
-    Font(R.font.lato_thin, FontWeight.Thin),
-    Font(R.font.lato_light, FontWeight.Light),
-    Font(R.font.lato_regular, FontWeight.Normal),
-    Font(R.font.lato_bold, FontWeight.Bold),
-    Font(R.font.lato_black, FontWeight.Black)
+val Roboto = FontFamily(
+    Font(R.font.roboto_regular, FontWeight.Normal),
+    Font(R.font.roboto_medium, FontWeight.Medium),
+    Font(R.font.roboto_bold, FontWeight.Bold)
 )
 
 @Immutable
@@ -34,53 +32,53 @@ data class SCTypography(
 // Set of Material typography styles to start with
 val Typography = SCTypography(
     h1 = TextStyle(
-        fontFamily = Lato,
-        fontWeight = FontWeight.SemiBold,
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Bold,
         fontSize = 22.sp
     ),
     h2 = TextStyle(
-        fontFamily = Lato,
-        fontWeight = FontWeight.SemiBold,
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Medium,
         fontSize = 20.sp
     ),
     h3 = TextStyle(
-        fontFamily = Lato,
-        fontWeight = FontWeight.SemiBold,
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Medium,
         fontSize = 18.sp
     ),
     body1 = TextStyle(
-        fontFamily = Lato,
-        fontWeight = FontWeight.Medium,
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
     body2 = TextStyle(
-        fontFamily = Lato,
+        fontFamily = Roboto,
         fontWeight = FontWeight.Normal,
         fontSize = 15.sp
     ),
     body3 = TextStyle(
-        fontFamily = Lato,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 13.sp
-    ),
-    subtitle1 = TextStyle(
-        fontFamily = Lato,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 16.sp
-    ),
-    subtitle2 = TextStyle(
-        fontFamily = Lato,
+        fontFamily = Roboto,
         fontWeight = FontWeight.Normal,
         fontSize = 13.sp
     ),
-    button = TextStyle(
-        fontFamily = Lato,
-        fontWeight = FontWeight.Bold,
+    subtitle1 = TextStyle(
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
+    subtitle2 = TextStyle(
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Medium,
+        fontSize = 13.sp
+    ),
+    button = TextStyle(
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp
+    ),
     caption = TextStyle(
-        fontFamily = Lato,
-        fontWeight = FontWeight.Light,
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Normal,
         fontSize = 12.sp
     )
 )

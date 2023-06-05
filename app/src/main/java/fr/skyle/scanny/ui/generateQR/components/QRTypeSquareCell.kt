@@ -10,7 +10,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.skyle.scanny.data.enums.QRType
+import fr.skyle.scanny.data.enums.BarcodeType
 import fr.skyle.scanny.ext.iconId
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCAppTheme
@@ -18,7 +18,7 @@ import fr.skyle.scanny.theme.SCTheme
 
 @Composable
 fun QRTypeSquareCell(
-    qrType: QRType,
+    barcodeType: BarcodeType,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -29,8 +29,8 @@ fun QRTypeSquareCell(
     ) {
         Icon(
             modifier = Modifier.padding(16.dp),
-            painter = painterResource(id = qrType.iconId),
-            contentDescription = stringResource(id = qrType.textId),
+            painter = painterResource(id = barcodeType.iconId),
+            contentDescription = stringResource(id = barcodeType.textId),
             tint = SCAppTheme.colors.primary
         )
     }
@@ -41,7 +41,7 @@ fun QRTypeSquareCell(
 fun PreviewQRTypeSquareCell() {
     SCTheme {
         QRTypeSquareCell(
-            qrType = QRType.TEXT
+            barcodeType = BarcodeType.TEXT
         )
     }
 }

@@ -8,6 +8,7 @@ import fr.skyle.scanny.ui.history.components.HistoryScreenContent
 
 @Composable
 fun HistoryScreen(
+    navigateToBarcodeDetail: (Long) -> Unit,
     navigateBack: () -> Unit,
     viewModel: HistoryScreenViewModel = hiltViewModel()
 ) {
@@ -16,6 +17,7 @@ fun HistoryScreen(
 
     HistoryScreenContent(
         barcodes = { barcodes },
+        navigateToBarcodeDetail = navigateToBarcodeDetail,
         navigateBack = navigateBack
     )
 }

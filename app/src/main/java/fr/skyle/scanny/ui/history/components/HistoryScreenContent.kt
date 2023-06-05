@@ -1,6 +1,7 @@
 package fr.skyle.scanny.ui.history.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -34,6 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
 import fr.skyle.scanny.data.vo.BarcodeData
+import fr.skyle.scanny.enums.DateFormat
+import fr.skyle.scanny.ext.format
 import fr.skyle.scanny.ext.iconId
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCAppTheme
@@ -43,14 +47,20 @@ import fr.skyle.scanny.ui.core.SCTopAppBarWithHomeButton
 @Composable
 fun HistoryScreenContent(
     barcodes: () -> List<BarcodeData>,
+    navigateToBarcodeDetail: (Long) -> Unit,
     navigateBack: () -> Unit
 ) {
+    // Context
+    val context = LocalContext.current
+
+    // Remember
     val mBarcodes by remember(barcodes()) {
         mutableStateOf(barcodes())
     }
 
     Scaffold(
         modifier = Modifier
+            .fillMaxSize()
             .background(SCAppTheme.colors.nuance90)
             .systemBarsPadding(),
         scaffoldState = rememberScaffoldState(),
@@ -64,8 +74,8 @@ fun HistoryScreenContent(
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(innerPadding)
+                .fillMaxSize()
                 .background(SCAppTheme.colors.nuance90),
             contentPadding = PaddingValues(horizontal = 20.dp, vertical = 24.dp)
         ) {
@@ -75,6 +85,9 @@ fun HistoryScreenContent(
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(10.dp))
                         .background(SCAppTheme.colors.nuance100)
+                        .clickable {
+                            navigateToBarcodeDetail(it.id)
+                        }
                         .padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -94,7 +107,7 @@ fun HistoryScreenContent(
 
                     Spacer(modifier = Modifier.width(12.dp))
 
-                    Column(modifier = Modifier.fillMaxWidth()) {
+                    Column(modifier = Modifier.weight(1f)) {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
                             text = stringResource(id = it.type.textId),
@@ -108,7 +121,7 @@ fun HistoryScreenContent(
 
                         Text(
                             modifier = Modifier.fillMaxWidth(),
-                            text = "Le 21 Janvier 2023",
+                            text = it.scanDate.format(context, DateFormat.dd_MM_yyyy_HHmm) ?: "",
                             style = SCAppTheme.typography.caption,
                             color = SCAppTheme.colors.nuance40,
                             overflow = TextOverflow.Ellipsis,
@@ -118,18 +131,27 @@ fun HistoryScreenContent(
                         Spacer(modifier = Modifier.height(10.dp))
 
                         Text(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(SCAppTheme.colors.nuance90)
+                                .padding(10.dp),
                             text = it.content ?: "",
-                            style = SCAppTheme.typography.body2,
+                            style = SCAppTheme.typography.body3,
                             color = SCAppTheme.colors.nuance10,
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1
                         )
-
-                        Spacer(modifier = Modifier.height(4.dp))
-
-
                     }
+
+                    Spacer(modifier = Modifier.width(12.dp))
+
+                    Icon(
+                        modifier = Modifier.size(24.dp),
+                        painter = painterResource(id = R.drawable.ic_arrow_right),
+                        contentDescription = "",
+                        tint = SCAppTheme.colors.primary
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
@@ -144,6 +166,7 @@ fun PreviewHistoryScreenContent() {
     SCTheme {
         HistoryScreenContent(
             barcodes = { listOf() },
+            navigateToBarcodeDetail = {},
             navigateBack = {}
         )
     }

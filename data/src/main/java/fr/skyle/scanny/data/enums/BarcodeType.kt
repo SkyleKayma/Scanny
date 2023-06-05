@@ -1,6 +1,6 @@
 package fr.skyle.scanny.data.enums
 
-enum class QRType {
+enum class BarcodeType {
     TEXT,
     URL,
     EMAIL,

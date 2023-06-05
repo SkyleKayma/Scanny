@@ -15,22 +15,22 @@ import fr.skyle.scanny.data.enums.BarcodeFormat
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 
 @Composable
 fun SCCircleIconWithText(
-    qrCodeContent: QRCodeContent
+    barcodeCodeContent: BarcodeCodeContent
 ) {
     Column(
         modifier = Modifier.wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SCCircleIcon(qrCodeContent = qrCodeContent)
+        SCCircleIcon(barcodeCodeContent = barcodeCodeContent)
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = stringResource(id = qrCodeContent.type.textId),
+            text = stringResource(id = barcodeCodeContent.type.textId),
             color = SCAppTheme.colors.primary
         )
     }
@@ -40,6 +40,14 @@ fun SCCircleIconWithText(
 @Composable
 fun PreviewSCCircleIconWithText() {
     SCTheme {
-        SCCircleIconWithText(qrCodeContent = QRCodeContent.WiFiContent(format = BarcodeFormat.QR_CODE, rawData = null))
+        SCCircleIconWithText(
+            barcodeCodeContent = BarcodeCodeContent.WiFiContent(
+                ssid = null,
+                encryptionType = null,
+                password = null,
+                format = BarcodeFormat.QR_CODE,
+                rawData = null
+            )
+        )
     }
 }

@@ -11,7 +11,7 @@ import fr.skyle.scanny.data.vo.BarcodeData
     entities = [
         BarcodeData::class
     ],
-    version = 1
+    version = 2
 )
 abstract class SCDb : RoomDatabase() {
 

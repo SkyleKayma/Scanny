@@ -32,11 +32,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
 import fr.skyle.scanny.data.enums.BarcodeFormat
-import fr.skyle.scanny.data.enums.QRType
+import fr.skyle.scanny.data.enums.BarcodeType
 import fr.skyle.scanny.ui.core.buttons.SCButton
 import fr.skyle.scanny.ui.core.textFields.ScannyCleanableTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 import kotlinx.coroutines.launch
 
 
@@ -45,7 +45,7 @@ fun CreateQRSMSScreen(
     scaffoldState: ScaffoldState,
     focusRequester: FocusRequester,
     bringIntoViewRequester: BringIntoViewRequester,
-    goToGenerateQRCode: (QRCodeContent) -> Unit
+    goToGenerateQRCode: (BarcodeCodeContent) -> Unit
 ) {
     // Context
     val context = LocalContext.current
@@ -69,7 +69,7 @@ fun CreateQRSMSScreen(
             .padding(24.dp, 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        QRTypeSquareCell(QRType.SMS)
+        QRTypeSquareCell(BarcodeType.SMS)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -112,7 +112,7 @@ fun CreateQRSMSScreen(
             onClick = {
                 scope.launch {
                     if (isContentValid(phoneNumberState.text, messageState.text)) {
-                        goToGenerateQRCode(QRCodeContent.SMSContent(phoneNumberState.text, messageState.text, format = BarcodeFormat.QR_CODE, rawData = null))
+                        goToGenerateQRCode(BarcodeCodeContent.SMSContent(phoneNumberState.text, messageState.text, format = BarcodeFormat.QR_CODE, rawData = null))
                     } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                 }
             }

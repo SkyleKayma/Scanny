@@ -32,12 +32,12 @@ import fr.skyle.scanny.data.enums.BarcodeFormat
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.core.SCTopAppBarWithHomeButton
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 
 @Composable
 fun GenerateQRScreen(
     goBackToMain: () -> Boolean,
-    qrCodeContent: QRCodeContent,
+    barcodeCodeContent: BarcodeCodeContent,
     viewModel: GenerateQRViewModel = hiltViewModel()
 ) {
     // Context
@@ -50,14 +50,14 @@ fun GenerateQRScreen(
     val bitmapFlow by viewModel.bitmapSharedFlow.collectAsStateWithLifecycle()
 
     // TODO Move that
-    viewModel.generateQRCode(qrCodeContent)
+    viewModel.generateQRCode(barcodeCodeContent)
 
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
         scaffoldState = scaffoldState,
         topBar = {
             SCTopAppBarWithHomeButton(
-                title = stringResource(id = qrCodeContent.type.textId),
+                title = stringResource(id = barcodeCodeContent.type.textId),
                 onClickHomeButton = {
                     goBackToMain()
                 }
@@ -119,7 +119,7 @@ fun PreviewGenerateQRScreen() {
     SCTheme {
         GenerateQRScreen(
             goBackToMain = { true },
-            qrCodeContent = QRCodeContent.TextContent("Text", format = BarcodeFormat.QR_CODE, rawData = null)
+            barcodeCodeContent = BarcodeCodeContent.TextContent("Text", format = BarcodeFormat.QR_CODE, rawData = null)
         )
     }
 }

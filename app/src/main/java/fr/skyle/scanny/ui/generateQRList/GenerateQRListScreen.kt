@@ -15,14 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
-import fr.skyle.scanny.data.enums.QRType
+import fr.skyle.scanny.data.enums.BarcodeType
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.ui.generateQRList.components.GeneratorType
 import fr.skyle.scanny.ui.settings.components.SettingsTitleText
 
 @Composable
 fun GenerateQRListScreen(
-    goToCreateQRScreen: (QRType) -> Unit
+    goToCreateQRScreen: (BarcodeType) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -46,33 +46,33 @@ fun GenerateQRListScreen(
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             item {
-                GeneratorType(QRType.TEXT) {
-                    goToCreateQRScreen(QRType.TEXT)
+                GeneratorType(BarcodeType.TEXT) {
+                    goToCreateQRScreen(BarcodeType.TEXT)
                 }
             }
             item {
-                GeneratorType(QRType.CONTACT) {
-                    goToCreateQRScreen(QRType.CONTACT)
+                GeneratorType(BarcodeType.CONTACT) {
+                    goToCreateQRScreen(BarcodeType.CONTACT)
                 }
             }
             item {
-                GeneratorType(QRType.URL) {
-                    goToCreateQRScreen(QRType.URL)
+                GeneratorType(BarcodeType.URL) {
+                    goToCreateQRScreen(BarcodeType.URL)
                 }
             }
             item {
-                GeneratorType(QRType.WIFI) {
-                    goToCreateQRScreen(QRType.WIFI)
+                GeneratorType(BarcodeType.WIFI) {
+                    goToCreateQRScreen(BarcodeType.WIFI)
                 }
             }
             item {
-                GeneratorType(QRType.EMAIL) {
-                    goToCreateQRScreen(QRType.EMAIL)
+                GeneratorType(BarcodeType.EMAIL) {
+                    goToCreateQRScreen(BarcodeType.EMAIL)
                 }
             }
             item {
-                GeneratorType(QRType.SMS) {
-                    goToCreateQRScreen(QRType.SMS)
+                GeneratorType(BarcodeType.SMS) {
+                    goToCreateQRScreen(BarcodeType.SMS)
                 }
             }
         }

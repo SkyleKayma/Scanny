@@ -1,4 +1,7 @@
 <resources>
+    <!-- DateFormat -->
+    <string name="date_format_dd_MM_yyyy_HHmm" translatable="false">\'Le\' dd MMMM yyyy \'à\' HH:mm</string>
+
     <!-- Generic -->
     <string name="generic_create">Créer</string>
     <string name="generic_please_fill_mandatory_fields">Veuillez remplir les champs obligatoires</string>

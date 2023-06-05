@@ -35,12 +35,12 @@ import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import fr.skyle.scanny.R
 import fr.skyle.scanny.data.enums.BarcodeFormat
-import fr.skyle.scanny.data.enums.QRType
+import fr.skyle.scanny.data.enums.BarcodeType
 import fr.skyle.scanny.ui.core.buttons.SCButton
 import fr.skyle.scanny.ui.core.buttons.SCButtonSelector
 import fr.skyle.scanny.ui.core.textFields.ScannyCleanableTextField
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 import kotlinx.coroutines.launch
 
 val presets = listOf("https://", "http://", "www.", ".com")
@@ -50,7 +50,7 @@ fun CreateQRUrlScreen(
     scaffoldState: ScaffoldState,
     focusRequester: FocusRequester,
     bringIntoViewRequester: BringIntoViewRequester,
-    goToGenerateQRCode: (QRCodeContent) -> Unit
+    goToGenerateQRCode: (BarcodeCodeContent) -> Unit
 ) {
     // Context
     val context = LocalContext.current
@@ -73,7 +73,7 @@ fun CreateQRUrlScreen(
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        QRTypeSquareCell(QRType.URL)
+        QRTypeSquareCell(BarcodeType.URL)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -129,7 +129,7 @@ fun CreateQRUrlScreen(
             onClick = {
                 scope.launch {
                     if (isContentValid(textState.text)) {
-                        goToGenerateQRCode(QRCodeContent.UrlContent(textState.text, format = BarcodeFormat.QR_CODE, rawData = null))
+                        goToGenerateQRCode(BarcodeCodeContent.UrlContent(textState.text, format = BarcodeFormat.QR_CODE, rawData = null))
                     } else scaffoldState.snackbarHostState.showSnackbar(context.getString(R.string.generic_please_fill_mandatory_fields))
                 }
             }

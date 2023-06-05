@@ -10,22 +10,22 @@ import androidx.compose.ui.text.withStyle
 import fr.skyle.scanny.R
 import fr.skyle.scanny.enums.WifiEncryptionType
 import fr.skyle.scanny.theme.SCAppTheme
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 
-fun QRCodeContent.asEncodedString(): String =
+fun BarcodeCodeContent.asEncodedString(): String =
     when (this) {
-        is QRCodeContent.TextContent ->
-            text
+        is BarcodeCodeContent.TextContent ->
+            text ?: ""
 
         // http://test.com
-        is QRCodeContent.UrlContent ->
-            url
+        is BarcodeCodeContent.UrlContent ->
+            url ?: ""
 
         // SMSTO:+33122334455:Message
-        is QRCodeContent.SMSContent ->
+        is BarcodeCodeContent.SMSContent ->
             mutableListOf<String>().apply {
                 // Begin (mandatory)
-                add(QRCodeContent.SMSContent.SMS_TO)
+                add(BarcodeCodeContent.SMSContent.SMS_TO)
 
                 // Tel (optional)
                 add(phoneNumber ?: "")
@@ -35,146 +35,146 @@ fun QRCodeContent.asEncodedString(): String =
             }.joinToString(":")
 
         // MAILTO:test@test.com
-        is QRCodeContent.EmailContent ->
+        is BarcodeCodeContent.EmailContent ->
             mutableListOf<String>().apply {
-                add(QRCodeContent.EmailContent.MAILTO)
-                add(email)
+                add(BarcodeCodeContent.EmailContent.MAILTO)
+                add(email ?: "")
             }.joinToString(":")
 
         // MATMSG:TO:mail@test.com;SUB:Subject;BODY:Message;;
-        is QRCodeContent.EmailMessageContent ->
+        is BarcodeCodeContent.EmailMessageContent ->
             buildString {
                 // Prefix
-                append("${QRCodeContent.EmailMessageContent.BEGIN}:")
+                append("${BarcodeCodeContent.EmailMessageContent.BEGIN}:")
 
                 // Email
                 email?.let {
-                    append("${QRCodeContent.EmailMessageContent.TO}:")
+                    append("${BarcodeCodeContent.EmailMessageContent.TO}:")
                     append("$it;")
                 }
 
                 // Subject
                 subject?.let {
-                    append("${QRCodeContent.EmailMessageContent.SUBJECT}:")
+                    append("${BarcodeCodeContent.EmailMessageContent.SUBJECT}:")
                     append("$it;")
                 }
 
                 // Body
                 body?.let {
-                    append("${QRCodeContent.EmailMessageContent.BODY}:")
+                    append("${BarcodeCodeContent.EmailMessageContent.BODY}:")
                     append("$it;")
                 }
 
                 // End
-                append(QRCodeContent.EmailMessageContent.END)
+                append(BarcodeCodeContent.EmailMessageContent.END)
             }
 
         // WIFI:S:NEUF_0809;T:WEP;P:Password;H:true
-        is QRCodeContent.WiFiContent ->
+        is BarcodeCodeContent.WiFiContent ->
             buildString {
-                append("${QRCodeContent.WiFiContent.WIFI}:")
+                append("${BarcodeCodeContent.WiFiContent.WIFI}:")
 
                 // SSID
                 ssid?.let {
-                    append("${QRCodeContent.WiFiContent.SSID}:")
+                    append("${BarcodeCodeContent.WiFiContent.SSID}:")
                     append("$it;")
                 }
 
                 encryptionType?.let { type ->
                     // Encryption type
-                    append("${QRCodeContent.WiFiContent.TYPE}:")
+                    append("${BarcodeCodeContent.WiFiContent.TYPE}:")
                     append("${type.name};")
 
                     // Password
                     password?.let {
                         if (type != WifiEncryptionType.NONE) {
-                            append("${QRCodeContent.WiFiContent.PASSWORD}:")
+                            append("${BarcodeCodeContent.WiFiContent.PASSWORD}:")
                             append("$it;")
                         }
                     }
                 }
 
-                append(QRCodeContent.WiFiContent.END)
+                append(BarcodeCodeContent.WiFiContent.END)
             }
 
-        is QRCodeContent.ContactContent ->
+        is BarcodeCodeContent.ContactContent ->
             buildString {
                 // Begin
-                appendLine(QRCodeContent.ContactContent.BEGIN)
+                appendLine(BarcodeCodeContent.ContactContent.BEGIN)
 
                 // Version
-                appendLine(QRCodeContent.ContactContent.VERSION)
+                appendLine(BarcodeCodeContent.ContactContent.VERSION)
 
                 // Names
-                names?.let {
-                    appendLine(QRCodeContent.ContactContent.NAMES)
+                if (names.isNotEmpty()) {
+                    appendLine(BarcodeCodeContent.ContactContent.NAMES)
 
-                    it.forEachIndexed { index, s ->
+                    names.forEachIndexed { index, s ->
                         if (index != 0) {
                             append(";")
                         }
 
-                        append(it)
+                        append(s)
                     }
                 }
 
                 // Formatted name
                 formattedName?.let {
-                    appendLine(QRCodeContent.ContactContent.FORMATTED_NAME)
+                    appendLine(BarcodeCodeContent.ContactContent.FORMATTED_NAME)
                     append(it)
                 }
 
                 // Org
                 org?.let {
-                    appendLine(QRCodeContent.ContactContent.ORG)
+                    appendLine(BarcodeCodeContent.ContactContent.ORG)
                     append(it)
                 }
 
                 // Title
                 title?.let {
-                    appendLine(QRCodeContent.ContactContent.TITLE)
+                    appendLine(BarcodeCodeContent.ContactContent.TITLE)
                     append(it)
                 }
 
                 // Tel
-                tels?.let {
-                    it.firstOrNull()?.let { firstTel ->
-                        appendLine(QRCodeContent.ContactContent.TEL)
+                if (tels.isNotEmpty()) {
+                    tels.firstOrNull()?.let { firstTel ->
+                        appendLine(BarcodeCodeContent.ContactContent.TEL)
                         append(firstTel)
                     }
                 }
 
                 // Email
-                emails?.let {
-                    it.firstOrNull()?.let { firstEmail ->
-                        appendLine(QRCodeContent.ContactContent.EMAIL)
+                if (emails.isNotEmpty()) {
+                    emails.firstOrNull()?.let { firstEmail ->
+                        appendLine(BarcodeCodeContent.ContactContent.EMAIL)
                         append(firstEmail)
                     }
                 }
 
                 // Address
-                addresses?.let {
-                    it.firstOrNull()?.let { firstAddress ->
-                        appendLine(QRCodeContent.ContactContent.ADDRESS)
+                if (addresses.isNotEmpty()) {
+                    addresses.firstOrNull()?.let { firstAddress ->
+                        appendLine(BarcodeCodeContent.ContactContent.ADDRESS)
                         append(firstAddress)
                     }
                 }
 
                 // URL
-                urls?.let {
-                    it.firstOrNull()?.let { firstUrl ->
-                        appendLine(QRCodeContent.ContactContent.URL)
+                if (urls.isNotEmpty()) {
+                    urls.firstOrNull()?.let { firstUrl ->
+                        appendLine(BarcodeCodeContent.ContactContent.URL)
                         append(firstUrl)
                     }
                 }
 
                 // End
-                appendLine(QRCodeContent.ContactContent.END)
+                appendLine(BarcodeCodeContent.ContactContent.END)
             }
     }
 
 @Composable
-fun QRCodeContent.asFormattedString(context: Context): AnnotatedString? {
+fun BarcodeCodeContent.asFormattedString(context: Context): AnnotatedString? {
     val spanStyle =
         SpanStyle(
             color = SCAppTheme.colors.nuance10,
@@ -183,13 +183,13 @@ fun QRCodeContent.asFormattedString(context: Context): AnnotatedString? {
         )
 
     return when (this) {
-        is QRCodeContent.TextContent ->
+        is BarcodeCodeContent.TextContent ->
             null
 
-        is QRCodeContent.UrlContent ->
+        is BarcodeCodeContent.UrlContent ->
             null
 
-        is QRCodeContent.SMSContent ->
+        is BarcodeCodeContent.SMSContent ->
             buildAnnotatedString {
                 val list = mutableListOf<AnnotatedString>()
 
@@ -224,7 +224,7 @@ fun QRCodeContent.asFormattedString(context: Context): AnnotatedString? {
                 }
             }
 
-        is QRCodeContent.EmailContent ->
+        is BarcodeCodeContent.EmailContent ->
             buildAnnotatedString {
                 append("${context.getString(R.string.qr_format_email_to)} ")
                 withStyle(style = spanStyle) {
@@ -232,7 +232,7 @@ fun QRCodeContent.asFormattedString(context: Context): AnnotatedString? {
                 }
             }
 
-        is QRCodeContent.EmailMessageContent ->
+        is BarcodeCodeContent.EmailMessageContent ->
             buildAnnotatedString {
                 val list = mutableListOf<AnnotatedString>()
 
@@ -278,7 +278,7 @@ fun QRCodeContent.asFormattedString(context: Context): AnnotatedString? {
                 }
             }
 
-        is QRCodeContent.WiFiContent ->
+        is BarcodeCodeContent.WiFiContent ->
             buildAnnotatedString {
                 append("${context.getString(R.string.qr_format_wifi_ssid)} ")
                 withStyle(style = spanStyle) {
@@ -296,7 +296,7 @@ fun QRCodeContent.asFormattedString(context: Context): AnnotatedString? {
                 }
             }
 
-        is QRCodeContent.ContactContent ->
+        is BarcodeCodeContent.ContactContent ->
             buildAnnotatedString {
                 val list = mutableListOf<AnnotatedString>()
 
@@ -333,124 +333,116 @@ fun QRCodeContent.asFormattedString(context: Context): AnnotatedString? {
                     )
                 }
 
-                tels?.let {
-                    if (it.isNotEmpty()) {
-                        list.add(
-                            buildAnnotatedString {
-                                val hasMoreThanOneItem = it.count() > 1
+                if (tels.isNotEmpty()) {
+                    list.add(
+                        buildAnnotatedString {
+                            val hasMoreThanOneItem = tels.count() > 1
 
-                                if (hasMoreThanOneItem) {
-                                    appendLine()
-                                }
+                            if (hasMoreThanOneItem) {
+                                appendLine()
+                            }
 
-                                append("Tel: ")
+                            append("Tel: ")
 
-                                if (hasMoreThanOneItem) {
-                                    appendLine()
-                                }
+                            if (hasMoreThanOneItem) {
+                                appendLine()
+                            }
 
-                                withStyle(style = spanStyle) {
-                                    it.forEachIndexed { index, tel ->
-                                        if (index != 0) {
-                                            appendLine()
-                                        }
-
-                                        append(tel)
+                            withStyle(style = spanStyle) {
+                                tels.forEachIndexed { index, tel ->
+                                    if (index != 0) {
+                                        appendLine()
                                     }
+
+                                    append(tel)
                                 }
                             }
-                        )
-                    }
+                        }
+                    )
                 }
 
-                emails?.let {
-                    if (it.isNotEmpty()) {
-                        list.add(
-                            buildAnnotatedString {
-                                val hasMoreThanOneItem = it.count() > 1
+                if (emails.isNotEmpty()) {
+                    list.add(
+                        buildAnnotatedString {
+                            val hasMoreThanOneItem = emails.count() > 1
 
-                                if (hasMoreThanOneItem || (tels?.count() ?: 0) > 1) {
-                                    appendLine()
-                                }
+                            if (hasMoreThanOneItem || tels.count() > 1) {
+                                appendLine()
+                            }
 
-                                append("Email: ")
+                            append("Email: ")
 
-                                if (hasMoreThanOneItem) {
-                                    appendLine()
-                                }
+                            if (hasMoreThanOneItem) {
+                                appendLine()
+                            }
 
-                                withStyle(style = spanStyle) {
-                                    it.forEachIndexed { index, email ->
-                                        if (index != 0) {
-                                            appendLine()
-                                        }
-
-                                        append(email)
+                            withStyle(style = spanStyle) {
+                                emails.forEachIndexed { index, email ->
+                                    if (index != 0) {
+                                        appendLine()
                                     }
+
+                                    append(email)
                                 }
                             }
-                        )
-                    }
+                        }
+                    )
                 }
 
-                addresses?.let {
-                    if (it.isNotEmpty()) {
-                        list.add(
-                            buildAnnotatedString {
-                                val hasMoreThanOneItem = it.count() > 1
+                if (addresses.isNotEmpty()) {
+                    list.add(
+                        buildAnnotatedString {
+                            val hasMoreThanOneItem = addresses.count() > 1
 
-                                if (hasMoreThanOneItem || (emails?.count() ?: 0) > 1) {
-                                    appendLine()
-                                }
+                            if (hasMoreThanOneItem || emails.count() > 1) {
+                                appendLine()
+                            }
 
-                                append("Addresse: ")
+                            append("Addresse: ")
 
-                                if (hasMoreThanOneItem) {
-                                    appendLine()
-                                }
+                            if (hasMoreThanOneItem) {
+                                appendLine()
+                            }
 
-                                withStyle(style = spanStyle) {
-                                    it.forEachIndexed { index, address ->
-                                        if (index != 0) {
-                                            appendLine()
-                                        }
-
-                                        append(address)
+                            withStyle(style = spanStyle) {
+                                addresses.forEachIndexed { index, address ->
+                                    if (index != 0) {
+                                        appendLine()
                                     }
+
+                                    append(address)
                                 }
                             }
-                        )
-                    }
+                        }
+                    )
                 }
 
-                urls?.let {
-                    if (it.isNotEmpty()) {
-                        list.add(
-                            buildAnnotatedString {
-                                val hasMoreThanOneItem = it.count() > 1
+                if (urls.isNotEmpty()) {
+                    list.add(
+                        buildAnnotatedString {
+                            val hasMoreThanOneItem = urls.count() > 1
 
-                                if (hasMoreThanOneItem || (addresses?.count() ?: 0) > 1) {
-                                    appendLine()
-                                }
+                            if (hasMoreThanOneItem || addresses.count() > 1) {
+                                appendLine()
+                            }
 
-                                append("Lien: ")
+                            append("Lien: ")
 
-                                if (hasMoreThanOneItem) {
-                                    appendLine()
-                                }
+                            if (hasMoreThanOneItem) {
+                                appendLine()
+                            }
 
-                                withStyle(style = spanStyle) {
-                                    it.forEachIndexed { index, url ->
-                                        if (index != 0) {
-                                            appendLine()
-                                        }
-
-                                        append(url)
+                            withStyle(style = spanStyle) {
+                                urls.forEachIndexed { index, url ->
+                                    if (index != 0) {
+                                        appendLine()
                                     }
+
+                                    append(url)
                                 }
                             }
-                        )
-                    }
+                        }
+                    )
                 }
 
                 list.forEachIndexed { index, annotatedString ->

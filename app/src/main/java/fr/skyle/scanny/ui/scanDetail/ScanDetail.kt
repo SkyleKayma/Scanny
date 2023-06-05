@@ -16,17 +16,17 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.mlkit.vision.barcode.common.Barcode
-import fr.skyle.scanny.ext.toQRCodeContent
+import fr.skyle.scanny.ext.toBarcodeCodeContent
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.scanDetail.components.QRContentScanDisplay
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 
 @Composable
 fun ScanDetail(
     barcode: Barcode? = null,
     onCopyContent: (AnnotatedString) -> Unit,
-    onAddToContact: (QRCodeContent.ContactContent) -> Unit,
+    onAddToContact: (BarcodeCodeContent.ContactContent) -> Unit,
     isRawContentShown: () -> Boolean
 ) {
     Box(
@@ -44,7 +44,7 @@ fun ScanDetail(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             QRContentScanDisplay(
-                qrCodeContent = barcode.toQRCodeContent,
+                barcodeCodeContent = barcode.toBarcodeCodeContent,
                 onCopyContent = onCopyContent,
                 onAddToContact = onAddToContact,
                 isRawContentShown = isRawContentShown

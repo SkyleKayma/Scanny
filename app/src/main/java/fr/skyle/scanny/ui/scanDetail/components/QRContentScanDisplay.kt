@@ -36,14 +36,14 @@ import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
 import fr.skyle.scanny.ui.core.SCActionButton
 import fr.skyle.scanny.ui.core.SCCircleIconWithText
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 
 
 @Composable
 fun QRContentScanDisplay(
-    qrCodeContent: QRCodeContent,
+    barcodeCodeContent: BarcodeCodeContent,
     onCopyContent: (AnnotatedString) -> Unit,
-    onAddToContact: (QRCodeContent.ContactContent) -> Unit,
+    onAddToContact: (BarcodeCodeContent.ContactContent) -> Unit,
     isRawContentShown: () -> Boolean
 ) {
     // Context
@@ -54,7 +54,7 @@ fun QRContentScanDisplay(
         mutableStateOf(isRawContentShown())
     }
 
-    val formattedText = qrCodeContent.asFormattedString(context)
+    val formattedText = barcodeCodeContent.asFormattedString(context)
 
     Column(
         modifier = Modifier
@@ -63,15 +63,15 @@ fun QRContentScanDisplay(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SCCircleIconWithText(qrCodeContent = qrCodeContent)
+        SCCircleIconWithText(barcodeCodeContent = barcodeCodeContent)
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        val formattedString = qrCodeContent.asFormattedString(context)
+        val formattedString = barcodeCodeContent.asFormattedString(context)
 
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "Format: ${qrCodeContent.format?.textId?.let { stringResource(id = it) }}",
+            text = "Format: ${barcodeCodeContent.format?.textId?.let { stringResource(id = it) }}",
             textAlign = TextAlign.Center,
             style = SCAppTheme.typography.body1,
             color = SCAppTheme.colors.nuance10
@@ -103,12 +103,12 @@ fun QRContentScanDisplay(
                     R.string.scan_detail_raw_content
                 } else R.string.scan_detail_content,
                 onShareClick = {
-                    context.shareTextContent(qrCodeContent.rawData)
+                    context.shareTextContent(barcodeCodeContent.rawData)
                 },
                 onCopyClick = {
                     onCopyContent(
                         buildAnnotatedString {
-                            append(qrCodeContent.rawData ?: "")
+                            append(barcodeCodeContent.rawData ?: "")
                         }
                     )
                 }
@@ -116,7 +116,7 @@ fun QRContentScanDisplay(
 
             QRContentDisplayBodySection(
                 text = buildAnnotatedString {
-                    append(qrCodeContent.rawData ?: "")
+                    append(barcodeCodeContent.rawData ?: "")
                 }
             )
         }
@@ -127,45 +127,47 @@ fun QRContentScanDisplay(
             modifier = Modifier.fillMaxWidth(),
             maxItemsInEachRow = 3
         ) {
-            when (qrCodeContent) {
-                is QRCodeContent.UrlContent ->
+            when (barcodeCodeContent) {
+                is BarcodeCodeContent.UrlContent ->
                     SCActionButton(
                         modifier = Modifier.weight(1f),
                         textId = R.string.scan_action_open,
                         iconId = R.drawable.ic_open_link,
                         onClick = {
-                            context.navigateToLink(qrCodeContent.url)
+                            barcodeCodeContent.url?.let {
+                                context.navigateToLink(it)
+                            }
                         }
                     )
 
-                is QRCodeContent.EmailMessageContent ->
+                is BarcodeCodeContent.EmailMessageContent ->
                     SCActionButton(
                         modifier = Modifier.weight(1f),
                         textId = R.string.scan_action_send_mail,
                         iconId = R.drawable.ic_action_send_mail,
                         onClick = {
-                            context.sendMail(qrCodeContent.email, qrCodeContent.subject, qrCodeContent.body)
+                            context.sendMail(barcodeCodeContent.email, barcodeCodeContent.subject, barcodeCodeContent.body)
                         }
                     )
 
-                is QRCodeContent.SMSContent ->
+                is BarcodeCodeContent.SMSContent ->
                     SCActionButton(
                         modifier = Modifier.weight(1f),
                         textId = R.string.scan_action_send_sms,
                         iconId = R.drawable.ic_action_sms,
                         onClick = {
-                            context.sendSMS(qrCodeContent.phoneNumber, qrCodeContent.message)
+                            context.sendSMS(barcodeCodeContent.phoneNumber, barcodeCodeContent.message)
                         }
                     )
 
-                is QRCodeContent.WiFiContent ->
+                is BarcodeCodeContent.WiFiContent ->
                     SCActionButton(
                         modifier = Modifier.weight(1f),
                         textId = R.string.scan_action_connect_to_wifi,
                         iconId = R.drawable.ic_action_wifi,
                         onClick = {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                if (qrCodeContent.encryptionType == WifiEncryptionType.WEP) {
+                                if (barcodeCodeContent.encryptionType == WifiEncryptionType.WEP) {
                                     // TODO Show popup to explain why WEP encryption is not supported
                                 } else {
                                     // TODO
@@ -184,13 +186,13 @@ fun QRContentScanDisplay(
                         }
                     )
 
-                is QRCodeContent.ContactContent ->
+                is BarcodeCodeContent.ContactContent ->
                     SCActionButton(
                         modifier = Modifier.weight(1f),
                         textId = R.string.scan_action_add_to_contacts,
                         iconId = R.drawable.ic_action_add_contact,
                         onClick = {
-                            onAddToContact(qrCodeContent)
+                            onAddToContact(barcodeCodeContent)
                         }
                     )
 
@@ -205,7 +207,11 @@ fun QRContentScanDisplay(
 fun PreviewTextContentScanDisplay() {
     SCTheme {
         QRContentScanDisplay(
-            qrCodeContent = QRCodeContent.TextContent(text = "Test", format = BarcodeFormat.QR_CODE, rawData = null),
+            barcodeCodeContent = BarcodeCodeContent.TextContent(
+                text = "Test",
+                format = BarcodeFormat.QR_CODE,
+                rawData = null
+            ),
             onAddToContact = {},
             onCopyContent = {},
             isRawContentShown = { false }

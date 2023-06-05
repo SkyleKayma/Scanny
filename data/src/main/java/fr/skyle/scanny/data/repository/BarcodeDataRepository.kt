@@ -15,6 +15,9 @@ class BarcodeDataRepository @Inject constructor(
         barcodeDao.insert(barcodeData)
     }
 
+    fun watchBarcode(id: Long): Flow<BarcodeData> =
+        barcodeDao.watchBarcode(id)
+
     fun watchBarcodes(): Flow<List<BarcodeData>> =
         barcodeDao.watchBarcodes()
 }

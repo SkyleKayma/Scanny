@@ -17,6 +17,9 @@ interface BarcodeDao {
 
     // Read
 
+    @Query("SELECT * FROM BarcodeData WHERE id = :id")
+    fun watchBarcode(id: Long): Flow<BarcodeData>
+
     @Query("SELECT * FROM BarcodeData")
     fun watchBarcodes(): Flow<List<BarcodeData>>
 }

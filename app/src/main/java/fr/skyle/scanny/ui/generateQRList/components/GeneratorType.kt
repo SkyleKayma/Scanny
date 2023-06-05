@@ -22,7 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.skyle.scanny.data.enums.QRType
+import fr.skyle.scanny.data.enums.BarcodeType
 import fr.skyle.scanny.ext.iconId
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCAppTheme
@@ -30,7 +30,7 @@ import fr.skyle.scanny.theme.SCTheme
 
 @Composable
 fun GeneratorType(
-    qrType: QRType,
+    barcodeType: BarcodeType,
     onClick: () -> Unit
 ) {
     Card(
@@ -54,7 +54,7 @@ fun GeneratorType(
             ) {
                 Icon(
                     modifier = Modifier.size(28.dp),
-                    painter = painterResource(id = qrType.iconId),
+                    painter = painterResource(id = barcodeType.iconId),
                     contentDescription = "",
                     tint = SCAppTheme.colors.primary
                 )
@@ -63,7 +63,7 @@ fun GeneratorType(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = stringResource(id = qrType.textId),
+                text = stringResource(id = barcodeType.textId),
                 color = SCAppTheme.colors.primary,
                 style = SCAppTheme.typography.body1
             )
@@ -76,7 +76,7 @@ fun GeneratorType(
 fun PreviewGeneratorType() {
     SCTheme {
         GeneratorType(
-            qrType = QRType.TEXT,
+            barcodeType = BarcodeType.TEXT,
             onClick = {}
         )
     }

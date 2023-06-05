@@ -3,27 +3,27 @@ package fr.skyle.scanny.ext
 import com.google.mlkit.vision.barcode.common.Barcode
 import fr.skyle.scanny.data.enums.BarcodeFormat
 import fr.skyle.scanny.enums.WifiEncryptionType
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 
 
-val Barcode?.toQRCodeContent: QRCodeContent
+val Barcode?.toBarcodeCodeContent: BarcodeCodeContent
     get() = when (this?.valueType) {
         Barcode.TYPE_TEXT ->
-            QRCodeContent.TextContent(
+            BarcodeCodeContent.TextContent(
                 rawData = rawValue,
                 format = BarcodeFormat.fromValue(format),
                 text = rawValue ?: ""
             )
 
         Barcode.TYPE_URL ->
-            QRCodeContent.UrlContent(
+            BarcodeCodeContent.UrlContent(
                 rawData = rawValue ?: "",
                 format = BarcodeFormat.fromValue(format),
                 url = url?.url ?: ""
             )
 
         Barcode.TYPE_EMAIL ->
-            QRCodeContent.EmailMessageContent(
+            BarcodeCodeContent.EmailMessageContent(
                 rawData = rawValue ?: "",
                 format = BarcodeFormat.fromValue(format),
                 email = email?.address,
@@ -32,7 +32,7 @@ val Barcode?.toQRCodeContent: QRCodeContent
             )
 
         Barcode.TYPE_SMS ->
-            QRCodeContent.SMSContent(
+            BarcodeCodeContent.SMSContent(
                 rawData = rawValue ?: "",
                 format = BarcodeFormat.fromValue(format),
                 phoneNumber = sms?.phoneNumber,
@@ -40,7 +40,7 @@ val Barcode?.toQRCodeContent: QRCodeContent
             )
 
         Barcode.TYPE_WIFI ->
-            QRCodeContent.WiFiContent(
+            BarcodeCodeContent.WiFiContent(
                 rawData = rawValue ?: "",
                 format = BarcodeFormat.fromValue(format),
                 ssid = wifi?.ssid,
@@ -49,17 +49,17 @@ val Barcode?.toQRCodeContent: QRCodeContent
             )
 
         Barcode.TYPE_CONTACT_INFO ->
-            QRCodeContent.ContactContent(
+            BarcodeCodeContent.ContactContent(
                 rawData = rawValue ?: "",
                 format = BarcodeFormat.fromValue(format),
                 formattedName = contactInfo?.name?.formattedName,
                 names = listOfNotNull(contactInfo?.name?.first, contactInfo?.name?.middle, contactInfo?.name?.last),
                 org = contactInfo?.organization,
                 title = contactInfo?.title,
-                emails = contactInfo?.emails?.mapNotNull { it.address },
-                tels = contactInfo?.phones?.mapNotNull { it.number },
-                addresses = contactInfo?.addresses?.mapNotNull { it.addressLines.map { it } }?.flatten(),
-                urls = contactInfo?.urls
+                emails = contactInfo?.emails?.mapNotNull { it.address } ?: listOf(),
+                tels = contactInfo?.phones?.mapNotNull { it.number } ?: listOf(),
+                addresses = contactInfo?.addresses?.mapNotNull { it.addressLines.map { it } }?.flatten() ?: listOf(),
+                urls = contactInfo?.urls ?: listOf()
             )
 //        Barcode.TYPE_PHONE -> {
 //
@@ -79,7 +79,7 @@ val Barcode?.toQRCodeContent: QRCodeContent
 //        Barcode.TYPE_ISBN -> {
 //
 //        }
-        else -> QRCodeContent.TextContent(
+        else -> BarcodeCodeContent.TextContent(
             rawData = this?.rawValue ?: "",
             format = BarcodeFormat.fromValue(this?.format),
             text = this?.rawValue ?: ""

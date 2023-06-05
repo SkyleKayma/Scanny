@@ -37,14 +37,14 @@ import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.ANIMATION_TIME_TRANSITION
 import fr.skyle.scanny.R
 import fr.skyle.scanny.data.enums.BarcodeFormat
-import fr.skyle.scanny.data.enums.QRType
+import fr.skyle.scanny.data.enums.BarcodeType
 import fr.skyle.scanny.enums.WifiEncryptionType
 import fr.skyle.scanny.ui.core.buttons.SCButton
 import fr.skyle.scanny.ui.core.textFields.ScannyCleanableTextField
 import fr.skyle.scanny.ui.core.textFields.ScannyPasswordTextField
 import fr.skyle.scanny.ui.createQRWiFi.components.WifiEncryptionSelector
 import fr.skyle.scanny.ui.generateQR.components.QRTypeSquareCell
-import fr.skyle.scanny.utils.qrCode.QRCodeContent
+import fr.skyle.scanny.enums.BarcodeCodeContent
 import kotlinx.coroutines.launch
 
 
@@ -53,7 +53,7 @@ fun CreateQRWiFiScreen(
     scaffoldState: ScaffoldState,
     focusRequester: FocusRequester,
     bringIntoViewRequester: BringIntoViewRequester,
-    goToGenerateQRCode: (QRCodeContent) -> Unit
+    goToGenerateQRCode: (BarcodeCodeContent) -> Unit
 ) {
     // Context
     val context = LocalContext.current
@@ -79,7 +79,7 @@ fun CreateQRWiFiScreen(
             .padding(24.dp, 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        QRTypeSquareCell(QRType.WIFI)
+        QRTypeSquareCell(BarcodeType.WIFI)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -140,7 +140,7 @@ fun CreateQRWiFiScreen(
                 scope.launch {
                     if (isContentValid(ssidState.text, passwordState.text)) {
                         goToGenerateQRCode(
-                            QRCodeContent.WiFiContent(
+                            BarcodeCodeContent.WiFiContent(
                                 ssidState.text,
                                 encryptionType,
                                 passwordState.text,
