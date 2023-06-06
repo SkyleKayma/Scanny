@@ -34,6 +34,7 @@ fun SCTheme(content: @Composable () -> Unit) {
         nuance30 = colorResource(id = R.color.sc_nuance_30),
         nuance20 = colorResource(id = R.color.sc_nuance_20),
         nuance10 = colorResource(id = R.color.sc_nuance_10),
+        black = colorResource(id = R.color.sc_black),
         error = colorResource(id = R.color.sc_error),
         warning = colorResource(id = R.color.sc_warning),
         success = colorResource(id = R.color.sc_success),

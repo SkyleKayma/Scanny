@@ -7,7 +7,6 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -24,15 +23,14 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import fr.skyle.scanny.R
+import fr.skyle.scanny.enums.BarcodeCodeContent
 import fr.skyle.scanny.enums.ModalType
 import fr.skyle.scanny.events.modalTypeEvent
 import fr.skyle.scanny.ext.navigateToLink
 import fr.skyle.scanny.ext.toBarcodeCodeContent
 import fr.skyle.scanny.ext.vibrateScan
-import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.ui.scan.components.ScanScreenContent
 import fr.skyle.scanny.ui.scanDetail.ScanDetail
-import fr.skyle.scanny.enums.BarcodeCodeContent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -45,6 +43,7 @@ fun ScanScreen(
     navigateToSettings: () -> Unit,
     navigateToHistory: () -> Unit,
     onAddToContact: (BarcodeCodeContent.ContactContent) -> Unit,
+    onSetWindowBackgroundLight: () -> Unit,
     viewModel: ScanViewModel = hiltViewModel()
 ) {
     // Context
@@ -57,7 +56,6 @@ fun ScanScreen(
     val isVibrationAfterScanEnabled by viewModel.isVibrationAfterScanEnabled.collectAsStateWithLifecycle()
     val isOpenLinkAfterScanEnabled by viewModel.isOpenLinkAfterScanEnabled.collectAsStateWithLifecycle()
     val isRawContentShown by viewModel.isRawContentShown.collectAsStateWithLifecycle()
-
 
     // Remember
     val scope = rememberCoroutineScope()
@@ -126,6 +124,10 @@ fun ScanScreen(
         onDismissBottomSheet()
     }
 
+    LaunchedEffect(key1 = Unit, block = {
+        onSetWindowBackgroundLight()
+    })
+
     // Handle modal
     LaunchedEffect(modalState) {
         modalTypeEvent.collectLatest { bottomSheetType ->
@@ -161,9 +163,7 @@ fun ScanScreen(
     }
 
     ModalBottomSheetLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(SCAppTheme.colors.nuance10),
+        modifier = Modifier.fillMaxSize(),
         sheetBackgroundColor = Color.Transparent,
         sheetElevation = 0.dp,
         sheetState = modalState,

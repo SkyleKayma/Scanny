@@ -17,6 +17,7 @@ data class SCColors(
     val nuance30: Color,
     val nuance20: Color,
     val nuance10: Color,
+    val black: Color,
     val error: Color,
     val warning: Color,
     val success: Color
@@ -35,6 +36,7 @@ internal val LocalColors = staticCompositionLocalOf {
         nuance30 = Color.Unspecified,
         nuance20 = Color.Unspecified,
         nuance10 = Color.Unspecified,
+        black = Color.Unspecified,
         error = Color.Unspecified,
         warning = Color.Unspecified,
         success = Color.Unspecified

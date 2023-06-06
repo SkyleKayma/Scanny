@@ -114,7 +114,7 @@ easylauncher {
     }
 }
 
-task clonePrivateFiles {
+tasks.register("clonePrivateFiles") {
     notCompatibleWithConfigurationCache("custom")
     doLast {
         copy {
@@ -124,7 +124,7 @@ task clonePrivateFiles {
     }
 }
 
-task incrementBuildNumberAfterPublish {
+tasks.register("incrementBuildNumberAfterPublish") {
     doLast {
         print("Incrementing build number by 1 (current $code)")
         code += 1
@@ -206,6 +206,9 @@ dependencies {
     // Datastore
     implementation "androidx.datastore:datastore:1.0.0"
     implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    // SplashScreen API
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
     // Tests
     testImplementation "junit:junit:4.13.2"

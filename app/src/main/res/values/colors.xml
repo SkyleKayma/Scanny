@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="sc_black">#000000</color>
     <color name="sc_primary">#3B43BE</color>
     <color name="sc_primary_variant">#2E2669</color>
     <color name="sc_nuance_100">#FFFFFF</color>

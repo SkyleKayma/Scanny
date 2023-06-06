@@ -42,7 +42,7 @@ fun ScanScreenContent(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(SCAppTheme.colors.nuance10)
+            .background(SCAppTheme.colors.black)
     ) {
         if (isCameraPermissionGranted) {
             CameraView(

@@ -11,13 +11,15 @@ import fr.skyle.scanny.enums.BarcodeCodeContent
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainScreen(
-    onAddToContact: (BarcodeCodeContent.ContactContent) -> Unit
+    onAddToContact: (BarcodeCodeContent.ContactContent) -> Unit,
+    onSetWindowBackgroundLight: () -> Unit
 ) {
     // Nav
     val navController = rememberAnimatedNavController()
 
     ScannyNavHost(
         navHostController = navController,
-        onAddToContact = onAddToContact
+        onAddToContact = onAddToContact,
+        onSetWindowBackgroundLight = onSetWindowBackgroundLight
     )
 }

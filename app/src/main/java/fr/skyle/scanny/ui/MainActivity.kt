@@ -1,26 +1,28 @@
 package fr.skyle.scanny.ui
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.ContactsContract
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import fr.skyle.scanny.R
 import fr.skyle.scanny.theme.SCTheme
-
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
+
         // Needed for insets
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -33,8 +35,20 @@ class MainActivity : ComponentActivity() {
                 }
 
                 MainScreen(
+                    onSetWindowBackgroundLight = {
+                        window.setBackgroundDrawable(ColorDrawable(applicationContext.getColor(R.color.sc_nuance_100)))
+                    },
                     onAddToContact = {
-                        addContact(it.names, it.formattedName, it.org, it.title, it.tels, it.emails, it.addresses, it.urls)
+                        addContact(
+                            names = it.names,
+                            formattedName = it.formattedName,
+                            org = it.org,
+                            title = it.title,
+                            tels = it.tels,
+                            emails = it.emails,
+                            addresses = it.addresses,
+                            urls = it.urls
+                        )
                     }
                 )
             }

@@ -8,18 +8,15 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import fr.skyle.scanny.ext.popUpToRouteThenNavigate
+import fr.skyle.scanny.enums.BarcodeCodeContent
 import fr.skyle.scanny.ui.about.AboutScreen
 import fr.skyle.scanny.ui.barcodeDetail.BarcodeDetailScreen
 import fr.skyle.scanny.ui.feedback.FeedbackScreen
 import fr.skyle.scanny.ui.history.HistoryScreen
 import fr.skyle.scanny.ui.scan.ScanScreen
 import fr.skyle.scanny.ui.settings.SettingsScreen
-import fr.skyle.scanny.ui.splash.SplashScreen
-import fr.skyle.scanny.enums.BarcodeCodeContent
 
 object Route {
-    const val SPLASH = "splash"
     const val SCAN = "scan"
     const val SETTINGS = "settings"
     const val ABOUT = "about"
@@ -39,20 +36,13 @@ object RouteArgument {
 fun ScannyNavHost(
     navHostController: NavHostController,
     onAddToContact: (BarcodeCodeContent.ContactContent) -> Unit,
+    onSetWindowBackgroundLight: () -> Unit
 ) {
     AnimatedNavHost(
         modifier = Modifier.fillMaxSize(),
         navController = navHostController,
-        startDestination = Route.SPLASH
+        startDestination = Route.SCAN
     ) {
-        composable(route = Route.SPLASH) {
-            SplashScreen(
-                goToScan = {
-                    navHostController.popUpToRouteThenNavigate(popBackTo = Route.SPLASH, destination = Route.SCAN)
-                }
-            )
-        }
-
         composable(route = Route.SCAN) {
             ScanScreen(
                 navigateToSettings = {
@@ -61,7 +51,8 @@ fun ScannyNavHost(
                 navigateToHistory = {
                     navHostController.navigate(Route.SCAN_HISTORY)
                 },
-                onAddToContact = onAddToContact
+                onAddToContact = onAddToContact,
+                onSetWindowBackgroundLight = onSetWindowBackgroundLight
             )
         }
 
