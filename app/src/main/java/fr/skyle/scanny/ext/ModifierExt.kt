@@ -1,5 +1,6 @@
 package fr.skyle.scanny.ext
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.runtime.LaunchedEffect
@@ -37,3 +38,17 @@ fun Modifier.clearFocusOnKeyboardDismiss(): Modifier =
             }
         }
     }
+
+inline fun Modifier.debounceClickable(
+    enabled: Boolean = true,
+    debounceInterval: Long = 800,
+    crossinline onClick: () -> Unit,
+): Modifier = composed {
+    var lastClickTime by remember { mutableStateOf(0L) }
+    clickable(enabled = enabled) {
+        val currentTime = System.currentTimeMillis()
+        if ((currentTime - lastClickTime) < debounceInterval) return@clickable
+        lastClickTime = currentTime
+        onClick()
+    }
+}

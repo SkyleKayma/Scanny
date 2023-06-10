@@ -4,16 +4,34 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.skyle.scanny.data.repository.BarcodeDataRepository
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
+import fr.skyle.scanny.data.vo.BarcodeData
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
 class HistoryScreenViewModel @Inject constructor(
-    private val barcodeDataRepository: BarcodeDataRepository
+    barcodeDataRepository: BarcodeDataRepository
 ) : ViewModel() {
-    val barcodes by lazy {
+
+    private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
+    val state: StateFlow<State> by lazy { _state.asStateFlow() }
+
+    init {
         barcodeDataRepository.watchBarcodes()
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), listOf())
+            .onEach {
+                if (it.isEmpty()) {
+                    _state.emit(State.Empty)
+                } else _state.emit(State.Loaded(it))
+            }.launchIn(viewModelScope)
+    }
+
+    sealed interface State {
+        object Loading : State
+        data class Loaded(val barcodes: List<BarcodeData>) : State
+        object Empty : State
     }
 }

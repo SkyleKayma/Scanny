@@ -140,6 +140,7 @@
 
     <!-- History -->
     <string name="history_title">History</string>
-
+    <string name="history_empty_title">Your history is empty</string>
+    <string name="history_empty_desc">Make your first scan to see items appear in your history!</string>
 
 </resources>

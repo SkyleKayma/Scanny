@@ -1,7 +1,6 @@
 package fr.skyle.scanny.ui.history.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,18 +34,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.R
-import fr.skyle.scanny.data.vo.BarcodeData
 import fr.skyle.scanny.enums.DateFormat
+import fr.skyle.scanny.ext.debounceClickable
 import fr.skyle.scanny.ext.format
 import fr.skyle.scanny.ext.iconId
 import fr.skyle.scanny.ext.textId
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
+import fr.skyle.scanny.ui.core.SCLoadingView
 import fr.skyle.scanny.ui.core.SCTopAppBarWithHomeButton
+import fr.skyle.scanny.ui.history.HistoryScreenViewModel
 
 @Composable
 fun HistoryScreenContent(
-    barcodes: () -> List<BarcodeData>,
+    state: () -> HistoryScreenViewModel.State,
     navigateToBarcodeDetail: (Long) -> Unit,
     navigateBack: () -> Unit
 ) {
@@ -54,8 +55,8 @@ fun HistoryScreenContent(
     val context = LocalContext.current
 
     // Remember
-    val mBarcodes by remember(barcodes()) {
-        mutableStateOf(barcodes())
+    val mState by remember(state()) {
+        mutableStateOf(state())
     }
 
     Scaffold(
@@ -72,89 +73,105 @@ fun HistoryScreenContent(
             )
         }
     ) { innerPadding ->
-        LazyColumn(
+        Box(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(SCAppTheme.colors.nuance90),
-            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 24.dp)
+                .background(SCAppTheme.colors.nuance90)
         ) {
-            items(mBarcodes) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(SCAppTheme.colors.nuance100)
-                        .clickable {
-                            navigateToBarcodeDetail(it.id)
-                        }
-                        .padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(100))
-                            .background(SCAppTheme.colors.nuance90)
-                            .padding(8.dp)
+            when (mState) {
+                is HistoryScreenViewModel.State.Loaded -> {
+                    val loadedState = mState as HistoryScreenViewModel.State.Loaded
+
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 24.dp)
                     ) {
-                        Icon(
-                            modifier = Modifier.size(24.dp),
-                            painter = painterResource(id = it.type.iconId),
-                            contentDescription = "",
-                            tint = SCAppTheme.colors.primary
-                        )
+                        items(loadedState.barcodes) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .background(SCAppTheme.colors.nuance100)
+                                    .debounceClickable {
+                                        navigateToBarcodeDetail(it.id)
+                                    }
+                                    .padding(12.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(100))
+                                        .background(SCAppTheme.colors.nuance90)
+                                        .padding(8.dp)
+                                ) {
+                                    Icon(
+                                        modifier = Modifier.size(24.dp),
+                                        painter = painterResource(id = it.type.iconId),
+                                        contentDescription = "",
+                                        tint = SCAppTheme.colors.primary
+                                    )
+                                }
+
+                                Spacer(modifier = Modifier.width(12.dp))
+
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        text = stringResource(id = it.type.textId),
+                                        style = SCAppTheme.typography.h3,
+                                        color = SCAppTheme.colors.primary,
+                                        overflow = TextOverflow.Ellipsis,
+                                        maxLines = 1
+                                    )
+
+                                    Spacer(modifier = Modifier.height(2.dp))
+
+                                    Text(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        text = it.scanDate.format(context, DateFormat.dd_MM_yyyy_HHmm) ?: "",
+                                        style = SCAppTheme.typography.caption,
+                                        color = SCAppTheme.colors.nuance40,
+                                        overflow = TextOverflow.Ellipsis,
+                                        maxLines = 1
+                                    )
+
+                                    Spacer(modifier = Modifier.height(10.dp))
+
+                                    Text(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clip(RoundedCornerShape(10.dp))
+                                            .background(SCAppTheme.colors.nuance90)
+                                            .padding(10.dp),
+                                        text = it.content ?: "",
+                                        style = SCAppTheme.typography.body3,
+                                        color = SCAppTheme.colors.nuance10,
+                                        overflow = TextOverflow.Ellipsis,
+                                        maxLines = 1
+                                    )
+                                }
+
+                                Spacer(modifier = Modifier.width(12.dp))
+
+                                Icon(
+                                    modifier = Modifier.size(24.dp),
+                                    painter = painterResource(id = R.drawable.ic_arrow_right),
+                                    contentDescription = "",
+                                    tint = SCAppTheme.colors.primary
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(12.dp))
+                        }
                     }
-
-                    Spacer(modifier = Modifier.width(12.dp))
-
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = stringResource(id = it.type.textId),
-                            style = SCAppTheme.typography.h3,
-                            color = SCAppTheme.colors.primary,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
-                        )
-
-                        Spacer(modifier = Modifier.height(2.dp))
-
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = it.scanDate.format(context, DateFormat.dd_MM_yyyy_HHmm) ?: "",
-                            style = SCAppTheme.typography.caption,
-                            color = SCAppTheme.colors.nuance40,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
-                        )
-
-                        Spacer(modifier = Modifier.height(10.dp))
-
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(SCAppTheme.colors.nuance90)
-                                .padding(10.dp),
-                            text = it.content ?: "",
-                            style = SCAppTheme.typography.body3,
-                            color = SCAppTheme.colors.nuance10,
-                            overflow = TextOverflow.Ellipsis,
-                            maxLines = 1
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.width(12.dp))
-
-                    Icon(
-                        modifier = Modifier.size(24.dp),
-                        painter = painterResource(id = R.drawable.ic_arrow_right),
-                        contentDescription = "",
-                        tint = SCAppTheme.colors.primary
-                    )
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                HistoryScreenViewModel.State.Loading ->
+                    SCLoadingView()
+
+                HistoryScreenViewModel.State.Empty ->
+                    HistoryScreenEmpty()
             }
         }
     }
@@ -165,7 +182,7 @@ fun HistoryScreenContent(
 fun PreviewHistoryScreenContent() {
     SCTheme {
         HistoryScreenContent(
-            barcodes = { listOf() },
+            state = { HistoryScreenViewModel.State.Loading },
             navigateToBarcodeDetail = {},
             navigateBack = {}
         )

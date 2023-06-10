@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.skyle.scanny.BuildConfig
 import fr.skyle.scanny.R
+import fr.skyle.scanny.ext.debounceClickable
 import fr.skyle.scanny.ext.navigateToLink
 import fr.skyle.scanny.theme.SCAppTheme
 import fr.skyle.scanny.theme.SCTheme
@@ -147,7 +148,7 @@ fun AboutScreenContent(
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
+                        .debounceClickable {
                             context.navigateToLink(githubLink)
                         },
                     text = githubLink,

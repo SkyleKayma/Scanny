@@ -2,7 +2,6 @@ package fr.skyle.scanny.ui.core.dialogs
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import fr.skyle.scanny.ext.debounceClickable
 import fr.skyle.scanny.theme.SCAppTheme
 
 @Composable
@@ -93,7 +93,7 @@ fun CustomDialog(
                     Text(
                         modifier = Modifier
                             .weight(1f)
-                            .clickable(onClick = onClickNegativeAction)
+                            .debounceClickable(onClick = onClickNegativeAction)
                             .padding(vertical = 12.dp),
                         text = negativeText,
                         style = SCAppTheme.typography.button,
@@ -104,7 +104,7 @@ fun CustomDialog(
                     Text(
                         modifier = Modifier
                             .weight(1f)
-                            .clickable(onClick = onClickPositiveAction)
+                            .debounceClickable(onClick = onClickPositiveAction)
                             .padding(vertical = 12.dp),
                         text = positiveText,
                         style = SCAppTheme.typography.button,

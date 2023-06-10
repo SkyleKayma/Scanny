@@ -13,10 +13,10 @@ fun HistoryScreen(
     viewModel: HistoryScreenViewModel = hiltViewModel()
 ) {
     // Flow
-    val barcodes by viewModel.barcodes.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     HistoryScreenContent(
-        barcodes = { barcodes },
+        state = { state },
         navigateToBarcodeDetail = navigateToBarcodeDetail,
         navigateBack = navigateBack
     )

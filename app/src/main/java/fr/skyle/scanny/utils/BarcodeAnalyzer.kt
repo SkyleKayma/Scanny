@@ -8,8 +8,8 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import timber.log.Timber
 
-class BarCodeAnalyzer(
-    private val onBarCodeDetected: (qrCodes: List<Barcode>) -> Unit
+class BarcodeAnalyzer(
+    private val onBarcodeDetected: (qrCodes: List<Barcode>) -> Unit
 ) : ImageAnalysis.Analyzer {
 
     // Options
@@ -34,7 +34,7 @@ class BarCodeAnalyzer(
                 scanner.process(visionImage)
                     .addOnSuccessListener { barcodes ->
                         if (canDetectCode && barcodes.isNotEmpty()) {
-                            onBarCodeDetected(barcodes)
+                            onBarcodeDetected(barcodes)
                         }
                         imageProxy.close()
                     }.addOnFailureListener {

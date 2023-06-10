@@ -22,7 +22,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.google.mlkit.vision.barcode.common.Barcode
 import fr.skyle.scanny.theme.SCTheme
-import fr.skyle.scanny.utils.BarCodeAnalyzer
+import fr.skyle.scanny.utils.BarcodeAnalyzer
 import java.util.concurrent.Executors
 
 @Composable
@@ -99,7 +99,7 @@ fun CameraView(
                                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                                     .build()
 
-                                imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor(), BarCodeAnalyzer {
+                                imageAnalysis.setAnalyzer(Executors.newSingleThreadExecutor(), BarcodeAnalyzer {
                                     it.firstOrNull()?.let { barcode ->
                                         onBarcodeDetected(barcode)
                                     }
