@@ -113,5 +113,7 @@
 
     <!-- History -->
     <string name="history_title">Historique</string>
+    <string name="history_empty_title">Votre historique est vide</string>
+    <string name="history_empty_desc">Réalisez votre premier scan pour voir apparaitre des éléments dans votre historique !</string>
 
 </resources>
