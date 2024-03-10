@@ -3,12 +3,17 @@ package fr.skyle.scanny.ui
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
+import android.net.wifi.WifiNetworkSuggestion
+import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
+import fr.skyle.scanny.enums.WifiEncryptionType
 import fr.skyle.scanny.theme.SCTheme
 
 
@@ -26,7 +31,10 @@ class MainActivity : ComponentActivity() {
                 MainScreen(
                     onAddToContact = {
                         addContact(it.names, it.formattedName, it.org, it.title, it.tels, it.emails, it.addresses, it.urls)
-                    }
+                    },
+                    onConnectToWifi = {
+                        connectToWifi(it.ssid, it.encryptionType, it.password)
+                    },
                 )
             }
         }
@@ -137,5 +145,37 @@ class MainActivity : ComponentActivity() {
         }
 
         startActivity(Intent.createChooser(intent, null))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    private fun connectToWifi(ssid: String?, encryptionType: WifiEncryptionType?, password: String?) {
+        val suggestion = WifiNetworkSuggestion.Builder()
+
+        ssid?.let {
+            suggestion.setSsid(it)
+        }
+
+        if (encryptionType != null && password != null) {
+            when (encryptionType) {
+                WifiEncryptionType.WEP -> {
+                    // Not handle by the API
+                }
+
+                WifiEncryptionType.WPA_WPA2 ->
+                    suggestion.setWpa2Passphrase(password)
+
+                WifiEncryptionType.NONE ->
+                    suggestion.setWpa3Passphrase(password)
+            }
+        }
+
+        startActivity(
+            Intent.createChooser(
+                Intent(Settings.ACTION_WIFI_ADD_NETWORKS).apply {
+                    putParcelableArrayListExtra(Settings.EXTRA_WIFI_NETWORK_LIST, arrayListOf(suggestion.build()))
+                },
+                null
+            )
+        )
     }
 }

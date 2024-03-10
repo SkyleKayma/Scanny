@@ -44,6 +44,7 @@ import timber.log.Timber
 fun ScanScreen(
     navigateToSettings: () -> Unit,
     onAddToContact: (QRCodeContent.ContactContent) -> Unit,
+    onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
     viewModel: ScanViewModel = hiltViewModel()
 ) {
     // Set system icons color
@@ -153,6 +154,7 @@ fun ScanScreen(
                                     clipboardManager.setText(it)
                                 },
                                 onAddToContact = onAddToContact,
+                                onConnectToWifi = onConnectToWifi,
                                 isRawContentShown = { isRawContentShown }
                             )
                         }

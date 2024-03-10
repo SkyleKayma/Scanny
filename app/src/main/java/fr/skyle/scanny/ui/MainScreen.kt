@@ -13,7 +13,8 @@ import fr.skyle.scanny.utils.qrCode.QRCodeContent
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainScreen(
-    onAddToContact: (QRCodeContent.ContactContent) -> Unit
+    onAddToContact: (QRCodeContent.ContactContent) -> Unit,
+    onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
 ) {
     // Nav
     val navController = rememberAnimatedNavController()
@@ -28,6 +29,7 @@ fun MainScreen(
 
     ScannyNavHost(
         navHostController = navController,
-        onAddToContact = onAddToContact
+        onAddToContact = onAddToContact,
+        onConnectToWifi = onConnectToWifi,
     )
 }

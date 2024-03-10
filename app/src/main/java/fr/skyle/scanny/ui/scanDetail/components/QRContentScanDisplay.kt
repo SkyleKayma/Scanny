@@ -44,6 +44,7 @@ fun QRContentScanDisplay(
     qrCodeContent: QRCodeContent,
     onCopyContent: (AnnotatedString) -> Unit,
     onAddToContact: (QRCodeContent.ContactContent) -> Unit,
+    onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
     isRawContentShown: () -> Boolean
 ) {
     // Context
@@ -168,15 +169,7 @@ fun QRContentScanDisplay(
                                 if (qrCodeContent.encryptionType == WifiEncryptionType.WEP) {
                                     // TODO Show popup to explain why WEP encryption is not supported
                                 } else {
-                                    // TODO
-//                                    connectToWifi(
-//                                        ssid = qrCodeContent.ssid,
-//                                        encryptionType = qrCodeContent.encryptionType,
-//                                        password = qrCodeContent.password,
-//                                        onWifiAlreadyExist = {
-//                                            Toast.makeText(context, "Already Exists", Toast.LENGTH_SHORT).show()
-//                                        }
-//                                    )
+                                    onConnectToWifi(qrCodeContent)
                                 }
                             } else {
                                 // TODO Show popup to explain how to add it manually
@@ -207,6 +200,7 @@ fun PreviewTextContentScanDisplay() {
         QRContentScanDisplay(
             qrCodeContent = QRCodeContent.TextContent(text = "Test", format = BarcodeFormat.QR_CODE, rawData = null),
             onAddToContact = {},
+            onConnectToWifi = {},
             onCopyContent = {},
             isRawContentShown = { false }
         )

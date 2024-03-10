@@ -46,6 +46,7 @@ const val ARG_QR_CODE_CONTENT = "ARG_QR_CODE_CONTENT"
 fun ScannyNavHost(
     navHostController: NavHostController,
     onAddToContact: (QRCodeContent.ContactContent) -> Unit,
+    onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
 ) {
     // Context
     val context = LocalContext.current
@@ -71,7 +72,8 @@ fun ScannyNavHost(
                 navigateToSettings = {
                     navHostController.navigate(Route.SETTINGS)
                 },
-                onAddToContact = onAddToContact
+                onAddToContact = onAddToContact,
+                onConnectToWifi = onConnectToWifi,
             )
         }
         composable(route = Route.SETTINGS) {

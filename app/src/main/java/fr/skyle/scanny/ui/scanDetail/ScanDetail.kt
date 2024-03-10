@@ -22,6 +22,7 @@ fun ScanDetail(
     barcode: Barcode? = null,
     onCopyContent: (AnnotatedString) -> Unit,
     onAddToContact: (QRCodeContent.ContactContent) -> Unit,
+    onConnectToWifi: (QRCodeContent.WiFiContent) -> Unit,
     isRawContentShown: () -> Boolean
 ) {
     Box(
@@ -42,6 +43,7 @@ fun ScanDetail(
                 qrCodeContent = barcode.toQRCodeContent,
                 onCopyContent = onCopyContent,
                 onAddToContact = onAddToContact,
+                onConnectToWifi = onConnectToWifi,
                 isRawContentShown = isRawContentShown
             )
         }
@@ -56,6 +58,7 @@ fun PreviewScanSuccessBottomSheet() {
             barcode = null,
             onCopyContent = {},
             onAddToContact = {},
+            onConnectToWifi = {},
             isRawContentShown = { false }
         )
     }
