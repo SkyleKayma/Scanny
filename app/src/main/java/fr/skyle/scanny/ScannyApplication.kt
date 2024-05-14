@@ -4,7 +4,7 @@ import android.app.Application
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
 import fr.skyle.scanny.log.FirebaseCrashReportingTree
-import fr.skyle.scanny.utils.SCDataStore
+import fr.skyle.scanny.utils.ScannyDataStore
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,7 +16,7 @@ abstract class ScannyApplication : Application() {
     lateinit var crashlytics: FirebaseCrashlytics
 
     @Inject
-    lateinit var dataStore: SCDataStore
+    lateinit var dataStore: ScannyDataStore
 
     override fun onCreate() {
         super.onCreate()

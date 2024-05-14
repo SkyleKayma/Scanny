@@ -1,6 +1,6 @@
 package fr.skyle.scanny.theme
 
-import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -17,8 +17,8 @@ val Lato = FontFamily(
     Font(R.font.lato_black, FontWeight.Black)
 )
 
-@Immutable
-data class SCTypography(
+@Stable
+data class ScannyTypography(
     val h1: TextStyle,
     val h2: TextStyle,
     val h3: TextStyle,
@@ -32,7 +32,7 @@ data class SCTypography(
 )
 
 // Set of Material typography styles to start with
-val Typography = SCTypography(
+val Typography = ScannyTypography(
     h1 = TextStyle(
         fontFamily = Lato,
         fontWeight = FontWeight.SemiBold,
@@ -86,7 +86,7 @@ val Typography = SCTypography(
 )
 
 val LocalTypography = staticCompositionLocalOf {
-    SCTypography(
+    ScannyTypography(
         h1 = TextStyle.Default,
         h2 = TextStyle.Default,
         h3 = TextStyle.Default,

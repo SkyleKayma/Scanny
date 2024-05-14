@@ -1,27 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ==== Light colors specific ==== -->
+    <color name="transparent">#00000000</color>
 
-    <!-- Generic -->
-    <color name="sc_black">#FF000000</color>
-    <color name="sc_white">#FFFFFFFF</color>
-    <color name="sc_transparent">#00000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
 
-    <!-- App specific -->
-    <color name="sc_primary">#3B43BE</color>
+    <color name="primary">#FFF5F6FC</color>
+    <color name="secondary">#FF3B43BE</color>
 
-    <color name="sc_text_primary">#3B43BE</color>
-    <color name="sc_text">#666792</color>
-    <color name="sc_text_dark">#2E2669</color>
-    <color name="sc_text_light">#FFFFFF</color>
-    <color name="sc_text_disabled">#AAAAAA</color>
-
-    <color name="sc_background">#F5F6FC</color>
-    <color name="sc_background_light">#FEFEFE</color>
-    <color name="sc_background_primary">#3C44BF</color>
-    <color name="sc_background_disabled">#CDCDCD</color>
-    <color name="sc_background_icon">#ECEDFA</color>
-
-    <color name="sc_error">#C53535</color>
-    <color name="sc_success">#4BC535</color>
+    <color name="error">#FFC53535</color>
+    <color name="success">#FF4BC535</color>
 </resources>

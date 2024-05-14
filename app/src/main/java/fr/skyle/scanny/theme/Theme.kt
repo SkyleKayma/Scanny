@@ -1,89 +1,79 @@
 package fr.skyle.scanny.theme
 
+import android.app.Activity
 import androidx.compose.foundation.LocalIndication
-import androidx.compose.foundation.text.selection.LocalTextSelectionColors
-import androidx.compose.foundation.text.selection.TextSelectionColors
-import androidx.compose.material.*
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ripple.LocalRippleTheme
-import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.runtime.*
-import androidx.compose.ui.res.colorResource
-import fr.skyle.scanny.R
-
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 
 @Composable
-fun SCTheme(content: @Composable () -> Unit) {
-    val colors = SCColors(
-        transparent = colorResource(id = R.color.sc_transparent),
-        primary = colorResource(id = R.color.sc_primary),
-        error = colorResource(id = R.color.sc_error),
-        success = colorResource(id = R.color.sc_success),
-        textPrimary = colorResource(id = R.color.sc_text_primary),
-        text = colorResource(id = R.color.sc_text),
-        textDark = colorResource(id = R.color.sc_text_dark),
-        textLight = colorResource(id = R.color.sc_text_light),
-        textDisabled = colorResource(id = R.color.sc_text_disabled),
-        textBlack = colorResource(id = R.color.sc_black),
-        background = colorResource(id = R.color.sc_background),
-        backgroundPrimary = colorResource(id = R.color.sc_background_primary),
-        backgroundLight = colorResource(id = R.color.sc_background_light),
-        backgroundDisabled = colorResource(id = R.color.sc_background_disabled),
-        backgroundDisabledAlpha = colorResource(id = R.color.sc_background_disabled).copy(alpha = 0.3f),
-        backgroundIcon = colorResource(id = R.color.sc_background_icon),
-        backgroundBlack = colorResource(id = R.color.sc_black)
-    )
+fun ScannyTheme(
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    useDynamicColors: Boolean = true,
+    content: @Composable () -> Unit
+) {
+    // Default palette
+    val colorScheme = when {
+//        useDynamicColors && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+//            if (useDarkTheme) {
+//                dynamicDarkColorScheme(context = LocalContext.current)
+//            } else {
+//                dynamicLightColorScheme(context = LocalContext.current)
+//            }
+//        }
 
-    val primaryColor = colors.primary
-    val backgroundColor = colors.background
+        useDarkTheme -> darkMaterialColorScheme
+        else -> lightMaterialColorScheme
+    }
 
-    val selectionColors = remember(primaryColor, backgroundColor) {
-        TextSelectionColors(
-            handleColor = colors.primary,
-            backgroundColor = primaryColor.copy(alpha = 0.4f)
-        )
+    // Custom palette
+    val customColorsPalette =
+        if (useDarkTheme) {
+            DarkCustomColorsPalette
+        } else {
+            LightCustomColorsPalette
+        }
+
+    // Ripple
+    val rippleIndication = rememberRipple()
+
+    // Update StatusBar based on theme
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            window.navigationBarColor = customColorsPalette.transparent.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !useDarkTheme
+        }
     }
 
     CompositionLocalProvider(
-        LocalColors provides colors,
-        LocalContentAlpha provides ContentAlpha.high,
-        LocalIndication provides rememberRipple(),
-        LocalRippleTheme provides MaterialRippleTheme,
-        LocalTextSelectionColors provides selectionColors,
+        LocalCustomColorsPalette provides customColorsPalette,
+        LocalIndication provides rippleIndication,
+        LocalRippleTheme provides CustomRippleTheme,
         LocalTypography provides Typography
     ) {
-        ProvideTextStyle(value = Typography.body1) {
-            content()
-        }
+        MaterialTheme(
+            colorScheme = colorScheme,
+            content = content
+        )
     }
 }
 
-object SCAppTheme {
-    val colors: SCColors
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalColors.current
-
-    val typography: SCTypography
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalTypography.current
-}
-
-@Immutable
-private object MaterialRippleTheme : RippleTheme {
-
+val MaterialTheme.customColorsPalette: CustomColorsPalette
     @Composable
-    override fun defaultColor() =
-        RippleTheme.defaultRippleColor(
-            contentColor = LocalContentColor.current,
-            lightTheme = MaterialTheme.colors.isLight
-        )
+    @ReadOnlyComposable
+    get() = LocalCustomColorsPalette.current
 
+val MaterialTheme.customTypography: CustomColorsPalette
     @Composable
-    override fun rippleAlpha() =
-        RippleTheme.defaultRippleAlpha(
-            contentColor = LocalContentColor.current,
-            lightTheme = MaterialTheme.colors.isLight
-        )
-}
+    @ReadOnlyComposable
+    get() = LocalCustomColorsPalette.current
