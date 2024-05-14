@@ -1,4 +1,4 @@
-package fr.skyle.scanny.ui
+package fr.skyle.scanny.ui.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import fr.skyle.scanny.theme.ScannyTheme
-import fr.skyle.scanny.ui.main.MainScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
