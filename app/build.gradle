@@ -25,12 +25,12 @@ def code = versionProperties["versionCode"].toInteger()
 android {
     namespace "fr.skyle.scanny"
 
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "fr.skyle.scanny"
         minSdk 23
-        targetSdk 33
+        targetSdk 34
         versionCode code
         versionName versionProperties["versionName"]
 
@@ -103,6 +103,15 @@ android {
 
     lintOptions {
         disable "RestrictedApi", "ParcelCreator"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 }
 
