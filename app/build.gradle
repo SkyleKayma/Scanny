@@ -25,12 +25,12 @@ def code = versionProperties["versionCode"].toInteger()
 android {
     namespace "fr.skyle.scanny"
 
-    compileSdk 33
+    compileSdk 36
 
     defaultConfig {
         applicationId "fr.skyle.scanny"
         minSdk 23
-        targetSdk 33
+        targetSdk 36
         versionCode code
         versionName versionProperties["versionName"]
 
@@ -80,6 +80,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig true
         compose true
     }
 
@@ -87,7 +88,7 @@ android {
         kotlinCompilerExtensionVersion "1.4.4"
     }
 
-    packagingOptions {
+    packaging {
         resources {
             excludes += [
                     "META-INF/DEPENDENCIES",
@@ -101,7 +102,7 @@ android {
         }
     }
 
-    lintOptions {
+    lint {
         disable "RestrictedApi", "ParcelCreator"
     }
 }
@@ -136,6 +137,12 @@ task incrementBuildNumberAfterPublish {
 // This is needed to avoid duplicate in demo targets
 project.afterEvaluate {
     getTasks().getByName("preBuild").finalizedBy(clonePrivateFiles)
+
+    def mapDebugSourceSetPathsTask = tasks.findByName("mapDebugSourceSetPaths")
+    def easylauncherDebugTask = tasks.findByName("easylauncherDebug")
+    if (mapDebugSourceSetPathsTask != null && easylauncherDebugTask != null) {
+        mapDebugSourceSetPathsTask.dependsOn(easylauncherDebugTask)
+    }
 }
 
 dependencies {
@@ -190,7 +197,7 @@ dependencies {
     implementation "com.google.firebase:firebase-analytics-ktx"
 
     // ML Kit
-    implementation "com.google.mlkit:barcode-scanning:17.1.0"
+    implementation "com.google.mlkit:barcode-scanning:17.3.0"
 
     // QRCode generation
     implementation "io.github.g0dkar:qrcode-kotlin-android:3.3.0"
